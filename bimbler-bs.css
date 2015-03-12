@@ -1,0 +1,482 @@
+@CHARSET "UTF-8";
+
+/* Fix-up navbar overlapping content. */
+body {
+//	padding-top: 50px; 
+	padding-top: 90px; 
+//	padding-bottom: 20px; 
+}
+
+/* No padding between map top and bottom. */
+.list-group-item {
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+/* Make badges centrally-aligned (or near to). */
+.list-group-item>.badge {
+  vertical-align:middle;
+  margin-top:20px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Prevent justified navs from stacking. */
+@media (min-width: 0px) {
+
+  .nav-justified > li {
+    display: table-cell;
+    width: 1%;
+  }
+}
+
+/* Move the back button left. */
+.ppnavbar-left {
+    float:left;
+    margin-left:15px;
+    padding:6px 10px;
+}
+
+/* Force menu to collapse. */
+@media (max-width: 2000px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-left,.navbar-right {
+        float: none !important;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-fixed-top {
+		top: 0;
+		border-width: 0 0 1px;
+	}
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+		margin-top: 7.5px;
+	}
+	.navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .collapse.in{
+  		display:block !important;
+	}
+}
+
+.pp-valign-centre {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Add padding to tab contents. */
+.tab-pane {
+    padding: 10px;
+}
+
+.nav-pills>li>a  {
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+	background-color: #f8f8f8;
+	color: #444;
+}
+
+.nav-pills>li>a {
+	color: #777777;
+}
+
+.nav-justified>li>a {
+	margin-bottom: 0px;
+}
+
+.nav-justified li.active a {
+	border-bottom-color: #dd9933!important;
+}
+
+.nav-justified li a {
+font-size: 18px;
+display: block;
+padding: 8px 0;
+margin-bottom: -3px;
+border-bottom: 3px solid transparent;
+}
+
+
+.ppnavbar-left {
+	color: #777777;
+}
+
+.dropdown-menu {
+//	top: 0;
+	right: 100%
+}
+
+
+
+.bimbler-badge a i
+ { font-size: 30px;}
+
+  
+/* make sure the element has position: relative */
+[data-notifications] {
+  position: relative;
+}
+
+/* append the notification badge after it */
+[data-notifications]:after {
+
+  /* the burger */
+  content: attr(data-notifications);
+
+  /* the fries */
+  position: absolute;
+//  background: #21a9e1;
+  background: #dd9933;
+  border-radius: 50%;
+  display: inline-block;
+  padding: 0.3em;
+  color: #f2f2f2;
+//  color: #000000;
+/*  right: 20%; */
+//  left: 55%;
+  left: 60%;
+  top: 2px; 
+  font-size: 10px;  
+
+  min-width: 20px;
+  line-height: 12px;
+}
+
+.avatar-clipped {
+	width: 80px;
+	height: 80px;
+	background-position: center;
+	
+	/* Make the background image cover the area of the <div>, and clip the excess */
+	background-size: cover;
+	
+/* If we want rounded avatars, uncomment the three lines below. */
+/* 	
+	-webkit-border-radius: 50% !important;
+	-moz-border-radius: 50% !important;
+	border-radius: 50% !important;
+*/
+}
+
+
+
+
+/* Nested lists. */
+/**
+ * Nestable
+ */
+.dd {
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-list {
+  display: block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dd-list .dd-list {
+  padding-left: 30px;
+}
+.dd-collapsed .dd-list {
+  display: none;
+}
+.dd-item,
+.dd-empty,
+.dd-placeholder {
+  display: block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  min-height: 20px;
+  font-size: 13px;
+  line-height: 20px;
+}
+.dd-handle,
+.dd-content {
+  display: block;
+  margin: 0px 0px;
+//  padding: 5px 10px;
+  padding: 0px 0px;
+  background: #fafafa;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #ebebeb;
+  -moz-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+dd-content,
+.dd-content:hover {
+  background: #fff;
+}
+.dd-item > button {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  float: left;
+  width: 25px;
+  height: 20px;
+  margin: 5px 0;
+  padding: 0;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  font-size: 12px;
+  line-height: 1;
+  text-align: center;
+  font-weight: bold;
+  margin-right: 10px;
+  outline: 0;
+}
+.dd-item > button:after {
+  content: '';
+  display: block;
+  position: absolute;
+  right: 0px;
+  top: -5px;
+  bottom: -6px;
+  width: 1px;
+  background: #ebebeb;
+}
+.dd-item > button:before {
+  content: '+';
+  display: block;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  text-indent: 0;
+}
+.dd-item > button[data-action="collapse"]:before {
+  content: '-';
+}
+.dd-placeholder,
+.dd-empty {
+  margin: 0px 0;
+  padding: 0;
+  min-height: 30px;
+  background: rgba(245, 245, 246, 0.3);
+  border: 1px dotted #ebebeb;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.dd-empty {
+  border: 1px dashed #bbb;
+  min-height: 100px;
+  background-color: #e5e5e5;
+}
+.dd-dragel {
+  position: absolute;
+  pointer-events: none;
+  z-index: 9999;
+}
+.dd-dragel > .dd-item .dd-handle,
+.dd-dragel > .dd-item .dd-content {
+  margin-top: 0;
+}
+.dd-dragel .dd-handle,
+.dd-dragel .dd-content {
+  -moz-box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, 0.1);
+}
+.nested-list.with-margins .dd-item .dd-handle,
+.nested-list.with-margins .dd-item .dd-content {
+  margin: 5px 0;
+}
+.nested-list.custom-drag-button .dd-handle {
+  position: absolute !important;
+  margin: 0 !important;
+  width: 15px;
+  height: 32px;
+  padding-left: 5px;
+  padding-right: 4px;
+  cursor: pointer;
+  padding-top: 7px;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.nested-list.custom-drag-button .dd-handle span {
+  display: block;
+  line-height: 3px;
+  color: rgba(115, 120, 129, 0.7);
+}
+.nested-list.custom-drag-button .dd-content {
+  padding-left: 25px;
+}
+.nested-list.custom-drag-button button + .dd-handle {
+  left: 24px;
+}
+.nested-list.custom-drag-button button + .dd-handle + .dd-content {
+  padding-left: 50px;
+}
+.nested-list.custom-drag-button.drag-button-on-hover .dd-item > .dd-handle {
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.nested-list.custom-drag-button.drag-button-on-hover .dd-item:hover > .dd-handle {
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.custom-handler .dd-item .dd-handle {
+  position: absolute !important;
+  margin: 0 !important;
+  width: 15px;
+  height: 32px;
+  padding-left: 5px;
+  padding-right: 4px;
+  cursor: pointer;
+  padding-top: 7px;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.custom-handler .dd-item .dd-handle span {
+  display: block;
+  line-height: 3px;
+  color: rgba(115, 120, 129, 0.7);
+}
+.custom-handler .dd-item .dd-content {
+  padding-left: 25px;
+}
+.custom-handler .dd-item button + .dd-handle {
+  left: 24px;
+}
+.custom-handler .dd-item button + .dd-handle + .dd-content {
+  padding-left: 50px;
+}
+/* End Nested lists. */
+
+
+/* Make badges the Bimbler orange. */
+.badge {
+	background-color: #dd9933 ! important;
+}
+
+
+
+/* Checkin indicators. */
+
+.rsvp-checkin-indicator-no i,
+.rsvp-checkin-indicator-none i,
+.rsvp-checkin-indicator-yes i,
+.rsvp-checkin-indicator-wait i {
+	position: relative; 
+//	position: absolute; 
+//   	top: 0px; 
+//   	left: 50px;
+ 
+   	top: -87px; 
+   	left: 60%;
+
+//   	top: 0px; 
+//   	left: 0px;
+   	 
+	font-size: 250%;
+ 	font-family: FontAwesome;
+ 	font-style: normal;
+	z-index: 100;
+} 
+
+.rsvp-checkin-indicator-yes i {
+	color: green;
+} 
+
+.rsvp-checkin-indicator-no i {
+	color: red;
+} 
+
+.rsvp-checkin-indicator-none i {
+	color: grey;
+} 
+
+.rsvp-checkin-indicator-wait i {
+	color: black;
+} 
+
+
+.rsvp-indicator-yes i,
+.rsvp-indicator-no i,
+.rsvp-indicator-none i {
+	position: relative; 
+   	top: -58px; 
+   	left: 38px; 
+	font-size: 150%;
+ 	font-family: FontAwesome;
+	z-index: 99;
+} 
+
+.rsvp-indicator-yes i {
+	color: green;
+} 
+
+.rsvp-indicator-no i {
+	color: red;
+} 
+
+.rsvp-indicator-none i {
+	color: grey;
+} 
+
+.rsvp-checkin-indicator-yes {
+	color: green;
+	content: "\f058" !important; //  fa-check-circle [&#xf058;] 
+} 
+.rsvp-checkin-indicator-no {
+	color: red;
+	content: "\f057" !important; // fa-times-circle [&#xf057;]
+} 
+.rsvp-checkin-indicator-none {
+	color: gray;
+} 
+
+.rsvp-checkin-indicator p {
+	position: absolute; 
+   	top: 50px; 
+   	left: 0; 
+   	width: 100%; 
+	font-size: 250%;
+	color: red;
+ 	font-family: FontAwesome;
+ 	text-colour: #ffffff !important; 
+ 	text-decoration:  solid rgb(255, 0, 0);
+	z-index: 99;
+	height: 100px;
+} 
+
+/* End checkin indicators. */
