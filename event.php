@@ -40,7 +40,10 @@
 	
 	<link rel="stylesheet" href="toastr.css">
 	<script type="text/javascript" src="toastr.js"></script>
-    
+
+	
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
     
 	<script src="spin.js"></script>
 		
@@ -52,8 +55,8 @@
 	<meta name="mobile-web-app-capable" content="yes">
 	
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> 
-	<link rel="apple-touch-startup-image" href="bimbler_large.png">
+	<meta name="apple-mobile-web-app-status-bar-style" content="white" /> 
+	<link rel="apple-touch-startup-image" href="bimbler_ilogo.png">
 	
 	<link rel="shortcut icon" href="favicon.ico">
 	<link rel="icon" sizes="16x16 32x32 64x64" href="favicon.ico">

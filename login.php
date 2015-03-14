@@ -35,8 +35,8 @@
 	<meta name="mobile-web-app-capable" content="yes">
 	
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> 
-	<link rel="apple-touch-startup-image" href="bimbler_large.png">
+	<meta name="apple-mobile-web-app-status-bar-style" content="white" /> 
+	<link rel="apple-touch-startup-image" href="bimbler_ilogo.png">
 	
 	<link rel="shortcut icon" href="favicon.ico">
 	<link rel="icon" sizes="16x16 32x32 64x64" href="favicon.ico">

@@ -10,36 +10,31 @@
 	$bimbler_mobile_tab_rsvps = 4;
 	$bimbler_mobile_tab_photos = 5;
 	$bimbler_mobile_tab_comments = 6;
+	$bimbler_mobile_tab_locator = 7;
 	
-	$bimbler_mobile_tabs = array (1, 2, 3, 4, 5, 6);
-/*	$bimbler_mobile_tab_icons = array (	1 => 'bullets', 
-										2 => 'info', 
-										3 => 'location', 
-										4 => 'user', 
-										5 => 'camera'); */
-/*	$bimbler_mobile_tab_icons = array (	1 => 'glyphicon-th-list', 
-										2 => 'glyphicon-info-sign', 
-										3 => 'glyphicon-map-marker', 
-										4 => 'glyphicon-user', 
-										5 => 'glyphicon-camera');*/
+	$bimbler_mobile_tabs = array (1, 2, 3, 4, 5, 6, 7);
+	
 	$bimbler_mobile_tab_icons = array (	1 => 'fa fa-list-ul', 
 										2 => 'fa fa-list-alt', 
 										3 => 'fa fa-map-marker', 
 										4 => 'fa fa-users', 
 										5 => 'fa fa-camera',
-										6 => 'fa fa-comments-o');
+										6 => 'fa fa-comments-o',
+										7 => 'fa fa-compass');
 	$bimbler_mobile_tab_text = array (	1 => 'Summary',
 										2 => 'Details',
 										3 => 'Map',
 										4 => 'RSVPs',
 										5 => 'Photos',
-										6 => 'Comments');
+										6 => 'Comments',
+										7 => 'Locator');
 	$bimbler_mobile_tab_class = array (	1 => 'bimbler_mobile_summary_tab',
 										2 => 'bimbler_mobile_details_tab',
 										3 => 'bimbler_mobile_map_tab',
 										4 => 'bimbler_mobile_rsvps_tab',
 										5 => 'bimbler_mobile_photos_tab',
-										6 => 'bimbler_mobile_comments_tab');
+										6 => 'bimbler_mobile_comments_tab',
+										7 => 'bimbler_mobile_locator_tab');
 								
 	
 	$bimbler_mobile_time_str = 'j M g:ia';
@@ -795,7 +790,69 @@
 	
 		return $content;
 	}
+
+	/**
+	 * Adds the locator tab.
+	 *
+	 * @param
+	 */
+	function bimbler_mobile_render_locator ($event_id) {
+		global $bimbler_mobile_time_str;
+		global $bimbler_mobile_day_time_str;
+		global $bimbler_mobile_date_str;
 	
+	
+		$post_id = $event_id;
+	
+		$content = '';
+	
+		//return null;
+	
+		// Only show content to logged-in users, and only if we're on an event page.
+		if (is_user_logged_in()) {
+				
+			$nonce = wp_create_nonce('bimbler_locator');
+	
+			$content .= '';
+				
+			$content .= '	<div class="panel panel-default">' . PHP_EOL;
+			$content .= '		<div class="panel-heading">' . PHP_EOL;
+			$content .= '			<h4 class="panel-title pull-left">Locator</h4>' . PHP_EOL;
+			$content .= '<div class="row" style="margin-right: 0px;">';
+			$content .= '			<div class="input-group pull-right">' . PHP_EOL;
+			$content .= '				<label class="checkbox-inline"><input type="checkbox" xchecked data-toggle="toggle">Track me</label>' . PHP_EOL;
+			//$content .= '				Track me: <input type="checkbox" checked data-toggle="toggle">' . PHP_EOL;
+			$content .= '			</div>' . PHP_EOL;
+			$content .= '</div>';
+			$content .= '		</div>' . PHP_EOL;
+			
+				
+			$content .= '		<div class="panel-body">' . PHP_EOL;
+			
+			
+			//if (!current_user_can( 'manage_options' )) {
+
+				$content .= '<strong>Coming soon...</strong>' . PHP_EOL;
+
+				$content .= '<br><br>' . PHP_EOL;
+				
+				$content .= '<div align="center">' . PHP_EOL;
+				$content .= '<i class="fa fa-compass fa-3x fa-spin"></i>';
+				$content .= '</div>' . PHP_EOL;
+				
+			//}
+			
+			$content .= '		</div>' . PHP_EOL;
+			
+			$content .= '	</div>' . PHP_EOL;
+				
+	
+		} else {
+			$content .= '<h2>Please log in.</h2>' . PHP_EOL;
+		}
+	
+		return $content;
+	}	
 	/**
 	 * Adds the ride page to the event.
 	 *
@@ -857,7 +914,7 @@
 	}
 
 	
-	function bimbler_mobile_render_event_pages ($future = true) {
+	function NO_LONGER_USED_bimbler_mobile_render_event_pages ($future = true) {
 		global $bimbler_mobile_events_per_page;
 			
 		$content = '';
@@ -1121,6 +1178,7 @@
 		global $bimbler_mobile_tab_rsvps;
 		global $bimbler_mobile_tab_photos;
 		global $bimbler_mobile_tab_comments;
+		global $bimbler_mobile_tab_locator;
 		
 		$do_summary_tab = true;
 		$do_details_tab = true;
@@ -1128,6 +1186,7 @@
 		$do_rsvps_tab = true;
 		$do_photos_tab = true;
 		$do_comments_tab = true;
+		$do_locator_tab = true;
 		
 		$content_tab_list = '';
 		$content_tab_content = '';
@@ -1156,9 +1215,8 @@
 			$do_photos_tab = false;
 		}
 
-
 		$content .= PHP_EOL . '	<!-- Tabs for event ID ' . $post->ID . '. -->' . PHP_EOL;
-
+		
 		foreach ($bimbler_mobile_tabs as $sub_page) {
 			$do_tab = false;
 			
@@ -1207,6 +1265,7 @@
 					break;
 
 				case $bimbler_mobile_tab_comments:
+					
 					$do_tab = true;
 					
 					$num_comments = bimbler_mobile_get_comment_count ($post->ID);
@@ -1216,6 +1275,22 @@
 					}
 					break;
 
+				case $bimbler_mobile_tab_locator:
+					
+					$do_tab = false;
+					$do_locator_tab = false;
+						
+					$this_rsvp = Bimbler_RSVP::get_instance()->get_current_rsvp ($post->ID);
+						
+					// Only show to admin users, or to those who have RSVPd 'Yes' to this event.
+					if (current_user_can( 'manage_options' ) ||
+						(isset ($this_rsvp) && ('Y' == $this_rsvp))) {
+						
+						$do_tab = true;
+						$do_locator_tab = true;
+					}
+					break;
+						
 			}
 
 			if ($do_tab) {
@@ -1225,13 +1300,16 @@
 				$icon = $bimbler_mobile_tab_icons[$sub_page];
 				$text = $bimbler_mobile_tab_text[$sub_page];
 					
-				if ((($sub_page == $bimbler_mobile_tab_summary) && $do_summary_tab) ||
+				// TODO: Not sure if this 'if' is required...
+				/*if (	(($sub_page == $bimbler_mobile_tab_summary) && $do_summary_tab) ||
 						(($sub_page == $bimbler_mobile_tab_details) && $do_details_tab) ||
 						(($sub_page == $bimbler_mobile_tab_map) && $do_map_tab) ||
 						(($sub_page == $bimbler_mobile_tab_rsvps) && $do_rsvps_tab) ||
 						(($sub_page == $bimbler_mobile_tab_photos) && $do_photos_tab) ||
-						(($sub_page == $bimbler_mobile_tab_comments) && $do_comments_tab))
-				{
+						(($sub_page == $bimbler_mobile_tab_comments) && $do_comments_tab) ||
+						(($sub_page == $bimbler_mobile_tab_locator) && $do_locator_tab) 
+					)
+				{*/
 
 					$content_tab_list .= '			<li role="presentation"';
 					
@@ -1244,12 +1322,11 @@
 					$controls = 'event-'. $post->ID . '-tab' . $sub_page;
 						
 					$content_tab_list .= '			<a href="#' . $controls . '" aria-controls="' . $controls . '" role="tab" data-toggle="pill" data-icon="' . $icon .'" class="' . $class . ' bimbler-badge" data-bimbler-event-id="' . $post->ID . '" ' . $count_pill . '>';
-					//$content_tab_list .= '<span class="glyphicon ' . $icon . '" aria-hidden="true"></span>';
 					$content_tab_list .= '<i class="' . $icon . '" aria-hidden="true"></i>';
 					//$content_tab_list .= $text;
 					$content_tab_list .= '</a></li>' . PHP_EOL;
 				}
-			} // End if do tab.
+			//} // End if do tab.
 
 				$first = false;
 		} // End foreach tab.
@@ -1306,6 +1383,8 @@
 			global $bimbler_mobile_tab_rsvps;
 			global $bimbler_mobile_tab_photos;
 			global $bimbler_mobile_tab_comments;
+			global $bimbler_mobile_tab_locator;
+				
 				
 			$do_summary_tab = true;
 			$do_details_tab = true;
@@ -1313,6 +1392,7 @@
 			$do_rsvps_tab = true;
 			$do_photos_tab = true;
 			$do_comments_tab = true;
+			$do_locator_tab = true;
 				
 			$content_tab_list = '';
 			$content_tab_content = '';
@@ -1377,7 +1457,22 @@
 					case $bimbler_mobile_tab_comments:
 						$do_tab = true;
 						break;
-	
+						
+					case $bimbler_mobile_tab_locator:
+							
+						$do_tab = false;
+						$do_locator_tab = false;
+					
+						$this_rsvp = Bimbler_RSVP::get_instance()->get_current_rsvp ($post->ID);
+					
+						// Only show to admin users, or to those who have RSVPd 'Yes' to this event.
+						if (current_user_can( 'manage_options' ) ||
+							(isset ($this_rsvp) && ('Y' == $this_rsvp))) {
+				
+								$do_tab = true;
+								$do_locator_tab = true;
+						}
+						break;
 				}
 	
 				if ($do_tab) {
@@ -1388,13 +1483,13 @@
 					$icon = $bimbler_mobile_tab_icons[$sub_page];
 					$text = $bimbler_mobile_tab_text[$sub_page];
 						
-					if ((($sub_page == $bimbler_mobile_tab_summary) && $do_summary_tab) ||
+/*					if ((($sub_page == $bimbler_mobile_tab_summary) && $do_summary_tab) ||
 							(($sub_page == $bimbler_mobile_tab_details) && $do_details_tab) ||
 							(($sub_page == $bimbler_mobile_tab_map) && $do_map_tab) ||
 							(($sub_page == $bimbler_mobile_tab_rsvps) && $do_rsvps_tab) ||
 							(($sub_page == $bimbler_mobile_tab_photos) && $do_photos_tab) ||
 							(($sub_page == $bimbler_mobile_tab_comments) && $do_comments_tab))
-					{
+					{ */
 	
 						$content_tab_list .= '			<li role="presentation"';
 						$content_tab_list .= ' class="' . ($first ? 'active' : '') . '">' . PHP_EOL;
@@ -1412,7 +1507,7 @@
 						$content_tab_content .= ' class="tab-pane fade ' . ($first ? 'in active' : '') . '"';
 						$content_tab_content .= ' id="' . $controls . '">' . PHP_EOL;
 							
-					}
+					//}
 	
 					if (1 == $sub_page) {
 	
@@ -1437,6 +1532,10 @@
 					} else if (6 == $sub_page) {
 	
 						$content_tab_content .= bimbler_mobile_render_comments($post->ID);
+	
+					} else if (7 == $sub_page) {
+	
+						$content_tab_content .= bimbler_mobile_render_locator($post->ID);
 	
 					}
 					else {
