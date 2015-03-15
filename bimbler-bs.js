@@ -171,7 +171,7 @@ jQuery(document).ready(function ($) {
 			} else {
 
 				//toastrMsg ('success', 'Yes RSVP processed', 'This is just a test - RSVP not updated!');
-				toastrMsg ('success', 'RSVP processed', response.text);
+				//toastrMsg ('success', 'RSVP processed', response.text);
 				
 				var rsvp_message = document.getElementById('bimbler-your-rsvp');
 				
@@ -336,7 +336,7 @@ jQuery(document).ready(function ($) {
 				
 			} else {
 
-				toastrMsg ('success', 'Comment created', 'Thanks for your comment!');
+				//toastrMsg ('success', 'Comment created', 'Thanks for your comment!');
 				
 				
 				document.getElementById('bimbler-comment').value = '';
