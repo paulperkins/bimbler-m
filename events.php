@@ -680,7 +680,6 @@
 		$content .= '						<p><strong>' . $comment->comment_author . '</strong> said on ' . date ($bimbler_mobile_time_str, strtotime($comment->comment_date)) . '</p>' . PHP_EOL;
 		
 		$content .= apply_filters('the_content', $comment->comment_content) . PHP_EOL;
-		//$content .= '						<p>' . $comment->comment_content . '</p>' . PHP_EOL;
 		
 		$content .= '					</div>' . PHP_EOL;
 		$content .= '				</div> <!-- /row -->' . PHP_EOL;
