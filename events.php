@@ -660,8 +660,6 @@
 
 		$content = '';
 		
-		//$content .= bimbler_mobile_show_hidden_comment ($comment);
-		
 		$content .= '		<li class="dd-item">'. PHP_EOL;
 		$content .= '			<div class="dd-handle">'. PHP_EOL;
 
