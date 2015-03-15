@@ -135,9 +135,9 @@ body {
 
 			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			      <ul class="nav navbar-nav">
-			        <li <?php echo ((!isset ($_GET['past']) && !isset ($_GET['newest'])) 	? ' class="active" ' : ' ');?>><a href="/m/"><i class="fa fa-home"></i> Home - up-coming events <span class="sr-only">(current)</span></a></li>
-			        <li <?php echo (isset ($_GET['past']) 								? ' class="active" ' : ' ');?>><a href="/m/?past=1"><i class="fa fa-clock-o"></i> Past events</a></li>
-			        <li <?php echo (isset ($_GET['newest']) 								? ' class="active" ' : ' ');?>><a href="/m/?newest=1"><i class="fa fa-star-o"></i> Recently Added</a></li>
+			        <li <?php echo ((!isset ($_GET['past']) && !isset ($_GET['newest'])) 	? ' class="active" ' : ' ');?>><a href="/m/"><i class="fa fa-home fw"></i> Home - up-coming events <span class="sr-only">(current)</span></a></li>
+			        <li <?php echo (isset ($_GET['past']) 								? ' class="active" ' : ' ');?>><a href="/m/?past=1"><i class="fa fa-clock-o fw"></i> Past events</a></li>
+			        <li <?php echo (isset ($_GET['newest']) 								? ' class="active" ' : ' ');?>><a href="/m/?newest=1"><i class="fa fa-star-o fw"></i> Recently Added</a></li>
 			        
 	<!--  			        </li>-->
 			      </ul>

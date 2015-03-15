@@ -122,42 +122,12 @@ jQuery(document).ready(function ($) {
 		
 //		console.log ('Tab shown: ' + e.target.className);
 		
-//		console.dir (e.target);
 		
 		if ('bimbler_mobile_summary_tab' == e.target.className.split(" ")[0]) {
-			//console.log ('Selected summary page - resizing Google map.');
 			
 			showVenueMap (e.target);
 			
-/*			var event_id = e.target.getAttribute ('data-bimbler-event-id');
-			
-			var gmap_id = 'tribe-events-gmap-' + event_id;
-			
-			//var gmap = document.getElementById(gmap_id);
-			var gmap = $('#' + gmap_id)[0];
-			
-			if (gmap) {
-			
-				var venue_address = decodeURIComponent(gmap.getAttribute('data-venue-address'));
-				
-				// Create the map if it doesn't already exist.
-				if (!event_maps[event_id]) {
-					
-					renderVenueMap('"' + venue_address + '"', gmap_id, event_id);
-					
-				}
-			}
-
-			// Resize and re-centre the map.
-			if (event_maps[event_id]) {
-
-				google.maps.event.trigger(event_maps[event_id], 'resize');
-				
-				centreVenueMap (event_maps[event_id], event_markers[event_id]);
-			}
-			*/			
 		} 
-
 	})
 	
 	$(".rsvp-button").click(function() {

@@ -796,6 +796,59 @@
 	 *
 	 * @param
 	 */
+	function bimbler_mobile_render_locator_canvas ($event_id, $rwgps_id) {
+		global $bimbler_mobile_time_str;
+		global $bimbler_mobile_day_time_str;
+		global $bimbler_mobile_date_str;
+	
+		global $current_user;
+		get_currentuserinfo();
+		
+		
+		$content = '';
+		
+		$content = '';
+		
+		$nonce = wp_create_nonce('bimbler_locator');
+		
+		// Test.
+		//$rwgps_id = 6463068;
+		
+		
+		$map_style = 'height: 500px; width: 100%; margin-bottom: 15px;';
+		
+		//$content .= '<h5>Input Parameters</h5>';
+		
+		//$content .= print_r ($a, true);
+		//$content .= '<br>';
+		
+		$content .= '<div class="bimbler-locator">';
+		
+		$content .= '<div id="bimbler_mobile_locator_map_canvas" style="' . $map_style . '"';
+		
+		$content .= ' data-event-id="' . $event_id . '"';
+		
+		$content .= ' data-user-id="' . $current_user->ID . '"';
+		
+		$content .= ' data-nonce="' . $nonce . '"';
+		
+		if (isset ($rwgps_id)) {
+			$content .= ' data-rwgps-id="' . $rwgps_id . '"';
+		}
+		
+		$content .= '></div>';
+		
+		$content .= '</div>';
+		
+		
+		return $content;
+	}
+	
+	/**
+	 * Adds the locator tab.
+	 *
+	 * @param
+	 */
 	function bimbler_mobile_render_locator ($event_id) {
 		global $bimbler_mobile_time_str;
 		global $bimbler_mobile_day_time_str;
@@ -812,6 +865,8 @@
 		if (is_user_logged_in()) {
 				
 			$nonce = wp_create_nonce('bimbler_locator');
+			
+			$rwgps_id = Bimbler_RSVP::get_instance()->get_rwgps_id ($event_id);
 	
 			$content .= '';
 				
@@ -829,18 +884,17 @@
 				
 			$content .= '		<div class="panel-body">' . PHP_EOL;
 			
-			
-			//if (!current_user_can( 'manage_options' )) {
-
 				$content .= '<strong>Coming soon...</strong>' . PHP_EOL;
 
-				$content .= '<br><br>' . PHP_EOL;
+/*				$content .= '<br><br>' . PHP_EOL;
 				
 				$content .= '<div align="center">' . PHP_EOL;
 				$content .= '<i class="fa fa-compass fa-3x fa-spin"></i>';
-				$content .= '</div>' . PHP_EOL;
+				$content .= '</div>' . PHP_EOL; */
 				
-			//}
+				
+				$content .= bimbler_mobile_render_locator_canvas ($event_id, $rwgps_id);
+				
 			
 			$content .= '		</div>' . PHP_EOL;
 			
@@ -1018,7 +1072,6 @@
 							break;
 							
 						case $bimbler_mobile_tab_comments:
-							error_log ('Rendering comments tab');
 							$do_tab = true;
 							break;
 									

@@ -46,7 +46,7 @@
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
     
 	<script src="spin.js"></script>
-		
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="description" content="<?php bloginfo ('description'); ?>" />
 	<meta name="author" content="" />
@@ -189,7 +189,10 @@
 	<script src="ps.js"></script> 
     
 	<script src="bimbler-bs.js"></script> 
-    
+	    
+	<script src="bimbler-locator.js"></script> 
+	
+	    
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
