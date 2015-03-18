@@ -262,10 +262,13 @@ jQuery(document).ready(function ($) {
 	
 	
 	
-	
+	/*
+	 * Handler for 'attended' indicator clicks.
+	 */
 	$('.rsvp-checkin-container').click (function () {
 
 		var rsvp_id = $(this).attr('id');
+		var event_id = $(this).attr('data-event-id');
 
 		var wait = '<div class="rsvp-checkin-indicator-wait"><i class="fa fa-spinner fa-spin"></i></div>';
 		
@@ -278,13 +281,22 @@ jQuery(document).ready(function ($) {
         		'/wp-admin/admin-ajax.php',
         		{
         			action: 	'checkinajax-submit', 
-        			container: 	rsvp_id
+        			container: 	rsvp_id,
+        			event_id:	event_id
         		},
         		function (response) {
         			//console.log (response);
         			
         			if ('success' == response.status) {
         				indicator.html(response.indicator);
+        				
+        				if (response.attendee_count) {
+
+        					if (yes = $("#bimbler-rsvp-yes-count")) {
+
+        						yes.html(response.attendee_count + ' / ' + response.rsvp_count); 
+        					}
+        				} 
         			}
         		}
         );

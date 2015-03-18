@@ -379,7 +379,7 @@
 						}
 						else {
 							// Store the RSVP ID.
-							$content .= '<div class="rsvp-checkin-container" id="'. $rsvp->id .'">';
+							$content .= '<div class="rsvp-checkin-container" id="'. $rsvp->id .'" data-event-id="' . $event_id . '">';
 						}
 						
 						$content .= '						<div class="avatar-clipped" style="background-image: url(\'' . $avatar_img . '\');"></div>' . PHP_EOL;
