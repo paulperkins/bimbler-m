@@ -66,7 +66,11 @@
 	<meta name="msapplication-config" content="browserconfig.xml">
 	
 	<link rel="stylesheet" href="bimbler-bs.css">
-
+	
+<?php 
+	include_once ('dynamic_styling.php');
+?>
+		
 <script type="text/javascript">
 		(function(document,navigator,standalone) {
 			// prevents links from apps from oppening in mobile safari
