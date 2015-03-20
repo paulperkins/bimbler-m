@@ -1932,18 +1932,16 @@
 
 				// For the first upcoming event display a full-width map.
 //				if ($first && ('upcoming' == $when)) {
-				if ($first) {
+				if ($first && (!empty (get_venue_address($post->ID)))) {
 					$content .= '				<h4 style="text-overflow: none!important;">' . $post->post_title . '</h4>' . PHP_EOL;
 					$content .= '				<p><strong>' . date ($time_str, strtotime($event_date)) . '</strong></p>' . PHP_EOL;
 					$content .= '				<p style="white-space: normal!important; text-overflow: initial!important; overflow: auto!important;">' . $excerpt . '</p>' . PHP_EOL;
 				
 					//$content .= '						<div class="rsvp-checkin-indicator-noajax">' . PHP_EOL;
-						
-					
+				
 					$content .= '				<div class="tribe-events-venue-map">' . PHP_EOL;
 					$content .= tribe_get_embedded_map ($post->ID, '100%', '150px', true) . PHP_EOL;
 					$content .= '				</div>' . PHP_EOL;
-
 					
 					/*if (!isset ($rsvpd)) {
 						$content .= '						<div class="rsvp-checkin-indicator-none"><i class="fa-question-circle"></i></div>' . PHP_EOL;
@@ -1957,9 +1955,8 @@
 					//$content .= '						</div> <!-- /rsvp-checkin-indicator-noajax -->' . PHP_EOL;
 						
 				}
-				
-				//if (!$first || ('past' == $when)) {
-				if (!$first) {
+				else {				
+//				if (!$first) {
 					// Note that total width of below is not 12.
 					$content .= '				<div class="row">' . PHP_EOL;
 						
