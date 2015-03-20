@@ -2001,7 +2001,17 @@
 				}
 						
 			} // foreach
-		} // if posts
+		} else { // if posts
+
+			if ('upcoming' == $when) {
+				$content .= '<h4>No up-coming events.</h4>';
+			}
+			else if ('past' == $when) {
+				$content .= '<h4>No past events.</h4>';
+			} else {
+				$content .= '<h4>No events.</h4>';
+			}
+		}
 		
 		echo $content;
 	
