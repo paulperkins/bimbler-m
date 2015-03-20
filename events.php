@@ -1932,7 +1932,7 @@
 
 				// For the first upcoming event display a full-width map.
 //				if ($first && ('upcoming' == $when)) {
-				if ($first && (!empty (get_venue_address($post->ID)))) {
+				if ($first && (!empty ($addr = get_venue_address($post->ID)))) {
 					$content .= '				<h4 style="text-overflow: none!important;">' . $post->post_title . '</h4>' . PHP_EOL;
 					$content .= '				<p><strong>' . date ($time_str, strtotime($event_date)) . '</strong></p>' . PHP_EOL;
 					$content .= '				<p style="white-space: normal!important; text-overflow: initial!important; overflow: auto!important;">' . $excerpt . '</p>' . PHP_EOL;
