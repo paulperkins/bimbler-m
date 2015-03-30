@@ -109,7 +109,7 @@
        /* Fix-up navbar overlapping content. */
 body {
 	padding-top: 50px; 
-	padding-bottom: 20px; 
+	//padding-bottom: 20px; 
 }
        </style>
        
@@ -172,11 +172,11 @@ body {
 		</div>
 		<!-- /Content -->
 
-		<nav class="navbar navbar-default navbar-fixed-bottom">
+<!-- 		<nav class="navbar navbar-default navbar-fixed-bottom">
 			<div class="navbar-header">
 				<a class="navbar-brand">&copy; 2015 <?php bloginfo ('description'); ?></a>
 			</div>
-		</nav>
+		</nav> -->
 		
 	</div> 
 
