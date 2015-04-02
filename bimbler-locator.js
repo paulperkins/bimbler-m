@@ -142,23 +142,29 @@ jQuery(document).ready(function ($) {
 			// Iterate each object returned.
 			$.each (data,function (index, row) {
 				
+				console.dir (row);
 
 				// Start off with the default location.
-				new_pos = initialLocation;
+//				new_pos = initialLocation;
 
-				if (row && row.lat && row.lon) {
-					new_pos = new google.maps.LatLng(row.lat, row.lon);	
-				} /*else {
+//				if (row.lat && row.lon) {
+//					new_pos = new google.maps.LatLng(row.lat, row.lon);	
+//				} 
+				/*else {
 					console.log ('  Using default position.');
 				}*/
 				
-				// Does this marker ID exist? If not, create. 
+				// Does this marker ID exist? If not, create. But only create if the user has a valid location - they've elected
+				// to be tracked.
 				// Make sure not to double-up on the current user - this will already have a marker. 
-				if (!(row.user_id in person_markers) && (row.user_id != user_id)) {
-					var new_pos;
+				if (!(row.user_id in person_markers) 
+						&& (row.pos_lat && row.pos_lon)
+						&& (row.user_id != user_id)) {
+
+					var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lon);	
 
 					console.log ('  Creating new marker for user ID ' + row.user_id);
-					console.log ('    Row: ID ' + row.id + ', Event ID ' + row.event + ', User ' + row.user_id + ', Time ' + row.time + ', current user ' + user_id);
+					console.log ('    Row: ID ' + row.id + ', Event ID ' + row.event + ', User ' + row.user_id + ', Time ' + row.pos_time + ', current user ' + user_id);
 					
 					// Rotate through the marker colours.
 					marker_colour = marker_colours[(marker_count++) % marker_colours.length];
@@ -173,7 +179,7 @@ jQuery(document).ready(function ($) {
 			         var new_marker = new google.maps.Marker({
 			             position: new_pos,
 			             map: map,
-			             draggable: true,
+			             draggable: true, // TODO: Remove draggable.
 			             animation: google.maps.Animation.DROP,
 			             icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/" + marker_colour + ".png")
 			             //title: 'Person - X: ' + position.coords.longitude + ', Y: ' +  position.coords.latitude
@@ -209,28 +215,38 @@ jQuery(document).ready(function ($) {
 					// initialLocation
 				} else {
 					
-					// Update existing marker location.
-
-					var pos = person_markers[row.user_id].getPosition();
+					// Only update other users' positions.
+					if (row.user_id != user_id) {
 					
-					// TODO: Get the current position - don't want to update each marker unecessarily.
-					// For now, always update each marker.
-					if (pos != new_pos) {
+						// Update existing marker location.
+						//console.log ('Updating position for user ' + row.user_id);
+	
+						var pos;
 						
-						console.log ('  Updating marker for user ID ' + row.user_id);
-
-						console.log ('  Position: ' + new_pos);
-
-						person_markers[row.user_id].setPosition (new_pos);
+						// Be defensive.
+						if (person_markers[row.user_id]) {
+							pos = person_markers[row.user_id].getPosition();	
+						}
+						
+						// TODO: Get the current position - don't want to update each marker unecessarily.
+						// For now, always update each marker.
+						if (pos && (pos != new_pos)) {
+							
+							console.log ('  Updating marker for user ID ' + row.user_id);
+	
+							console.log ('  Position: ' + new_pos);
+	
+							person_markers[row.user_id].setPosition (new_pos);
+						}
 					}
 				}
 				
 				
 			});
 			
-			console.log ('  Current person_markers array: ' + person_markers);
+			//console.log ('  Current person_markers array: ' + person_markers);
 			
-			console.log ('=========================================================');
+			//console.log ('=========================================================');
 		}
 		
 
@@ -297,38 +313,40 @@ jQuery(document).ready(function ($) {
 		
 		function request(){
 			
-			// TODO: REMOVE
-			return;
-			
-	        if(run_fetch_ajax == true){
-	        
-				console.log ('Firing Locator Ajax');
-				
-				run_fetch_ajax = false;
-				
-				jQuery.ajax({
-					type: "POST",
-				     url: '/wp-admin/admin-ajax.php',
-				     data: ({
-				    	 action : 'locatorajax-submit',
-				    	 nonce: nonce,
-				    	 event : event_id 
-				     	}
-				    ),
-				     success: function(response) {
-	 	       			console.log ('Success: ' + response);
-	 	       			
-	 	       			update_markers (response);
-	 	       			
-	 	       			run_fetch_ajax = true;
-				     },
-				     error: function(response) {
-	  	       			console.log ('Error: ' + response);
-	  	       			run_fetch_ajax = true;
-	 			     }
-				});
+			// TODO: REMOVE return statement.
+			//return;
 
-	        }
+			// Prevent parallel Ajax calls.
+			if (!run_fetch_ajax) {
+				console.log ('Request Ajax already in progress.');
+				return;
+			}
+        
+			console.log ('Firing Locator Request Ajax');
+			
+			run_fetch_ajax = false;
+			
+			jQuery.ajax({
+				type: "POST",
+			     url: '/wp-admin/admin-ajax.php',
+			     data: ({
+			    	 action : 'locatorajax-submit',
+			    	 nonce: nonce,
+			    	 event : event_id 
+			     	}
+			    ),
+			     success: function(response) {
+ 	       			console.log ('  Success: ' + response);
+ 	       			
+ 	       			update_markers (response);
+ 	       			
+ 	       			run_fetch_ajax = true;
+			     },
+			     error: function(response) {
+  	       			console.log ('  Error: ' + response);
+  	       			run_fetch_ajax = true;
+ 			     }
+			});
 		};
 
 		
@@ -341,7 +359,6 @@ jQuery(document).ready(function ($) {
 				return;
 			}
 			
-			//var wait = '<i class="fa fa-circle-o-notch fa-spin"></i>';
 			var wait = '<i class="fa fa-spinner fa-spin"></i>';
 			
 			var indicator = $("#bimbler-locator-indicator");
@@ -359,10 +376,6 @@ jQuery(document).ready(function ($) {
 			}
 	        
 			console.log ('Firing location updater Ajax.');
-//	    	console.dir (event_id);
-//	    	console.dir (user_id);
-//			console.dir (nonce);
-//			console.log (my_position.toString());
 
 			if (!my_position) {
 				console.log ('My position not set. Not updating.');
@@ -383,7 +396,11 @@ jQuery(document).ready(function ($) {
 				     	}
 				    ),
 				     success: function(response) {
-	 	       			//console.log ('Success: ' + response);
+				    	 if (response.status == 'success') {
+				    		 console.log ('Success: ' + response);
+				    	 } else {
+				    		 console.log ('Success, with error: ' + response);
+				    	 }
 	 	       			
 	 	       			run_update_ajax = true;
 				     },
@@ -396,7 +413,6 @@ jQuery(document).ready(function ($) {
 			}
 
 			//indicator.html ('');
-
 		};
 
 		
@@ -473,11 +489,10 @@ jQuery(document).ready(function ($) {
 //		request ();
 	
 		// Repeatedly fetch data on a timer.
-		// TODO: remove comment-out.
-/*		setInterval (
+		setInterval (
 				function (){
 					request ();
-				}, 10*1000); */ 
+				}, 10*1000);  
 
 		// Repeatedly update the current user's location on a timer.
 		updateTimer = setInterval (
