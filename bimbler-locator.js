@@ -341,6 +341,14 @@ jQuery(document).ready(function ($) {
 				return;
 			}
 			
+			//var wait = '<i class="fa fa-circle-o-notch fa-spin"></i>';
+			var wait = '<i class="fa fa-spinner fa-spin"></i>';
+			
+			var indicator = $("#bimbler-locator-indicator");
+			
+			// Set the indicator to an animation.
+			indicator.html (wait);
+			
 			// First, update the current position and display the marker. Sets 'my_position'.
 			show_my_position ();
 
@@ -386,6 +394,9 @@ jQuery(document).ready(function ($) {
 	 			     }
 				});
 			}
+
+			//indicator.html ('');
+
 		};
 
 		
@@ -501,10 +512,11 @@ jQuery(document).ready(function ($) {
 		// on a timer - nothing more to do.
 		tracking = $(this).prop('checked');
 		
-		console.log ('Tracking: ' + tracking);
+		//console.log ('Tracking: ' + tracking);
 
 		// Tracking turned on. 
 		if (tracking) {
+			console.log ('Turning on tracking...');
 			
 			// Show the current user's location.
 			//window.show_my_position ();
@@ -512,10 +524,22 @@ jQuery(document).ready(function ($) {
 			// Update the user's current position.
 			//update ();
 		} else { // Tracking turned off.
+
+			console.log ('Turning off tracking...');
 			
 			// Update the user's location with null.
 			// TODO: call update Ajax with null coords.
-			
+
+			if (me_marker) {
+				
+				me_marker.setMap(null);
+				me_marker = null;
+				my_position = null;
+
+				// Remove the animation.
+				$("#bimbler-locator-indicator").html('');
+
+			}
 		}
 	})
 	

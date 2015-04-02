@@ -873,7 +873,7 @@
 				
 			$content .= '	<div class="panel panel-default">' . PHP_EOL;
 			$content .= '		<div class="panel-heading">' . PHP_EOL;
-			$content .= '			<h4 class="panel-title pull-left">Locator</h4>' . PHP_EOL;
+			$content .= '			<h4 class="panel-title pull-left">Locator <span id="bimbler-locator-indicator"></span></h4>' . PHP_EOL;
 			$content .= '<div class="row" style="margin-right: 0px;">';
 			$content .= '			<div class="input-group pull-right">' . PHP_EOL;
 			$content .= '				<label class="checkbox-inline"><input id="bimbler-trackme-toggle" type="checkbox" xchecked xdata-toggle="toggle">Track me</label>' . PHP_EOL;
