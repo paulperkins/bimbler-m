@@ -6,9 +6,11 @@ jQuery(document).ready(function ($) {
 	var rwgps_id = 0;
 	var nonce = '';
 	var tracking = false;
+	var run_update_ajax = true;
+	var run_fetch_ajax = true;
+	var updateTimer;
 	
 	var locator_map;
-
 	
 	// Counter to select colour for each marker. 
 	var marker_count = 0;
@@ -32,11 +34,11 @@ jQuery(document).ready(function ($) {
 	var person_markers = [];
 	var me_marker;
 	
-	var my_position;
-	
 	var brisbane = new google.maps.LatLng(-27.471010, 153.023453);
 	var initialLocation = brisbane;
 	
+	// Set a default.
+	var my_position = brisbane;
 	
 	window.showLocatorMap = function (e) {
 	
@@ -144,7 +146,7 @@ jQuery(document).ready(function ($) {
 				// Start off with the default location.
 				new_pos = initialLocation;
 
-				if (row.lat && row.lon) {
+				if (row && row.lat && row.lon) {
 					new_pos = new google.maps.LatLng(row.lat, row.lon);	
 				} /*else {
 					console.log ('  Using default position.');
@@ -242,14 +244,15 @@ jQuery(document).ready(function ($) {
 			// If this device supports geolocation, show the current posision.
 			if (navigator.geolocation) {
 			     navigator.geolocation.getCurrentPosition(function (position) {
-			    	 //console.log ('Current position available.');
-			    	 
+
+			    	 my_position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+			    	 //console.log (my_position.toString());
+
 			    	 // No marker exists - create a new one.
 			    	 if (!me_marker) {
 			    		 
 			    		 console.log ("Creating new marker for current user's location.");
-			    		 
-				         my_position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 		
 				         me_marker = new google.maps.Marker({
 				             position: my_position,
@@ -291,9 +294,11 @@ jQuery(document).ready(function ($) {
 			
 		}
 		
-		var run_fetch_ajax = true;
 		
 		function request(){
+			
+			// TODO: REMOVE
+			return;
 			
 	        if(run_fetch_ajax == true){
 	        
@@ -326,10 +331,11 @@ jQuery(document).ready(function ($) {
 	        }
 		};
 
-		var run_update_ajax = true;
 		
 		function update(){
 
+			//console.log ('Update: tick.');
+			
 			if (!tracking) {
 				
 				return;
@@ -337,37 +343,49 @@ jQuery(document).ready(function ($) {
 			
 			// First, update the current position and display the marker. Sets 'my_position'.
 			show_my_position ();
-			
-	        if(run_update_ajax == true){
+
+			// Prevent parallel Ajax calls.
+			if (!run_update_ajax) {
+				console.log ('Update Ajax already in progress.');
+				return;
+			}
 	        
-	        	//$.post(
-				console.log ('Firing Updater Ajax');
-				
+			console.log ('Firing location updater Ajax.');
+//	    	console.dir (event_id);
+//	    	console.dir (user_id);
+//			console.dir (nonce);
+//			console.log (my_position.toString());
+
+			if (!my_position) {
+				console.log ('My position not set. Not updating.');
+			} else {
+			
 				run_update_ajax = false;
 				
 				jQuery.ajax({
 					type: "POST",
 				     url: '/wp-admin/admin-ajax.php', //LocatorAjax.ajaxurl,
 				     data: ({
-				    	 action : 'locationupdateajax-submit',
-				    	 event : event_id,
-				    	 user_id: user_id,
-				    	 nonce: nonce,
-				    	 position: my_position
+				    	 action : 	'locationupdateajax-submit',
+				    	 event : 	event_id,
+				    	 user_id: 	user_id,
+				    	 nonce: 	nonce,
+				    	 pos_lat: 	my_position.lat(),
+				    	 pos_lng: 	my_position.lng()
 				     	}
 				    ),
 				     success: function(response) {
-	 	       			console.log ('Success: ' + response);
+	 	       			//console.log ('Success: ' + response);
 	 	       			
-	 	       			run_updater_ajax = true;
+	 	       			run_update_ajax = true;
 				     },
 				     error: function(response) {
 	  	       			console.log ('Error: ' + response);
 	  	       			
-	  	       			run_updater_ajax = true;
+	  	       			run_update_ajax = true;
 	 			     }
 				});
-	        }
+			}
 		};
 
 		
@@ -377,7 +395,7 @@ jQuery(document).ready(function ($) {
 			
 			jQuery.ajax({
 				type: "POST",
-			     url: AvatarAjax.ajaxurl,
+			     url: '/wp-admin/admin-ajax.php', //AvatarAjax.ajaxurl,
 			     data: ({
 			    	 action : 'avatarajax-submit',
 			    	 user_id: user_id,
@@ -385,7 +403,7 @@ jQuery(document).ready(function ($) {
 			     	}
 			    ),
 			     success: function(response) {
- 	       			console.log ('Success: ' + response);
+ 	       			//console.log ('Success: ' + response);
  	       			
  	       			//marker.setIcon (response);
  	       			
@@ -451,7 +469,7 @@ jQuery(document).ready(function ($) {
 				}, 10*1000); */ 
 
 		// Repeatedly update the current user's location on a timer.
-		setInterval (
+		updateTimer = setInterval (
 				function (){
 					update ();
 				}, 5*1000);
@@ -461,10 +479,6 @@ jQuery(document).ready(function ($) {
 	}
 
 	$('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
-//		e.target // newly activated tab
-//		e.relatedTarget // previous active tab
-		
-//		console.log ('Tab shown: ' + e.target.className);
 		
 		console.log ('bimbler-locator.js: ' + e.target.className.split(" ")[0] + ' clicked.');
 		
@@ -481,13 +495,7 @@ jQuery(document).ready(function ($) {
 	
 	
 	
-//	$('#bimbler-trackme-toggle').on('change.bs.toggle', function(e) {
 	$('#bimbler-trackme-toggle').change(function(e) {	
-//	$('#bimbler-trackme-toggle').on('ifChecked', function() {
-//	$('#bimbler-trackme-toggle').click(function(e) {
-//	$('input[id="bimbler-trackme-toggle"]').on('switchChange', function(event, state) {
-		
-		//console.log ('Track Me toggled');
 		
 		// Update the global. This will result in the position being updated
 		// on a timer - nothing more to do.
@@ -495,6 +503,7 @@ jQuery(document).ready(function ($) {
 		
 		console.log ('Tracking: ' + tracking);
 
+		// Tracking turned on. 
 		if (tracking) {
 			
 			// Show the current user's location.
@@ -502,6 +511,11 @@ jQuery(document).ready(function ($) {
 			
 			// Update the user's current position.
 			//update ();
+		} else { // Tracking turned off.
+			
+			// Update the user's location with null.
+			// TODO: call update Ajax with null coords.
+			
 		}
 	})
 	

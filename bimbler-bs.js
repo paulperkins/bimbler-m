@@ -249,7 +249,7 @@ jQuery(document).ready(function ($) {
 					if (el = document.getElementById ('bimbler-rsvp-no')) {
 						el.prop = ('disabled', true);
 						el.classList.add ('btn-disabled');
-						el.setAttribVOZ469ute ('disabled', true);
+						el.setAttribute ('disabled', true);
 					}
 				}
         	}
