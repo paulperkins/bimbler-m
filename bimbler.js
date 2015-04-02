@@ -144,11 +144,14 @@ jQuery(document).ready(function ($) {
 	}); 
 	
 
-
+	// Handler for tab clicks.
+	//
 	// Call the 'resize' event on Google map when a tab is shown to ensure that 
 	// it renders properly. Because we're creating all pages ahead of time the map
 	// won't know its bounds at initialisation time.
 	$( ":mobile-pagecontainer" ).on( "pagecontainerchange", function( event, ui ) {
+		
+		console.log ('bimbler.js: ' + e.target.className.split(" ")[0] + ' clicked.');
 		
 		if ('bimbler_mobile_summary_tab' == ui.toPage[0].className.split(" ")[0]) {
 			//console.log ('Selected summary page - resizing Google map.');

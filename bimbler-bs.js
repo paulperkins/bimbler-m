@@ -109,8 +109,10 @@ jQuery(document).ready(function ($) {
 			centreVenueMap (event_maps[event_id], event_markers[event_id]);
 		}
     }
-    
-    //$('#bimbler-tabs a').click(function (e) {
+
+    /*
+     * Handler to slowly scroll to top when tab is clicked.
+     */
     $('a[data-toggle="pill"]').on('click', function (e) {
     	$("html, body").animate({ scrollTop: 0 }, "slow");
 	});
@@ -122,6 +124,7 @@ jQuery(document).ready(function ($) {
 		
 //		console.log ('Tab shown: ' + e.target.className);
 		
+		console.log ('bimbler-bs.js: ' + e.target.className.split(" ")[0] + ' clicked.');
 		
 		if ('bimbler_mobile_summary_tab' == e.target.className.split(" ")[0]) {
 			
@@ -130,6 +133,9 @@ jQuery(document).ready(function ($) {
 		} 
 	})
 	
+	/*
+	 * Handler for user RSVP clicks.
+	 */
 	$(".rsvp-button").click(function() {
 	    var $btn = $(this);
 	    //$btn.button('loading');
@@ -243,7 +249,7 @@ jQuery(document).ready(function ($) {
 					if (el = document.getElementById ('bimbler-rsvp-no')) {
 						el.prop = ('disabled', true);
 						el.classList.add ('btn-disabled');
-						el.setAttribute ('disabled', true);
+						el.setAttribVOZ469ute ('disabled', true);
 					}
 				}
         	}
@@ -302,7 +308,9 @@ jQuery(document).ready(function ($) {
         );
 	});
 
-	
+	/*
+	 * Handler for event comments being posted.
+	 */
 	$(".comment-post-button").click(function() {
 	    var $btn = $(this);
 	    $btn.button('loading');
@@ -386,7 +394,7 @@ jQuery(document).ready(function ($) {
 
 	
 
-	
+	/* Fake a click on the summary page in order to re-size the map properly. */
 	$('a[data-toggle="pill"]:first').trigger("shown.bs.tab");	
 
 	

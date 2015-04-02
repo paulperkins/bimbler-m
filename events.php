@@ -675,7 +675,8 @@
 		
 		$content .= '					<div class="col-xs-10 pull-left" style="padding-left:30px;">' . PHP_EOL;
 
-		$content .= '						<p><strong>' . $comment->comment_author . '</strong> said on ' . date ($bimbler_mobile_time_str, strtotime($comment->comment_date)) . '</p>' . PHP_EOL;
+		$content .= '						<div><strong>' . $comment->comment_author . '</strong> said on ' . date ($bimbler_mobile_time_str, strtotime($comment->comment_date)) . '</div>' . PHP_EOL;
+		$content .= '						<div class="pull-right"><a href="#"><i class="fa fa-reply-all fa-2x"></i></a></div>' . PHP_EOL;
 		
 		$content .= apply_filters('the_content', $comment->comment_content) . PHP_EOL;
 		
@@ -875,7 +876,7 @@
 			$content .= '			<h4 class="panel-title pull-left">Locator</h4>' . PHP_EOL;
 			$content .= '<div class="row" style="margin-right: 0px;">';
 			$content .= '			<div class="input-group pull-right">' . PHP_EOL;
-			$content .= '				<label class="checkbox-inline"><input type="checkbox" xchecked data-toggle="toggle">Track me</label>' . PHP_EOL;
+			$content .= '				<label class="checkbox-inline"><input id="bimbler-trackme-toggle" type="checkbox" xchecked xdata-toggle="toggle">Track me</label>' . PHP_EOL;
 			//$content .= '				Track me: <input type="checkbox" checked data-toggle="toggle">' . PHP_EOL;
 			$content .= '			</div>' . PHP_EOL;
 			$content .= '</div>';

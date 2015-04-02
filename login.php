@@ -68,7 +68,12 @@ body {
 	padding-bottom: 20px; 
 }
 </style>
-       
+
+<?php 
+	include_once ('dynamic_styling.php');
+?>
+
+
 </head> 
 <body> 
 

@@ -5,6 +5,7 @@ jQuery(document).ready(function ($) {
 	var event_id = 0;
 	var rwgps_id = 0;
 	var nonce = '';
+	var tracking = false;
 	
 	var locator_map;
 
@@ -39,6 +40,11 @@ jQuery(document).ready(function ($) {
 	
 	window.showLocatorMap = function (e) {
 	
+		// If the map already exists, do nothing.
+		if (locator_map) {
+			return;
+		}
+		
 		// Run once - create map and store global vars.
 		if (canvas = document.getElementById('bimbler_mobile_locator_map_canvas')) {
 			
@@ -61,8 +67,10 @@ jQuery(document).ready(function ($) {
 			
 		    // Create the map.
 		    var map = new google.maps.Map(canvas, options);
+		    
+		    locator_map = map;
 	
-		    console.dir (map);
+		    //console.dir (map);
 	         
 	/*	    // Add the start point to the map.
 	         var marker = new google.maps.Marker({
@@ -99,7 +107,7 @@ jQuery(document).ready(function ($) {
 			  
 			// And load the route map if it exists.
 			if (rwgps_id) {
-				console.log ('Adding route map from RWGPS.');
+				//console.log ('Adding route map from RWGPS.');
 				
 		 		var ctaLayer = new google.maps.KmlLayer({
 		    		  	url: 'http://ridewithgps.com/routes/' + rwgps_id + '.kml'
@@ -226,6 +234,11 @@ jQuery(document).ready(function ($) {
 
 		function show_my_position () {
 			
+			if (!tracking) {
+			
+				return;
+			}
+			
 			// If this device supports geolocation, show the current posision.
 			if (navigator.geolocation) {
 			     navigator.geolocation.getCurrentPosition(function (position) {
@@ -244,6 +257,9 @@ jQuery(document).ready(function ($) {
 				             map: map,
 				             title: 'You!'
 				         });
+
+				         // Pan to where we are now.
+				         map.setCenter(my_position);
 				         
 				         var contentString = '<div id="content">'+
 				         '<div id="siteNotice">'+
@@ -281,27 +297,9 @@ jQuery(document).ready(function ($) {
 			
 	        if(run_fetch_ajax == true){
 	        
-	        	//$.post(
 				console.log ('Firing Locator Ajax');
 				
 				run_fetch_ajax = false;
-				
-				
-				
-				
-/*		        $.post(
-		        		'/wp-admin/admin-ajax.php',
-		        		{
-		        			action: 	'user-rsvpajax-submit',
-		        			rsvp:   	rsvp,
-		        			event_id: 	event_id,
-		        			user_id:	user_id,
-		        			nonce: 		nonce
-		        		}
-		        ) */
-
-				
-				
 				
 				jQuery.ajax({
 					type: "POST",
@@ -332,6 +330,11 @@ jQuery(document).ready(function ($) {
 		
 		function update(){
 
+			if (!tracking) {
+				
+				return;
+			}
+			
 			// First, update the current position and display the marker. Sets 'my_position'.
 			show_my_position ();
 			
@@ -342,31 +345,28 @@ jQuery(document).ready(function ($) {
 				
 				run_update_ajax = false;
 				
-				// Check the setting of the 'Trace Me' flag.
-				if (1) {
-					jQuery.ajax({
-						type: "POST",
-					     url: LocatorAjax.ajaxurl,
-					     data: ({
-					    	 action : 'locationupdateajax-submit',
-					    	 event : event_id,
-					    	 user_id: user_id,
-					    	 nonce: nonce,
-					    	 position: my_position
-					     	}
-					    ),
-					     success: function(response) {
-		 	       			console.log ('Success: ' + response);
-		 	       			
-		 	       			run_updater_ajax = true;
-					     },
-					     error: function(response) {
-		  	       			console.log ('Error: ' + response);
-		  	       			
-		  	       			run_updater_ajax = true;
-		 			     }
-					});
-	        	}
+				jQuery.ajax({
+					type: "POST",
+				     url: '/wp-admin/admin-ajax.php', //LocatorAjax.ajaxurl,
+				     data: ({
+				    	 action : 'locationupdateajax-submit',
+				    	 event : event_id,
+				    	 user_id: user_id,
+				    	 nonce: nonce,
+				    	 position: my_position
+				     	}
+				    ),
+				     success: function(response) {
+	 	       			console.log ('Success: ' + response);
+	 	       			
+	 	       			run_updater_ajax = true;
+				     },
+				     error: function(response) {
+	  	       			console.log ('Error: ' + response);
+	  	       			
+	  	       			run_updater_ajax = true;
+	 			     }
+				});
 	        }
 		};
 
@@ -435,31 +435,28 @@ jQuery(document).ready(function ($) {
 	    }
 	    */
 	    
-
-
-// TODO: Remove comments.
-		
-		/*
 		
 		// Show the current user's location.
 		show_my_position ();
 		
 		// Get the initial set of positions.
-		request ();
+		// TODO: remove comment-out.
+//		request ();
 	
 		// Repeatedly fetch data on a timer.
-		setInterval (
+		// TODO: remove comment-out.
+/*		setInterval (
 				function (){
 					request ();
-				}, 10*1000); 
+				}, 10*1000); */ 
 
 		// Repeatedly update the current user's location on a timer.
 		setInterval (
 				function (){
 					update ();
-				}, 20*1000);
+				}, 5*1000);
 				
-				 */
+				 
 
 	}
 
@@ -469,15 +466,44 @@ jQuery(document).ready(function ($) {
 		
 //		console.log ('Tab shown: ' + e.target.className);
 		
+		console.log ('bimbler-locator.js: ' + e.target.className.split(" ")[0] + ' clicked.');
 		
 		if ('bimbler_mobile_locator_tab' == e.target.className.split(" ")[0]) {
 			
 			showLocatorMap (e.target);
 			
-			console.log ('Locator tab selected');
-			
 		} 
 	})
+	
+	/*
+	 * Handler for 'Track Me' toggle change.
+	 */
+	
+	
+	
+//	$('#bimbler-trackme-toggle').on('change.bs.toggle', function(e) {
+	$('#bimbler-trackme-toggle').change(function(e) {	
+//	$('#bimbler-trackme-toggle').on('ifChecked', function() {
+//	$('#bimbler-trackme-toggle').click(function(e) {
+//	$('input[id="bimbler-trackme-toggle"]').on('switchChange', function(event, state) {
+		
+		//console.log ('Track Me toggled');
+		
+		// Update the global. This will result in the position being updated
+		// on a timer - nothing more to do.
+		tracking = $(this).prop('checked');
+		
+		console.log ('Tracking: ' + tracking);
 
+		if (tracking) {
+			
+			// Show the current user's location.
+			//window.show_my_position ();
+			
+			// Update the user's current position.
+			//update ();
+		}
+	})
+	
 	
 });
