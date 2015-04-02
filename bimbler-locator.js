@@ -154,18 +154,18 @@ jQuery(document).ready(function ($) {
 					console.log ('  Using default position.');
 				}*/
 				
-				console.log ('This user ID: ' + user_id);
+				//console.log ('This user ID: ' + user_id);
 				
-				console.dir (person_markers);
+				//console.dir (person_markers);
 				
 				// Does this marker ID exist? If not, create. But only create if the user has a valid location - they've elected
 				// to be tracked.
 				// Make sure not to double-up on the current user - this will already have a marker. 
 				if (!(row.user_id in person_markers) 
-						&& (row.pos_lat && row.pos_lon)
+						&& (row.pos_lat && row.pos_lng)
 						&& (row.user_id != user_id)) {
 
-					var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lon);	
+					var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);	
 
 					console.log ('  Creating new marker for user ID ' + row.user_id);
 					console.log ('    Row: ID ' + row.id + ', Event ID ' + row.event + ', User ' + row.user_id + ', Time ' + row.pos_time + ', current user ' + user_id);
