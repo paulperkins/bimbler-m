@@ -231,6 +231,8 @@ jQuery(document).ready(function ($) {
 						if (person_markers[row.user_id]) {
 							pos = person_markers[row.user_id].getPosition();	
 						}
+
+						var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);	
 						
 						// TODO: Get the current position - don't want to update each marker unecessarily.
 						// For now, always update each marker.
