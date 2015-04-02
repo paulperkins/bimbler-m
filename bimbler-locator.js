@@ -154,6 +154,10 @@ jQuery(document).ready(function ($) {
 					console.log ('  Using default position.');
 				}*/
 				
+				console.log ('This user ID: ' + user_id);
+				
+				console.dir (person_markers);
+				
 				// Does this marker ID exist? If not, create. But only create if the user has a valid location - they've elected
 				// to be tracked.
 				// Make sure not to double-up on the current user - this will already have a marker. 
@@ -399,7 +403,7 @@ jQuery(document).ready(function ($) {
 				    	 if (response.status == 'success') {
 				    		 console.log ('Success: ' + response);
 				    	 } else {
-				    		 console.log ('Success, with error: ' + response);
+				    		 console.log ('Success, with errors: ' + response);
 				    	 }
 	 	       			
 	 	       			run_update_ajax = true;
