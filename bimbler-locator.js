@@ -6,8 +6,8 @@ jQuery(document).ready(function ($) {
 	var rwgps_id = 0;
 	var nonce = '';
 	var tracking = false;
-	var run_update_ajax = true;
-	var run_fetch_ajax = true;
+	var run_update_ajax = false;
+	var run_fetch_ajax = false;
 	var updateTimer;
 	
 	var locator_map;
@@ -117,6 +117,11 @@ jQuery(document).ready(function ($) {
 		    		  });
 		    		  ctaLayer.setMap(map);
 			}
+			
+			// Allow Ajax to run, now that we're set up properly.
+			run_update_ajax = true;
+			run_fetch_ajax = true;
+
 		}
 
 		/*
@@ -138,6 +143,11 @@ jQuery(document).ready(function ($) {
 		 */
     	// Executed on a timer - refresh the markers for each user.  
 		function update_markers (data) {
+			
+			// No RSVPs.
+			if (!data) {
+				return;
+			}
 			
 			// Iterate each object returned.
 			$.each (data,function (index, row) {
@@ -490,7 +500,7 @@ jQuery(document).ready(function ($) {
 	    
 		
 		// Show the current user's location.
-		show_my_position ();
+		//show_my_position ();
 		
 		// Get the initial set of positions.
 		// TODO: remove comment-out.
