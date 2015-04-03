@@ -180,12 +180,13 @@ jQuery(document).ready(function ($) {
 						new_pos = new google.maps.LatLng(row.lat, row.lon);	
 					} */
 			         
-			         var new_marker = new google.maps.Marker({
-			             position: new_pos,
-			             map: map,
-			             draggable: true, // TODO: Remove draggable.
-			             animation: google.maps.Animation.DROP,
-			             icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/" + marker_colour + ".png")
+					var new_marker = new google.maps.Marker({
+						position: new_pos,
+						map: map,
+						draggable: true, // TODO: Remove draggable.
+						animation: google.maps.Animation.DROP,
+						icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/" + marker_colour + ".png"),
+						size: new google.maps.Size(42,68)
 			             //title: 'Person - X: ' + position.coords.longitude + ', Y: ' +  position.coords.latitude
 			             //title: 'Click Me ' + i
 			         });
