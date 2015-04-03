@@ -72,8 +72,8 @@ jQuery(document).ready(function ($) {
 		    
 		    locator_map = map;
 	         
-	/*	    // Add the start point to the map.
-	         var marker = new google.maps.Marker({
+		    // Add the start point to the map.
+/*	         var marker = new google.maps.Marker({
 	             position: initialLocation,
 	             draggable: true,
 	             animation: google.maps.Animation.DROP,
@@ -170,7 +170,7 @@ jQuery(document).ready(function ($) {
 					var new_marker = new google.maps.Marker({
 						position: new_pos,
 						map: map,
-						draggable: true, // TODO: Remove draggable.
+						//draggable: true, // TODO: Remove draggable.
 						animation: google.maps.Animation.DROP,
 						icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/" + marker_colour + ".png"),
 						size: new google.maps.Size(42,68)
@@ -202,8 +202,7 @@ jQuery(document).ready(function ($) {
 				     // Set the icon for the marker. This runs as an Ajax call.
 				     //get_avatar (new_marker, row.user_id);
 			         
-					// initialLocation
-				} else {
+				} else { // Not a new record - update/delete existing markers.
 					
 					// Only update other users' positions.
 					if (row.user_id != user_id) {
@@ -222,9 +221,8 @@ jQuery(document).ready(function ($) {
 						
 						// Update the marker if we need to.
 						if (pos && 
-								(pos.lat() != new_pos.lat()) &&
-								(pos.lng() != new_pos.lng())
-								) {
+							(pos.lat() != new_pos.lat()) &&
+							(pos.lng() != new_pos.lng())) {
 
 							// User has deselected tracking - delete marker.
 							if ((row.pos_lat == 0) && (row.pos_lng == 0)) {
@@ -232,14 +230,12 @@ jQuery(document).ready(function ($) {
 								console.log ('User ' + row.user_id + ' is no longer tracking - deleting marker.');
 								
 								person_markers[row.user_id].setMap(null);
-								//person_markers[row.user_id] = null;
+
 								delete person_markers[row.user_id];
 								
 							} else {
 								
-								console.log ('  Updating marker for user ID ' + row.user_id);
-		
-								console.log ('  Position: ' + new_pos);
+								console.log ('  Updating marker for user ID ' + row.user_id + ' -> ' + new_pos);
 		
 								person_markers[row.user_id].setPosition (new_pos);
 							}
@@ -247,10 +243,6 @@ jQuery(document).ready(function ($) {
 					}
 				}
 			});
-			
-			//console.log ('  Current person_markers array: ' + person_markers);
-			
-			//console.log ('=========================================================');
 		}
 		
 
@@ -462,8 +454,6 @@ jQuery(document).ready(function ($) {
 			     success: function(response) {
  	       			//console.log ('Success: ' + response);
  	       			
- 	       			//marker.setIcon (response);
- 	       			
  	       			var icon = ({//new google.maps.Icon ({
  	       				url: response,
  	       				size: new google.maps.Size (20, 20)
@@ -477,12 +467,6 @@ jQuery(document).ready(function ($) {
 			});
 		};
 		
-		// Show the current user's location.
-		//show_my_position ();
-		
-		// Get the initial set of positions.
-		// TODO: remove comment-out.
-//		request ();
 	
 		// Repeatedly fetch data on a timer.
 		setInterval (
