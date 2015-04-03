@@ -232,7 +232,8 @@ jQuery(document).ready(function ($) {
 								console.log ('User ' + row.user_id + ' is no longer tracking - deleting marker.');
 								
 								person_markers[row.user_id].setMap(null);
-								person_markers[row.user_id] = null;
+								//person_markers[row.user_id] = null;
+								delete person_markers[row.user_id];
 								
 							} else {
 								
