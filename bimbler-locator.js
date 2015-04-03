@@ -503,14 +503,12 @@ jQuery(document).ready(function ($) {
 		// Update the global.
 		tracking = $(this).prop('checked');
 		
-		//console.log ('Tracking: ' + tracking);
-
 		// Tracking turned on. 
 		if (tracking) {
-			//console.log ('Turning on tracking...');
-
 			// Global updated. This will result in the position being updated
 			// on a timer - nothing more to do.
+
+			//console.log ('Turning on tracking...');
 
 			// TODO: See if this is really necessary.
 			// Show the current user's location.

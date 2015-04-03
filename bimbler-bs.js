@@ -404,6 +404,21 @@ jQuery(document).ready(function ($) {
 		window.location = $(this).attr("href");
 	}); */
 
+	
+	$(".bimbler-spinner-source").click(function (e) {
+	
+		console.log ('Clicked link');
+		
+		var target = $(this).find (".bimbler-spinner-target");
+		//var target = e.find (".bimbler-spinner-target");
+		
+		console.dir (target[0]);
+		
+		var spinner = new Spinner().spin(target[0]);
+		
+	}); 
+
+	
 	window.toastrMsg = function (type, title, msg) {
 		
 		var opts = {

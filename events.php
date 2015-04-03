@@ -1931,7 +1931,8 @@
 					}
 				}
 		
-				$content .= '		<a class="list-group-item" href="event.php?event=' . $post->ID . '"  title="' . $post->post_title . '">' . PHP_EOL;
+				//$content .= '		<a class="list-group-item bimbler-spinner-source" href="event.php?event=' . $post->ID . '"  title="' . $post->post_title . '">' . PHP_EOL;
+				$content .= '		<a class="list-group-item bimbler-spinner-source" href="#"  title="' . $post->post_title . '">' . PHP_EOL;
 				$content .= '			<span class="badge pp-valign-centre">' . $num_rsvps . '</span>' . PHP_EOL;
 
 				// For the first upcoming event display a full-width map.
@@ -1940,26 +1941,28 @@
 				$addr = get_venue_address($post->ID);
 				
 				if ($first && (!empty ($addr))) {
+					$content .= ' 				<div class="row">' . PHP_EOL;
+
+					$content .= '					<div class="col-xs-8">' . PHP_EOL;
+						
+					
 					$content .= '				<h4 style="text-overflow: none!important;">' . $post->post_title . '</h4>' . PHP_EOL;
 					$content .= '				<p><strong>' . date ($time_str, strtotime($event_date)) . '</strong></p>' . PHP_EOL;
 					$content .= '				<p style="white-space: normal!important; text-overflow: initial!important; overflow: auto!important;">' . $excerpt . '</p>' . PHP_EOL;
 				
+					$content .= '				</div>' . PHP_EOL;
+					
 					//$content .= '						<div class="rsvp-checkin-indicator-noajax">' . PHP_EOL;
-				
+
+					$content .= '					<div class="col-xs-2 bimbler-spinner-target" style="top: 25px;">' . PHP_EOL;
+					$content .= '					</div>' . PHP_EOL;
+					
+					$content .= '				</div>' . PHP_EOL;
+						
 					$content .= '				<div class="tribe-events-venue-map">' . PHP_EOL;
 					$content .= tribe_get_embedded_map ($post->ID, '100%', '150px', true) . PHP_EOL;
 					$content .= '				</div>' . PHP_EOL;
-					
-					/*if (!isset ($rsvpd)) {
-						$content .= '						<div class="rsvp-checkin-indicator-none"><i class="fa-question-circle"></i></div>' . PHP_EOL;
-					} else if ('Y' == $rsvpd) {
-						$content .= '						<div class="rsvp-checkin-indicator-yes"><i class="fa-check-circle"></i></div>' . PHP_EOL;
-					}
-					else {
-						$content .= '						<div class="rsvp-checkin-indicator-no"><i class="fa-times-circle"></i></div>' . PHP_EOL;
-					} */
-						
-					//$content .= '						</div> <!-- /rsvp-checkin-indicator-noajax -->' . PHP_EOL;
+
 						
 				}
 				else {				
@@ -1971,8 +1974,6 @@
 					
 					$content .= '						<div class="rsvp-checkin-indicator-noajax">' . PHP_EOL;
 					
-					//$content .= '						<img class="list-group-item-text" src="http://assets2.ridewithgps.com/routes/' . $rwgps_id . '/thumb.png" style="width: 80px;">' . PHP_EOL;
-//					$content .= '						<img class="list-group-item-text" src="http://assets2.ridewithgps.com/routes/' . $rwgps_id . '/thumb.png" style="width: 80px;">' . PHP_EOL;
 					$content .= '						<div class="avatar-clipped" style="background-image: url(\'http://assets2.ridewithgps.com/routes/' . $rwgps_id . '/thumb.png\');"></div>' . PHP_EOL;
 					
 					if (!isset ($rsvpd)) {
@@ -1993,6 +1994,9 @@
 					//$content .= '						' . $post->post_title . '' . PHP_EOL;
 					//$content .= '						<p class="xui-li-aside" style="text-align: right"><strong>' . date ($time_str, strtotime($event_date)) . '</strong></p>' . PHP_EOL;
 					$content .= '						<p xclass="pull-right xui-li-aside" xstyle="text-align: right"><strong>' . date ($time_str, strtotime($event_date)) . '</strong></p>' . PHP_EOL;
+					$content .= '					</div>' . PHP_EOL;
+					
+					$content .= '					<div class="col-xs-2 bimbler-spinner-target">' . PHP_EOL;
 					$content .= '					</div>' . PHP_EOL;
 					
 					$content .= '				</div> <!-- /row -->' . PHP_EOL;
