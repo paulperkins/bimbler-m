@@ -1974,7 +1974,7 @@
 					
 					$content .= '						<div class="rsvp-checkin-indicator-noajax">' . PHP_EOL;
 					
-					$content .= '						<div class="avatar-clipped" style="background-image: url(\'http://assets2.ridewithgps.com/routes/' . $rwgps_id . '/thumb.png\');"></div>' . PHP_EOL;
+					$content .= '						<div class="avatar-clipped bimbler-spinner-target" style="background-image: url(\'http://assets2.ridewithgps.com/routes/' . $rwgps_id . '/thumb.png\');"></div>' . PHP_EOL;
 					
 					if (!isset ($rsvpd)) {
 						$content .= '						<div class="rsvp-checkin-indicator-none"><i class="fa-question-circle"></i></div>' . PHP_EOL;
@@ -1996,7 +1996,7 @@
 					$content .= '						<p xclass="pull-right xui-li-aside" xstyle="text-align: right"><strong>' . date ($time_str, strtotime($event_date)) . '</strong></p>' . PHP_EOL;
 					$content .= '					</div>' . PHP_EOL;
 					
-					$content .= '					<div class="col-xs-2 bimbler-spinner-target">' . PHP_EOL;
+					$content .= '					<div class="col-xs-2 xbimbler-spinner-target">' . PHP_EOL;
 					$content .= '					</div>' . PHP_EOL;
 					
 					$content .= '				</div> <!-- /row -->' . PHP_EOL;
