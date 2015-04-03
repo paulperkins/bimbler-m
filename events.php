@@ -885,20 +885,23 @@
 				
 			$content .= '		<div class="panel-body">' . PHP_EOL;
 			
-				$content .= '<strong>Coming soon...</strong>' . PHP_EOL;
+			$content .= '<strong>Coming soon...</strong>' . PHP_EOL;
+			
+			$this_rsvp = Bimbler_RSVP::get_instance()->get_current_rsvp ($event_id);
+			
+			// Only show to admin users, or to those who have RSVPd 'Yes' to this event.
+			if (current_user_can( 'manage_options' ) ||
+					(isset ($this_rsvp) && ('Y' == $this_rsvp))) {
+			
+				$content .= bimbler_mobile_render_locator_canvas ($event_id, $rwgps_id);	
 
-/*				$content .= '<br><br>' . PHP_EOL;
+			} else {
 				
-				$content .= '<div align="center">' . PHP_EOL;
-				$content .= '<i class="fa fa-compass fa-3x fa-spin"></i>';
-				$content .= '</div>' . PHP_EOL; */
+				$content .= '<div class="bimbler-alert-box notice"><span>Notice: </span>You must RSVP for this event to see this page.</div>';
 				
-				
-				$content .= bimbler_mobile_render_locator_canvas ($event_id, $rwgps_id);
-				
+			}
 			
 			$content .= '		</div>' . PHP_EOL;
-			
 			$content .= '	</div>' . PHP_EOL;
 				
 	
