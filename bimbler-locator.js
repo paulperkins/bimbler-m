@@ -221,7 +221,10 @@ jQuery(document).ready(function ($) {
 						var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);	
 						
 						// Update the marker if we need to.
-						if (pos && (pos != new_pos)) {
+						if (pos && 
+								(pos.lat() != new_pos.lat())
+								(pos.lng() != new_pos.lng())
+								) {
 
 							// User has deselected tracking - delete marker.
 							if ((row.pos_lat == 0) && (row.pos_lng == 0)) {
@@ -230,6 +233,7 @@ jQuery(document).ready(function ($) {
 								
 								person_markers[row.user_id].setMap(null);
 								person_markers[row.user_id] = null;
+								
 							} else {
 								
 								console.log ('  Updating marker for user ID ' + row.user_id);
