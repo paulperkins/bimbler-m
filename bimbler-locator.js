@@ -425,15 +425,15 @@ jQuery(document).ready(function ($) {
 			    ),
 			     success: function(response) {
 			    	 if (response.status == 'success') {
-			    		 console.log ('Success: ' + response);
+			    		 console.log ('Null update success: ' + response);
 			    	 } else {
-			    		 console.log ('Success, with errors: ' + response);
+			    		 console.log ('Null update success, with errors: ' + response);
 			    	 }
  	       			
  	       			run_update_ajax = true;
 			     },
 			     error: function(response) {
-  	       			console.log ('Error: ' + response);
+  	       			console.log ('Null Update Error: ' + response);
   	       			
   	       			run_update_ajax = true;
  			     }
@@ -527,7 +527,7 @@ jQuery(document).ready(function ($) {
 			
 		} else { // Tracking turned off.
 
-			//console.log ('Turning off tracking...');
+			console.log ('Turning off tracking...');
 			
 			// Delete our marker.
 			if (me_marker) {
