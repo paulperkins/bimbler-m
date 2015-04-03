@@ -153,20 +153,6 @@ jQuery(document).ready(function ($) {
 			$.each (data,function (index, row) {
 				
 				console.dir (row);
-
-				// Start off with the default location.
-//				new_pos = initialLocation;
-
-//				if (row.lat && row.lon) {
-//					new_pos = new google.maps.LatLng(row.lat, row.lon);	
-//				} 
-				/*else {
-					console.log ('  Using default position.');
-				}*/
-				
-				//console.log ('This user ID: ' + user_id);
-				
-				//console.dir (person_markers);
 				
 				// Does this marker ID exist? If not, create. But only create if the user has a valid location - they've elected
 				// to be tracked.
@@ -248,12 +234,22 @@ jQuery(document).ready(function ($) {
 						// TODO: Get the current position - don't want to update each marker unecessarily.
 						// For now, always update each marker.
 						if (pos && (pos != new_pos)) {
-							
-							console.log ('  Updating marker for user ID ' + row.user_id);
-	
-							console.log ('  Position: ' + new_pos);
-	
-							person_markers[row.user_id].setPosition (new_pos);
+
+							// User has deselected tracking - delete marker.
+							if ((row.pos_lat == 0) && (row.pos_lng == 0)) {
+								
+								console.log ('User ' + row.user_id + ' is no longer tracking - deleting marker.');
+								
+								person_markers[row.user_id].setMap(null);
+								person_markers[row.user_id] = null;
+							} else {
+								
+								console.log ('  Updating marker for user ID ' + row.user_id);
+		
+								console.log ('  Position: ' + new_pos);
+		
+								person_markers[row.user_id].setPosition (new_pos);
+							}
 						}
 					}
 				}
@@ -434,6 +430,40 @@ jQuery(document).ready(function ($) {
 		};
 
 		
+		window.update_null_location = function () {
+			
+			console.log ('Updating user with null location - turn off tracking.');
+			
+			jQuery.ajax({
+				type: "POST",
+			     url: '/wp-admin/admin-ajax.php', //LocatorAjax.ajaxurl,
+			     data: ({
+			    	 action : 	'locationupdateajax-submit',
+			    	 event : 	event_id,
+			    	 user_id: 	user_id,
+			    	 nonce: 	nonce,
+			    	 pos_lat: 	0,
+			    	 pos_lng: 	0
+			     	}
+			    ),
+			     success: function(response) {
+			    	 if (response.status == 'success') {
+			    		 console.log ('Success: ' + response);
+			    	 } else {
+			    		 console.log ('Success, with errors: ' + response);
+			    	 }
+ 	       			
+ 	       			run_update_ajax = true;
+			     },
+			     error: function(response) {
+  	       			console.log ('Error: ' + response);
+  	       			
+  	       			run_update_ajax = true;
+ 			     }
+			});
+			
+		}
+		
 		function get_avatar(marker, user_id){
 
 			console.log ('Firing Avatar Ajax');
@@ -571,6 +601,9 @@ jQuery(document).ready(function ($) {
 				$("#bimbler-locator-indicator").html('');
 
 			}
+			
+			// Set the stored coords to (0,0).
+			update_null_location();
 		}
 	})
 	
