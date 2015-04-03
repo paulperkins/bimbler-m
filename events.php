@@ -1931,8 +1931,8 @@
 					}
 				}
 		
-				//$content .= '		<a class="list-group-item bimbler-spinner-source" href="event.php?event=' . $post->ID . '"  title="' . $post->post_title . '">' . PHP_EOL;
-				$content .= '		<a class="list-group-item bimbler-spinner-source" href="#"  title="' . $post->post_title . '">' . PHP_EOL;
+				$content .= '		<a class="list-group-item bimbler-spinner-source" href="event.php?event=' . $post->ID . '"  title="' . $post->post_title . '">' . PHP_EOL;
+				//$content .= '		<a class="list-group-item bimbler-spinner-source" href="#"  title="' . $post->post_title . '">' . PHP_EOL;
 				$content .= '			<span class="badge pp-valign-centre">' . $num_rsvps . '</span>' . PHP_EOL;
 
 				// For the first upcoming event display a full-width map.
