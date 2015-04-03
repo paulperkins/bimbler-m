@@ -357,7 +357,7 @@ jQuery(document).ready(function ($) {
 			}
 			
 			//var wait = '<i class="fa fa-spinner fa-spin"></i>';
-			var wait = '<i class="fa fa-signal"></i>';
+			var wait = '<i class="fa fa-signal text-success"></i>';
 			
 			var indicator = $("#bimbler-locator-indicator");
 			
