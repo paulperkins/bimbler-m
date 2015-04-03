@@ -137,7 +137,15 @@
 <body> 
  
 	<!-- Index page. -->
-	<div id="home" data-role="page" data-theme="a" class="jqm-demos jqm-home"> 
+	<div id="bimbler-spinner-target" data-role="page" data-theme="a" class="jqm-demos jqm-home"> 
+	
+<script type="text/javascript">
+
+		var target = document.getElementById("bimbler-spinner-target");
+		
+		window.spinner = new Spinner().spin(target);
+	    
+</script>
 	
 		<div> 
   		<nav class="navbar navbar-default navbar-fixed-top">
