@@ -98,11 +98,6 @@
 		})(document,window.navigator,'standalone');
 </script>
 		
-<script type="text/javascript">
-		
-	    window.spinner = new Spinner().spin();
-		
-</script>
 
        
        <style type="text/css">
@@ -123,7 +118,16 @@ body {
 ?>
 
 	<!-- Index page. -->
-	<div id="home" data-role="page" data-theme="a" class="jqm-demos jqm-home"> 
+	<div id="bimbler-spinner-target" data-role="page" data-theme="a" class="jqm-demos jqm-home "> 
+
+<script type="text/javascript">
+
+		var target = document.getElementById("bimbler-spinner-target");
+		
+		window.spinner = new Spinner().spin(target);
+	    
+</script>
+	
 	
   		<div> 
   		<nav class="navbar navbar-default navbar-fixed-top">
@@ -151,7 +155,7 @@ body {
 		</div> 
 
 		<!-- Content.  -->
-		<div data-role="content" id="spinner-target">      
+		<div data-role="content" id="xspinner-target">      
 				<div class="list-group" xdata-inset="false" xdata-dividertheme="b" xdata-count-theme="b"> 
 <?php 
 

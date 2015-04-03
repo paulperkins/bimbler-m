@@ -404,15 +404,13 @@ jQuery(document).ready(function ($) {
 		window.location = $(this).attr("href");
 	}); */
 
-	
+
+	/*
+	 * Handler to display spinner when event page links clicked.
+	 */
 	$(".bimbler-spinner-source").click(function (e) {
 	
-		console.log ('Clicked link');
-		
 		var target = $(this).find (".bimbler-spinner-target");
-		//var target = e.find (".bimbler-spinner-target");
-		
-		console.dir (target[0]);
 		
 		var spinner = new Spinner().spin(target[0]);
 		
@@ -458,7 +456,11 @@ jQuery(document).ready(function ($) {
 	if (el = document.getElementById ('bimbler-empty-comment')) {
 		el.style.display = 'none';
 	}
-	
+
+
+	// Turn off the spinner.
+    window.spinner.stop();
+
 });
 
 /*jQuery(document).on('click', 'a', function (e) {
@@ -511,6 +513,6 @@ jQuery(document).on('pageshow', '[data-role="page"]', function(){
 		clearInterval(interval);
 	},2000);
     
-    //window.spinner.stop();
+    window.spinner.stop();
 });
 
