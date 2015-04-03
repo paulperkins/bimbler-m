@@ -500,8 +500,7 @@ jQuery(document).ready(function ($) {
 	 */
 	$('#bimbler-trackme-toggle').change(function(e) {	
 		
-		// Update the global. This will result in the position being updated
-		// on a timer - nothing more to do.
+		// Update the global.
 		tracking = $(this).prop('checked');
 		
 		//console.log ('Tracking: ' + tracking);
@@ -509,7 +508,10 @@ jQuery(document).ready(function ($) {
 		// Tracking turned on. 
 		if (tracking) {
 			//console.log ('Turning on tracking...');
-			
+
+			// Global updated. This will result in the position being updated
+			// on a timer - nothing more to do.
+
 			// TODO: See if this is really necessary.
 			// Show the current user's location.
 			update ();
