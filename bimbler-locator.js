@@ -71,8 +71,6 @@ jQuery(document).ready(function ($) {
 		    var map = new google.maps.Map(canvas, options);
 		    
 		    locator_map = map;
-	
-		    //console.dir (map);
 	         
 	/*	    // Add the start point to the map.
 	         var marker = new google.maps.Marker({
@@ -168,13 +166,6 @@ jQuery(document).ready(function ($) {
 					
 					// Rotate through the marker colours.
 					marker_colour = marker_colours[(marker_count++) % marker_colours.length];
-					
-/*					if (!row.lat || !row.lon) {
-						console.log ('Using default position.');
-						new_pos = initialLocation;
-					} else {
-						new_pos = new google.maps.LatLng(row.lat, row.lon);	
-					} */
 			         
 					var new_marker = new google.maps.Marker({
 						position: new_pos,
@@ -183,8 +174,6 @@ jQuery(document).ready(function ($) {
 						animation: google.maps.Animation.DROP,
 						icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/" + marker_colour + ".png"),
 						size: new google.maps.Size(42,68)
-			             //title: 'Person - X: ' + position.coords.longitude + ', Y: ' +  position.coords.latitude
-			             //title: 'Click Me ' + i
 			         });
 
 			         // Add the marker.
@@ -231,8 +220,7 @@ jQuery(document).ready(function ($) {
 
 						var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);	
 						
-						// TODO: Get the current position - don't want to update each marker unecessarily.
-						// For now, always update each marker.
+						// Update the marker if we need to.
 						if (pos && (pos != new_pos)) {
 
 							// User has deselected tracking - delete marker.
@@ -253,8 +241,6 @@ jQuery(document).ready(function ($) {
 						}
 					}
 				}
-				
-				
 			});
 			
 			//console.log ('  Current person_markers array: ' + person_markers);
@@ -316,19 +302,12 @@ jQuery(document).ready(function ($) {
 			    		 
 			    		 me_marker.setPosition (my_position);
 			    	 }
-
 			     });
 			}
-
-			
 		}
-		
 		
 		function request(){
 			
-			// TODO: REMOVE return statement.
-			//return;
-
 			// Prevent parallel Ajax calls.
 			if (!run_fetch_ajax) {
 				console.log ('Request Ajax already in progress.');
@@ -362,8 +341,6 @@ jQuery(document).ready(function ($) {
 			});
 		};
 
-		
-//		function update(){
 		window.update = function () {
 
 			//console.log ('Update: tick.');
@@ -399,7 +376,7 @@ jQuery(document).ready(function ($) {
 				
 				jQuery.ajax({
 					type: "POST",
-				     url: '/wp-admin/admin-ajax.php', //LocatorAjax.ajaxurl,
+				     url: '/wp-admin/admin-ajax.php', 
 				     data: ({
 				    	 action : 	'locationupdateajax-submit',
 				    	 event : 	event_id,
@@ -436,7 +413,7 @@ jQuery(document).ready(function ($) {
 			
 			jQuery.ajax({
 				type: "POST",
-			     url: '/wp-admin/admin-ajax.php', //LocatorAjax.ajaxurl,
+			     url: '/wp-admin/admin-ajax.php',
 			     data: ({
 			    	 action : 	'locationupdateajax-submit',
 			    	 event : 	event_id,
@@ -470,7 +447,7 @@ jQuery(document).ready(function ($) {
 			
 			jQuery.ajax({
 				type: "POST",
-			     url: '/wp-admin/admin-ajax.php', //AvatarAjax.ajaxurl,
+			     url: '/wp-admin/admin-ajax.php',
 			     data: ({
 			    	 action : 'avatarajax-submit',
 			    	 user_id: user_id,
@@ -494,40 +471,6 @@ jQuery(document).ready(function ($) {
  			     }
 			});
 		};
-		
-		
-	    /*
-	    window.showLocatorMap = function (target) {
-	    	
-			var event_id = target.getAttribute ('data-event-id');
-			
-			var gmap_id = 'bimbler_mobile_locator_map_canvas';
-			
-			//var gmap = document.getElementById(gmap_id);
-			var gmap = $('#' + gmap_id)[0];
-			
-			if (gmap) {
-			
-				var venue_address = decodeURIComponent(gmap.getAttribute('data-venue-address'));
-				
-				// Create the map if it doesn't already exist.
-				if (!locator_maps[event_id]) {
-					
-					renderVenueMap('"' + venue_address + '"', gmap_id, event_id);
-					
-				}
-			}
-
-			// Resize and re-centre the map.
-			if (locator_maps[event_id]) {
-
-				google.maps.event.trigger(locator_maps[event_id], 'resize');
-				
-				centreLocatorMap (locator_maps[event_id], locator_markers[event_id]);
-			}
-	    }
-	    */
-	    
 		
 		// Show the current user's location.
 		//show_my_position ();
@@ -566,9 +509,6 @@ jQuery(document).ready(function ($) {
 	/*
 	 * Handler for 'Track Me' toggle change.
 	 */
-	
-	
-	
 	$('#bimbler-trackme-toggle').change(function(e) {	
 		
 		// Update the global. This will result in the position being updated
@@ -579,31 +519,29 @@ jQuery(document).ready(function ($) {
 
 		// Tracking turned on. 
 		if (tracking) {
-			console.log ('Turning on tracking...');
+			//console.log ('Turning on tracking...');
 			
+			// TODO: See if this is really necessary.
 			// Show the current user's location.
 			update ();
 			
 		} else { // Tracking turned off.
 
-			console.log ('Turning off tracking...');
+			//console.log ('Turning off tracking...');
 			
-			// Update the user's location with null.
-			// TODO: call update Ajax with null coords.
-
+			// Delete our marker.
 			if (me_marker) {
 				
 				me_marker.setMap(null);
 				me_marker = null;
 				my_position = null;
-
-				// Remove the animation.
-				$("#bimbler-locator-indicator").html('');
-
 			}
 			
 			// Set the stored coords to (0,0).
 			update_null_location();
+			
+			// Remove the animation.
+			$("#bimbler-locator-indicator").html('');
 		}
 	})
 	
