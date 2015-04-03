@@ -356,7 +356,8 @@ jQuery(document).ready(function ($) {
 		};
 
 		
-		function update(){
+//		function update(){
+		window.update = function () {
 
 			//console.log ('Update: tick.');
 			
@@ -540,10 +541,8 @@ jQuery(document).ready(function ($) {
 			console.log ('Turning on tracking...');
 			
 			// Show the current user's location.
-			//window.show_my_position ();
+			update ();
 			
-			// Update the user's current position.
-			//update ();
 		} else { // Tracking turned off.
 
 			console.log ('Turning off tracking...');
