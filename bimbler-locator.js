@@ -156,6 +156,7 @@ jQuery(document).ready(function ($) {
 				// to be tracked.
 				// Make sure not to double-up on the current user - this will already have a marker. 
 				if (!(row.user_id in person_markers) 
+						&& (row.pos_lat && row.pos_lng)
 						&& ((row.pos_lat != 0) && (row.pos_lng != 0))
 						&& (row.user_id != user_id)) {
 
@@ -217,10 +218,13 @@ jQuery(document).ready(function ($) {
 							pos = person_markers[row.user_id].getPosition();	
 						}
 
-						var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);	
+						var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);
+						
+						//console.dir (new_pos);
 						
 						// Update the marker if we need to.
-						if (pos && 
+						if (pos &&
+							(new_pos.lat && new_pos.lng) &&
 							(pos.lat() != new_pos.lat()) &&
 							(pos.lng() != new_pos.lng())) {
 
@@ -308,6 +312,11 @@ jQuery(document).ready(function ($) {
 			// Prevent parallel Ajax calls.
 			if (!run_fetch_ajax) {
 				console.log ('Request Ajax already in progress.');
+				
+				var wait = '<i class="fa fa-signal text-danger"></i>';
+				
+				$("#bimbler-locator-indicator").html (wait);
+
 				return;
 			}
         
@@ -347,7 +356,8 @@ jQuery(document).ready(function ($) {
 				return;
 			}
 			
-			var wait = '<i class="fa fa-spinner fa-spin"></i>';
+			//var wait = '<i class="fa fa-spinner fa-spin"></i>';
+			var wait = '<i class="fa fa-signal"></i>';
 			
 			var indicator = $("#bimbler-locator-indicator");
 			
@@ -360,6 +370,11 @@ jQuery(document).ready(function ($) {
 			// Prevent parallel Ajax calls.
 			if (!run_update_ajax) {
 				console.log ('Update Ajax already in progress.');
+				
+				var wait = '<i class="fa fa-signal text-danger"></i>';
+				
+				$("#bimbler-locator-indicator").html (wait);
+
 				return;
 			}
 	        
@@ -388,12 +403,20 @@ jQuery(document).ready(function ($) {
 				    		 console.log ('Success: ' + response);
 				    	 } else {
 				    		 console.log ('Success, with errors: ' + response);
+
+				    		var wait = '<i class="fa fa-signal text-danger"></i>';
+								
+							$("#bimbler-locator-indicator").html (wait);
 				    	 }
 	 	       			
 	 	       			run_update_ajax = true;
 				     },
 				     error: function(response) {
 	  	       			console.log ('Error: ' + response);
+
+	  	       			var wait = '<i class="fa fa-signal text-danger"></i>';
+						
+						$("#bimbler-locator-indicator").html (wait);
 	  	       			
 	  	       			run_update_ajax = true;
 	 			     }
@@ -425,12 +448,21 @@ jQuery(document).ready(function ($) {
 			    		 console.log ('Null update success: ' + response);
 			    	 } else {
 			    		 console.log ('Null update success, with errors: ' + response);
+			    		 
+			    		var wait = '<i class="fa fa-signal text-danger"></i>';
+						
+						$("#bimbler-locator-indicator").html (wait);
+
 			    	 }
  	       			
  	       			run_update_ajax = true;
 			     },
 			     error: function(response) {
   	       			console.log ('Null Update Error: ' + response);
+
+  	       			var wait = '<i class="fa fa-signal text-danger"></i>';
+					
+					$("#bimbler-locator-indicator").html (wait);
   	       			
   	       			run_update_ajax = true;
  			     }
