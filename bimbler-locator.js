@@ -222,7 +222,7 @@ jQuery(document).ready(function ($) {
 						
 						// Update the marker if we need to.
 						if (pos && 
-								(pos.lat() != new_pos.lat())
+								(pos.lat() != new_pos.lat()) &&
 								(pos.lng() != new_pos.lng())
 								) {
 
