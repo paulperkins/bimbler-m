@@ -156,7 +156,7 @@ jQuery(document).ready(function ($) {
 				// to be tracked.
 				// Make sure not to double-up on the current user - this will already have a marker. 
 				if (!(row.user_id in person_markers) 
-						&& (row.pos_lat && row.pos_lng)
+						&& ((row.pos_lat != 0) && (row.pos_lng != 0))
 						&& (row.user_id != user_id)) {
 
 					var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);	
