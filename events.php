@@ -890,14 +890,19 @@
 			$this_rsvp = Bimbler_RSVP::get_instance()->get_current_rsvp ($event_id);
 			
 			// Only show to admin users, or to those who have RSVPd 'Yes' to this event.
-			if (current_user_can( 'manage_options' ) ||
-					(isset ($this_rsvp) && ('Y' == $this_rsvp))) {
-			
-				$content .= bimbler_mobile_render_locator_canvas ($event_id, $rwgps_id);	
-
-			} else {
-				
+			if (!current_user_can( 'manage_options' ) &&
+					(!isset ($this_rsvp) || ('Y' != $this_rsvp))) {
+						
 				$content .= '<div class="bimbler-alert-box notice"><span>Notice: </span>You must RSVP for this event to see this page.</div>';
+
+			} elseif (!current_user_can( 'manage_options' ) && // Don't show if not in-progress.
+					(!Bimbler_RSVP::get_instance()->is_event_in_progress($event_id))) {
+				 
+				$content .= '<div class="bimbler-alert-box notice"><span>Notice: </span>The event will not be starting soon, or finished a while ago.</div>';
+				
+			} else { // All good - render the locator.
+				
+				$content .= bimbler_mobile_render_locator_canvas ($event_id, $rwgps_id);
 				
 			}
 			
