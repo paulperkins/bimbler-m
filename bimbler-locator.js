@@ -170,9 +170,18 @@ jQuery(document).ready(function ($) {
 					
 					// Rotate through the marker colours.
 					marker_colour = marker_colours[(marker_count++) % marker_colours.length];
+					
+		    		 var icon = {
+			        		 path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+			        		 fillColor: marker_colour,
+			        		 fillOpacity: 0.8,
+			        		 strokeWeight: 1,
+			        		 scale: 5
+			        	 };
 			         
 					var new_marker = new google.maps.Marker({
 						position: new_pos,
+						icon: icon,
 						map: map,
 						//draggable: true, // TODO: Remove draggable.
 						animation: google.maps.Animation.DROP,
