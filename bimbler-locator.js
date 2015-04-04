@@ -307,7 +307,7 @@ jQuery(document).ready(function ($) {
 			        		 fillColor: 'red',
 			        		 fillOpacity: 0.8,
 			        		 strokeWeight: 1,
-			        		 //rotation: my_heading,
+			        		 rotation: my_heading,
 			        		 scale: 5
 			        	 };
 
@@ -351,7 +351,11 @@ jQuery(document).ready(function ($) {
 			    		 
 			    		 me_marker.setIcon (this_icon);
 			    		 
-			    		 $("#bimbler-debug-output").html ('Pos: (' + position.coords.latitude.toString().substring (0,10) + ', ' + position.coords.longitude.toString().substring (0,10) + '), hdg: ' + my_heading + ', spd: ' + my_speed);
+			    		 //$("#bimbler-debug-output").html ('Pos: (' + position.coords.latitude.toString().substring (0,10) + ', ' + position.coords.longitude.toString().substring (0,10) + '), hdg: ' + my_heading + ', spd: ' + my_speed);
+			    		 $("#bimbler-debug-output").html ('Pos: (' + position.coords.latitude.toFixed(6) + 
+			    				 							', ' + position.coords.longitude.toFixed(6) + 
+			    				 							'), Hdg: ' + my_heading.toFixed(0) + 
+			    				 							', Spd: ' + my_speed.toFixed(1));
 			    	 }
 			     });
 			}

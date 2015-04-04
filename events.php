@@ -885,7 +885,7 @@
 				
 			$content .= '		<div class="panel-body">' . PHP_EOL;
 			
-			$content .= '<strong>Work in progress...</strong>' . PHP_EOL;
+			//$content .= '<strong>Work in progress...</strong>' . PHP_EOL;
 			
 			$this_rsvp = Bimbler_RSVP::get_instance()->get_current_rsvp ($event_id);
 			
