@@ -42,6 +42,7 @@ jQuery(document).ready(function ($) {
 	var my_position = brisbane;
 	var my_speed = 0;
 	var my_heading = 0;
+	var my_timestamp = 0;
 	
 	window.showLocatorMap = function (e) {
 	
@@ -278,6 +279,7 @@ jQuery(document).ready(function ($) {
 			    	 my_position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 			    	 my_speed = position.coords.speed / 3600 / 1000; // m/s -> km/hr
 			    	 my_heading = position.coords.heading + 0;
+			    	 my_timestamp = position.timestamp;
 
 			    	 //console.log (my_position.toString());
 
@@ -426,7 +428,8 @@ jQuery(document).ready(function ($) {
 				    	 pos_lat: 	my_position.lat(),
 				    	 pos_lng: 	my_position.lng(),
 				    	 pos_spd: 	my_speed,
-				    	 pos_hdg: 	my_heading
+				    	 pos_hdg: 	my_heading,
+				    	 pos_time:	my_timestamp
 				     	}
 				    ),
 				     success: function(response) {
