@@ -903,6 +903,7 @@
 			
 			$content .= '		</div>' . PHP_EOL;
 			$content .= '	</div>' . PHP_EOL;
+			$content .= '<span id="bimbler-debug-output"></span>' . PHP_EOL;
 				
 	
 		} else {

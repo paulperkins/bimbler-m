@@ -291,7 +291,8 @@ jQuery(document).ready(function ($) {
 			        		 fillColor: 'red',
 			        		 fillOpacity: 0.8,
 			        		 strokeWeight: 1,
-			        		 scale: 5
+			        		 scale: 5,
+			        		 rotate: my_heading
 			        	 };
 
 				         me_marker = new google.maps.Marker({
@@ -328,6 +329,8 @@ jQuery(document).ready(function ($) {
 			    		 
 			    		 me_marker.setPosition (my_position);
 			    		 me_icon.rotation = my_heading;
+			    		 
+			    		 $("#bimbler-debug-output").html ('Pos: (' + position.coords.latitude + ', ' + position.coords.longitude + '), hdg: ' + my_heading);
 			    	 }
 			     });
 			}
