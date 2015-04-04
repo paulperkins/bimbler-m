@@ -171,7 +171,7 @@ jQuery(document).ready(function ($) {
 					// Rotate through the marker colours.
 					marker_colour = marker_colours[(marker_count++) % marker_colours.length];
 					
-		    		 var icon = {
+		    		 var person_icon = {
 			        		 path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
 			        		 fillColor: marker_colour,
 			        		 fillOpacity: 0.8,
@@ -181,12 +181,12 @@ jQuery(document).ready(function ($) {
 			         
 					var new_marker = new google.maps.Marker({
 						position: new_pos,
-						icon: icon,
+						icon: person_icon,
 						map: map,
 						//draggable: true, // TODO: Remove draggable.
 						animation: google.maps.Animation.DROP,
-						icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/" + marker_colour + ".png"),
-						size: new google.maps.Size(42,68)
+						//icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/" + marker_colour + ".png"),
+						//size: new google.maps.Size(42,68)
 			         });
 
 			         // Add the marker.
