@@ -330,7 +330,7 @@ jQuery(document).ready(function ($) {
 			    		 me_marker.setPosition (my_position);
 			    		 me_icon.rotation = my_heading;
 			    		 
-			    		 $("#bimbler-debug-output").html ('Pos: (' + position.coords.latitude + ', ' + position.coords.longitude + '), hdg: ' + my_heading);
+			    		 $("#bimbler-debug-output").html ('Pos: (' + position.coords.latitude.toString().substring (0,10) + ', ' + position.coords.longitude.toString().substring (0,10) + '), hdg: ' + my_heading + ', spd: ' + my_speed);
 			    	 }
 			     });
 			}
