@@ -33,6 +33,7 @@ jQuery(document).ready(function ($) {
 	
 	var person_markers = [];
 	var me_marker;
+	var me_icon;
 	
 	var brisbane = new google.maps.LatLng(-27.471010, 153.023453);
 	var initialLocation = brisbane;
@@ -275,8 +276,17 @@ jQuery(document).ready(function ($) {
 			    	 if (!me_marker) {
 			    		 
 			    		 console.log ("Creating new marker for current user's location.");
-		
+
+			    		 me_icon = {
+			        		 path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+			        		 fillColor: 'red',
+			        		 fillOpacity: 0.8,
+			        		 strokeWeight: 1,
+			        		 scale: 5
+			        	 };
+
 				         me_marker = new google.maps.Marker({
+				        	 icon: me_icon,
 				             position: my_position,
 				             animation: google.maps.Animation.DROP,
 				             map: map,
@@ -308,6 +318,7 @@ jQuery(document).ready(function ($) {
 			    		 //console.log ("Updating current user's location");
 			    		 
 			    		 me_marker.setPosition (my_position);
+			    		 me_icon.rotation = my_heading;
 			    	 }
 			     });
 			}
