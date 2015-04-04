@@ -39,6 +39,8 @@ jQuery(document).ready(function ($) {
 	
 	// Set a default.
 	var my_position = brisbane;
+	var my_speed = 0;
+	var my_heading = 0;
 	
 	window.showLocatorMap = function (e) {
 	
@@ -260,8 +262,12 @@ jQuery(document).ready(function ($) {
 			// If this device supports geolocation, show the current posision.
 			if (navigator.geolocation) {
 			     navigator.geolocation.getCurrentPosition(function (position) {
+			    	 
+			    	 console.dir (position);
 
 			    	 my_position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+			    	 my_speed = position.coords.speed / 3600 / 1000; // m/s -> km/hr
+			    	 my_heading = position.coords.heading;
 
 			    	 //console.log (my_position.toString());
 
@@ -395,7 +401,9 @@ jQuery(document).ready(function ($) {
 				    	 user_id: 	user_id,
 				    	 nonce: 	nonce,
 				    	 pos_lat: 	my_position.lat(),
-				    	 pos_lng: 	my_position.lng()
+				    	 pos_lng: 	my_position.lng(),
+				    	 pos_spd: 	my_speed,
+				    	 pos_hdg: 	my_heading
 				     	}
 				    ),
 				     success: function(response) {
