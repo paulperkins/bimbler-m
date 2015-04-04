@@ -240,9 +240,16 @@ jQuery(document).ready(function ($) {
 							(new_pos.lat && new_pos.lng) &&
 							(pos.lat() != new_pos.lat()) &&
 							(pos.lng() != new_pos.lng())) {
+							
+							// Get the age of the record - if too old then delete pointer.
+							var pointer_age = (my_timestamp - row.time) / 1000 / 60; // ms -> minutes.
 
 							// User has deselected tracking - delete marker.
-							if ((row.pos_lat == 0) && (row.pos_lng == 0)) {
+							// TODO: Compare timestamp with my_timestamp - if too old, remove marker.
+							// This gives the limitation that the current user has be be tracked in order to 
+							// see other users' positions.
+							if (((row.pos_lat == 0) && (row.pos_lng == 0)) 	// User has selected to stop tracking.
+								|| (pointer_age > 60)){ 					// Check timestamp: 60 minutes old or more gets deleted.
 								
 								console.log ('User ' + row.user_id + ' is no longer tracking - deleting marker.');
 								
@@ -250,11 +257,18 @@ jQuery(document).ready(function ($) {
 
 								delete person_markers[row.user_id];
 								
-							} else {
+							} else { // All good - update the marker.
 								
 								console.log ('  Updating marker for user ID ' + row.user_id + ' -> ' + new_pos);
 		
 								person_markers[row.user_id].setPosition (new_pos);
+								
+								// Update rotation.
+					    		var this_icon = person_marker.getIcon();
+					    		 
+					    		this_icon.rotation = row.pos_hdg;
+					    		 
+					    		person_marker.setIcon (this_icon);
 							}
 						}
 					}
@@ -293,8 +307,8 @@ jQuery(document).ready(function ($) {
 			        		 fillColor: 'red',
 			        		 fillOpacity: 0.8,
 			        		 strokeWeight: 1,
-			        		 scale: 5,
-			        		 rotate: my_heading
+			        		 //rotation: my_heading,
+			        		 scale: 5
 			        	 };
 
 				         me_marker = new google.maps.Marker({
@@ -330,7 +344,12 @@ jQuery(document).ready(function ($) {
 			    		 //console.log ("Updating current user's location");
 			    		 
 			    		 me_marker.setPosition (my_position);
-			    		 me_icon.rotation = my_heading;
+			    		 
+			    		 var this_icon = me_marker.getIcon();
+			    		 
+			    		 this_icon.rotation = my_heading;
+			    		 
+			    		 me_marker.setIcon (this_icon);
 			    		 
 			    		 $("#bimbler-debug-output").html ('Pos: (' + position.coords.latitude.toString().substring (0,10) + ', ' + position.coords.longitude.toString().substring (0,10) + '), hdg: ' + my_heading + ', spd: ' + my_speed);
 			    	 }
