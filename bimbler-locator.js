@@ -44,6 +44,8 @@ jQuery(document).ready(function ($) {
 	var my_heading = 0;
 	var my_timestamp = 0;
 	
+	var canvas;
+	
 	window.showLocatorMap = function (e) {
 	
 		// If the map already exists, do nothing.
@@ -363,6 +365,11 @@ jQuery(document).ready(function ($) {
 		
 		function request(){
 			
+			// No tracking map (not started, not RSVPd, etc.) - do nothing.
+			if (!canvas) {
+				return;
+			}
+
 			// Prevent parallel Ajax calls.
 			if (!run_fetch_ajax) {
 				console.log ('Request Ajax already in progress.');
@@ -407,6 +414,11 @@ jQuery(document).ready(function ($) {
 			
 			if (!tracking) {
 				
+				return;
+			}
+			
+			// No tracking map (not started, not RSVPd, etc.) - do nothing.
+			if (!canvas) {
 				return;
 			}
 			
@@ -504,7 +516,8 @@ jQuery(document).ready(function ($) {
 			    	 if (response.status == 'success') {
 			    		 console.log ('Null update success: ' + response);
 			    	 } else {
-			    		 console.log ('Null update success, with errors: ' + response);
+			    		 console.log ('Null update success, with errors: ');
+			    		 console.dir (response);
 			    		 
 			    		var wait = '<i class="fa fa-signal text-danger"></i>';
 						
