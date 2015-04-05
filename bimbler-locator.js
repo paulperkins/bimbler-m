@@ -232,49 +232,59 @@ jQuery(document).ready(function ($) {
 						if (person_markers[row.user_id]) {
 							pos = person_markers[row.user_id].getPosition();	
 						}
-
-						var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);
 						
 						//console.dir (new_pos);
 						
-						// Update the marker if we need to.
-						if (pos &&
-							(new_pos.lat && new_pos.lng) &&
-							(pos.lat() != new_pos.lat()) &&
-							(pos.lng() != new_pos.lng())) {
+						// Get the age of the record - if too old then delete pointer.
+						var pointer_age = (my_timestamp - row.time) / 1000 / 60; // ms -> minutes.
+						
+						console.log ('Pointer age: ' + pointer_age);
+
+						var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);
+
+						// Compare timestamp with my_timestamp - if too old, remove marker.
+						// This gives the limitation that the current user has be be tracked in order to 
+						// see other users' positions.
+						if (pointer_age > 60) { 	// 60 minutes old or more gets deleted.
 							
-							// Get the age of the record - if too old then delete pointer.
-							var pointer_age = (my_timestamp - row.time) / 1000 / 60; // ms -> minutes.
+							console.log ('User ' + row.user_id + ' has stale position data - deleting marker.');
 							
-							console.log ('Pointer age: ' + pointer_age);
+							person_markers[row.user_id].setMap(null);
+
+							delete person_markers[row.user_id];
+							
+						} else if ((row.pos_lat == 0) && (row.pos_lng == 0)) { 	// User has selected to stop tracking.
 
 							// User has deselected tracking - delete marker.
 							// TODO: Compare timestamp with my_timestamp - if too old, remove marker.
 							// This gives the limitation that the current user has be be tracked in order to 
 							// see other users' positions.
-							if (((row.pos_lat == 0) && (row.pos_lng == 0)) 	// User has selected to stop tracking.
-								|| (pointer_age > 60)){ 					// Check timestamp: 60 minutes old or more gets deleted.
 								
-								console.log ('User ' + row.user_id + ' is no longer tracking - deleting marker.');
-								
-								person_markers[row.user_id].setMap(null);
+							console.log ('User ' + row.user_id + ' is no longer tracking - deleting marker.');
+							
+							person_markers[row.user_id].setMap(null);
 
-								delete person_markers[row.user_id];
+							delete person_markers[row.user_id];
 								
-							} else { // All good - update the marker.
+						} else if (pos && // Update the marker if we need to.
+									(new_pos.lat && new_pos.lng) &&
+									(pos.lat() != new_pos.lat()) &&
+									(pos.lng() != new_pos.lng()))  { 
+							
+							// All good - update the marker.
 								
-								console.log ('  Updating marker for user ID ' + row.user_id + ' -> ' + new_pos);
+							console.log ('  Updating marker for user ID ' + row.user_id + ' -> ' + new_pos);
 		
-								person_markers[row.user_id].setPosition (new_pos);
-								
-								// Update rotation.
-					    		var this_icon = person_marker.getIcon();
-					    		 
-					    		this_icon.rotation = row.pos_hdg;
-					    		 
-					    		person_marker.setIcon (this_icon);
-							}
-						}
+							person_markers[row.user_id].setPosition (new_pos);
+							
+							// Update rotation.
+				    		var this_icon = person_marker.getIcon();
+				    		 
+				    		this_icon.rotation = row.pos_hdg;
+				    		 
+				    		person_marker.setIcon (this_icon);
+							
+						} // else... not sure!
 					}
 				}
 			});
