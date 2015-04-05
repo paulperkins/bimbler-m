@@ -421,6 +421,9 @@ jQuery(document).ready(function ($) {
 					     google.maps.event.addListener(me_marker, 'click', function() {
 					    	 infowindow.open(map,me_marker);
 					     });
+					     
+					     drawWhosWho ();
+
 			    	 } 
 			    	 else { // Otherwise update the position of the existing marker.
 
