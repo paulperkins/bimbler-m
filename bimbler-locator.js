@@ -156,7 +156,7 @@ jQuery(document).ready(function ($) {
 			// Iterate each object returned.
 			$.each (data,function (index, row) {
 				
-				console.dir (row);
+				//console.dir (row);
 
 				// Get the age of the record - if too old then don't create pointer.
 				var pointer_age = (my_timestamp - row.pos_time) / 60; // secs -> minutes.
@@ -252,7 +252,7 @@ jQuery(document).ready(function ($) {
 						// Get the age of the record - if too old then delete pointer.
 						var pointer_age = (my_timestamp - row.pos_time) / 60; // secs -> minutes.
 						
-						console.log ('My time: ' + my_timestamp + ', row time: ' + row.pos_time + ', age: ' + pointer_age.toFixed(2) + ' mins.');
+						console.log ('  User ' + row.user_id + ' pos (' + row.pos_lat + ',' + row.pos_lng + '), age: ' + pointer_age.toFixed(2) + ' mins.');
 						//console.log ('Pointer age: ' + pointer_age);
 
 						var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);
@@ -260,7 +260,7 @@ jQuery(document).ready(function ($) {
 						// Compare timestamp with my_timestamp - if too old, remove marker.
 						// This gives the limitation that the current user has be be tracked in order to 
 						// see other users' positions.
-						if ((pointer_age > 60) && person_markers[row.user_id]) { 	// 60 minutes old or more gets deleted.
+						if ((pointer_age > 60) && person_markers[row.user_id] && (row.pos_lat != 0) && (row.pos_lng != 0)) { 	// 60 minutes old or more gets deleted.
 							
 							console.log ('User ' + row.user_id + ' has stale position data - deleting marker.');
 							
