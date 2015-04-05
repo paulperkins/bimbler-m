@@ -301,7 +301,7 @@ jQuery(document).ready(function ($) {
 							person_markers[row.user_id].setMap(null);
 
 							delete person_markers[row.user_id];
-							delete person_object[row.user_id];
+							delete person_objects[row.user_id];
 							
 						     drawWhosWho ();
 
@@ -318,7 +318,7 @@ jQuery(document).ready(function ($) {
 							person_markers[row.user_id].setMap(null);
 
 							delete person_markers[row.user_id];
-							delete person_object[row.user_id];
+							delete person_objects[row.user_id];
 							
 						     drawWhosWho ();
 
