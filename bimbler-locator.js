@@ -157,6 +157,12 @@ jQuery(document).ready(function ($) {
 			$.each (data,function (index, row) {
 				
 				console.dir (row);
+
+				// Get the age of the record - if too old then don't create pointer.
+				var pointer_age = (my_timestamp - row.pos_time) / 60; // secs -> minutes.
+				
+				//console.log ('My time: ' + my_timestamp + ', row time: ' + row.pos_time + ', age: ' + pointer_age.toFixed(2) + ' mins.');
+				//console.log ('Pointer age: ' + pointer_age);
 				
 				// Does this marker ID exist? If not, create. But only create if the user has a valid location - they've elected
 				// to be tracked.
@@ -164,12 +170,13 @@ jQuery(document).ready(function ($) {
 				if (!(row.user_id in person_markers) 
 						&& (row.pos_lat && row.pos_lng)
 						&& ((row.pos_lat != 0) && (row.pos_lng != 0))
-						&& (row.user_id != user_id)) {
+						&& (row.user_id != user_id)
+						&& (pointer_age < 60)) {
 
 					var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);	
 
 					console.log ('  Creating new marker for user ID ' + row.user_id);
-					console.log ('    Row: ID ' + row.id + ', Event ID ' + row.event + ', User ' + row.user_id + ', Time ' + row.pos_time + ', current user ' + user_id);
+					console.log ('    Row: ID ' + row.id + ', Event ID ' + row.event + ', User ' + row.user_id + ', Age ' + pointer_age.toFixed(2) + ', current user ' + user_id);
 					
 					// Rotate through the marker colours.
 					marker_colour = marker_colours[(marker_count++) % marker_colours.length];
@@ -220,6 +227,13 @@ jQuery(document).ready(function ($) {
 			         
 				} else { // Not a new record - update/delete existing markers.
 					
+					// Get the timestamp from our own row.
+					if (row.user_id == user_id) {
+						
+						my_timestamp = row.pos_time;
+						
+					}
+					
 					// Only update other users' positions.
 					if (row.user_id != user_id) {
 					
@@ -236,16 +250,17 @@ jQuery(document).ready(function ($) {
 						//console.dir (new_pos);
 						
 						// Get the age of the record - if too old then delete pointer.
-						var pointer_age = (my_timestamp - row.time) / 1000 / 60; // ms -> minutes.
+						var pointer_age = (my_timestamp - row.pos_time) / 60; // secs -> minutes.
 						
-						console.log ('Pointer age: ' + pointer_age);
+						console.log ('My time: ' + my_timestamp + ', row time: ' + row.pos_time + ', age: ' + pointer_age.toFixed(2) + ' mins.');
+						//console.log ('Pointer age: ' + pointer_age);
 
 						var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);
 
 						// Compare timestamp with my_timestamp - if too old, remove marker.
 						// This gives the limitation that the current user has be be tracked in order to 
 						// see other users' positions.
-						if (pointer_age > 60) { 	// 60 minutes old or more gets deleted.
+						if ((pointer_age > 60) && person_markers[row.user_id]) { 	// 60 minutes old or more gets deleted.
 							
 							console.log ('User ' + row.user_id + ' has stale position data - deleting marker.');
 							
@@ -253,7 +268,7 @@ jQuery(document).ready(function ($) {
 
 							delete person_markers[row.user_id];
 							
-						} else if ((row.pos_lat == 0) && (row.pos_lng == 0)) { 	// User has selected to stop tracking.
+						} else if ((row.pos_lat == 0) && (row.pos_lng == 0) && person_markers[row.user_id]) { 	// User has selected to stop tracking.
 
 							// User has deselected tracking - delete marker.
 							// TODO: Compare timestamp with my_timestamp - if too old, remove marker.
@@ -278,11 +293,11 @@ jQuery(document).ready(function ($) {
 							person_markers[row.user_id].setPosition (new_pos);
 							
 							// Update rotation.
-				    		var this_icon = person_markers[row.user_id].getIcon();
+				    		//var this_icon = person_markers[row.user_id].getIcon();
 				    		 
-				    		this_icon.rotation = row.pos_hdg;
+				    		//this_icon.rotation = row.pos_hdg + 0;
 				    		 
-				    		person_markers[row.user_id].setIcon (this_icon);
+				    		//person_markers[row.user_id].setIcon (this_icon);
 							
 						} // else... not sure!
 					}
@@ -302,12 +317,15 @@ jQuery(document).ready(function ($) {
 			if (navigator.geolocation) {
 			     navigator.geolocation.getCurrentPosition(function (position) {
 			    	 
-			    	 console.dir (position);
-
+			    	 //console.dir (position);
+/*			    	 
+1428204785331 
+ 449897580295
+*/
 			    	 my_position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 			    	 my_speed = position.coords.speed + 0;// / 3600 / 1000; // m/s -> km/hr
 			    	 my_heading = position.coords.heading + 0; // Turn string to number.
-			    	 my_timestamp = position.timestamp;
+			    	 //my_timestamp = position.timestamp;
 
 			    	 //console.log (my_position.toString());
 
@@ -395,7 +413,8 @@ jQuery(document).ready(function ($) {
         
 			console.log ('Firing Locator Request Ajax');
 			
-			run_fetch_ajax = false;
+			// TODO: Remove commenting-out.
+			//run_fetch_ajax = false;
 			
 			jQuery.ajax({
 				type: "POST",
