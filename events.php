@@ -874,12 +874,12 @@
 			$content .= '	<div class="panel panel-default">' . PHP_EOL;
 			$content .= '		<div class="panel-heading">' . PHP_EOL;
 			$content .= '			<h4 class="panel-title pull-left">Locator <span id="bimbler-locator-indicator"></span></h4>' . PHP_EOL;
-			$content .= '<div class="row" style="margin-right: 0px;">';
-			$content .= '			<div class="input-group pull-right">' . PHP_EOL;
-			$content .= '				<label class="checkbox-inline"><input id="bimbler-trackme-toggle" type="checkbox" xchecked xdata-toggle="toggle">Track me</label>' . PHP_EOL;
+			$content .= '			<div class="row" style="margin-right: 0px;">';
+			$content .= '				<div class="input-group pull-right">' . PHP_EOL;
+			$content .= '					<label class="checkbox-inline"><input id="bimbler-trackme-toggle" type="checkbox" xchecked xdata-toggle="toggle">Track me</label>' . PHP_EOL;
 			//$content .= '				Track me: <input type="checkbox" checked data-toggle="toggle">' . PHP_EOL;
-			$content .= '			</div>' . PHP_EOL;
-			$content .= '</div>';
+			$content .= '				</div>' . PHP_EOL;
+			$content .= '			</div>';
 			$content .= '		</div>' . PHP_EOL;
 			
 				
@@ -908,8 +908,23 @@
 			
 			$content .= '		</div>' . PHP_EOL;
 			$content .= '	</div>' . PHP_EOL;
+			
 			$content .= '<span id="bimbler-debug-output"></span>' . PHP_EOL;
+
+			// The who's who box.
+			$content .= '	<div class="panel panel-default">' . PHP_EOL;
+			$content .= '		<div class="panel-heading">' . PHP_EOL;
+			$content .= '			<h4 class="panel-title">Who\'s who</h4>' . PHP_EOL;
+			$content .= '		</div>' . PHP_EOL;
+			
+			$content .= '		<div class="panel-body">' . PHP_EOL;
+
+			// Content here.
+			$content .= '		<span id="bimbler-whos-who"><i class=\'fa fa-spinner fa-spin\'></i></span>';
 				
+			$content .= '		</div>' . PHP_EOL;
+			$content .= '	</div>' . PHP_EOL;
+						
 	
 		} else {
 			$content .= '<h2>Please log in.</h2>' . PHP_EOL;

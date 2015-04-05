@@ -32,6 +32,7 @@ jQuery(document).ready(function ($) {
 	                      ];
 	
 	var person_markers = [];
+	var person_objects = [];
 	var me_marker;
 	var me_icon;
 	
@@ -45,6 +46,28 @@ jQuery(document).ready(function ($) {
 	var my_timestamp = 0;
 	
 	var canvas;
+	
+	
+	window.drawWhosWho = function (e) {
+		
+		var content = '';
+		
+		content = '<div stlye="display: block;">';
+		
+		$.each (person_objects,function (index, row) {
+		
+			if (row) {
+				content += '<div style="width:50px; display:inline-block;">';
+				content += '	<div><img src="http://maps.google.com/mapfiles/ms/icons/' + row.colour + '.png"></img></div>';  
+				content += '	<div>' + row.user_name + '</div>';  
+				content += '</div>';
+			}
+		});
+		
+		content += '</div>';
+		
+		$("#bimbler-whos-who").html (content);
+	}
 	
 	window.showLocatorMap = function (e) {
 	
@@ -205,6 +228,15 @@ jQuery(document).ready(function ($) {
 			         // Add the marker to the associative array.
 			         person_markers[row.user_id] = new_marker;
 			         
+			         var person = {
+				         user_id: 	row.user_id,
+				         colour: 	marker_colour,
+				         user_name: row.user_name
+			         };
+			         
+			         person_objects[row.user_id] = person;
+
+			         
 			         var contentString = '<div id="content">'+
 			         '<div id="siteNotice">'+
 			         '</div>'+
@@ -224,6 +256,8 @@ jQuery(document).ready(function ($) {
 				     
 				     // Set the icon for the marker. This runs as an Ajax call.
 				     //get_avatar (new_marker, row.user_id);
+				     
+				     drawWhosWho ();
 			         
 				} else { // Not a new record - update/delete existing markers.
 					
@@ -353,6 +387,15 @@ jQuery(document).ready(function ($) {
 
 				         // Pan to where we are now.
 				         map.setCenter(my_position);
+				         
+				         var person = {
+						         user_id: 	0,
+						         colour: 	'red',
+						         user_name: 'You'
+					         };
+					         
+					     person_objects[0] = person;
+
 				         
 				         var contentString = '<div id="content">'+
 				         '<div id="siteNotice">'+
