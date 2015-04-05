@@ -245,6 +245,8 @@ jQuery(document).ready(function ($) {
 							
 							// Get the age of the record - if too old then delete pointer.
 							var pointer_age = (my_timestamp - row.time) / 1000 / 60; // ms -> minutes.
+							
+							console.log ('Pointer age: ' + pointer_age);
 
 							// User has deselected tracking - delete marker.
 							// TODO: Compare timestamp with my_timestamp - if too old, remove marker.
