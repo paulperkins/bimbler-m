@@ -293,8 +293,8 @@ jQuery(document).ready(function ($) {
 			    	 console.dir (position);
 
 			    	 my_position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-			    	 my_speed = position.coords.speed / 3600 / 1000; // m/s -> km/hr
-			    	 my_heading = position.coords.heading + 0;
+			    	 my_speed = position.coords.speed;// / 3600 / 1000; // m/s -> km/hr
+			    	 my_heading = position.coords.heading + 0; // Turn string to number.
 			    	 my_timestamp = position.timestamp;
 
 			    	 //console.log (my_position.toString());
@@ -618,7 +618,7 @@ jQuery(document).ready(function ($) {
 			
 		} else { // Tracking turned off.
 
-			console.log ('Turning off tracking...');
+			//console.log ('Turning off tracking...');
 			
 			// Delete our marker.
 			if (me_marker) {
@@ -631,8 +631,9 @@ jQuery(document).ready(function ($) {
 			// Set the stored coords to (0,0).
 			update_null_location();
 			
-			// Remove the animation.
+			// Remove indiators.
 			$("#bimbler-locator-indicator").html('');
+			$("#bimbler-debug-output").html('');
 		}
 	})
 	
