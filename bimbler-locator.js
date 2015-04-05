@@ -302,6 +302,9 @@ jQuery(document).ready(function ($) {
 
 							delete person_markers[row.user_id];
 							
+						     drawWhosWho ();
+
+							
 						} else if ((row.pos_lat == 0) && (row.pos_lng == 0) && person_markers[row.user_id]) { 	// User has selected to stop tracking.
 
 							// User has deselected tracking - delete marker.
@@ -314,6 +317,9 @@ jQuery(document).ready(function ($) {
 							person_markers[row.user_id].setMap(null);
 
 							delete person_markers[row.user_id];
+							
+						     drawWhosWho ();
+
 								
 						} else if (pos && // Update the marker if we need to.
 									(new_pos.lat && new_pos.lng) &&
