@@ -278,11 +278,11 @@ jQuery(document).ready(function ($) {
 							person_markers[row.user_id].setPosition (new_pos);
 							
 							// Update rotation.
-				    		var this_icon = person_marker.getIcon();
+				    		var this_icon = person_markers[row.user_id].getIcon();
 				    		 
 				    		this_icon.rotation = row.pos_hdg;
 				    		 
-				    		person_marker.setIcon (this_icon);
+				    		person_markers[row.user_id].setIcon (this_icon);
 							
 						} // else... not sure!
 					}
