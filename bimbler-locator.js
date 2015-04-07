@@ -54,12 +54,14 @@ jQuery(document).ready(function ($) {
 		
 		content = '<div stlye="display: block;">';
 		
+		style = 'margin-left: auto; margin-right: auto; display: block;';
+		
 		$.each (person_objects,function (index, row) {
 		
 			if (row) {
 				content += '<div style="width:50px; display:inline-block;">';
-				content += '	<div><img src="http://maps.google.com/mapfiles/ms/icons/' + row.colour + '.png"></img></div>';  
-				content += '	<div>' + row.user_name + '</div>';  
+				content += '	<div style="' + style + '"><img src="http://maps.google.com/mapfiles/ms/icons/' + row.colour + '.png"></img></div>';  
+				content += '	<div style="' + style + '">' + row.user_name + '</div>';  
 				content += '</div>';
 			}
 		});
@@ -194,7 +196,7 @@ jQuery(document).ready(function ($) {
 						&& (row.pos_lat && row.pos_lng)
 						&& ((row.pos_lat != 0) && (row.pos_lng != 0))
 						&& (row.user_id != user_id)
-						&& (pointer_age < 60)) {
+						&& ((my_timestamp > 0) && (pointer_age < 60))) {
 
 					var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);	
 
@@ -294,7 +296,7 @@ jQuery(document).ready(function ($) {
 						// Compare timestamp with my_timestamp - if too old, remove marker.
 						// This gives the limitation that the current user has be be tracked in order to 
 						// see other users' positions.
-						if ((pointer_age > 60) && person_markers[row.user_id] && (row.pos_lat != 0) && (row.pos_lng != 0)) { 	// 60 minutes old or more gets deleted.
+						if ((my_timestamp > 0) && (pointer_age > 60) && person_markers[row.user_id] && (row.pos_lat != 0) && (row.pos_lng != 0)) { 	// 60 minutes old or more gets deleted.
 							
 							console.log ('User ' + row.user_id + ' has stale position data - deleting marker.');
 							
@@ -360,10 +362,7 @@ jQuery(document).ready(function ($) {
 			     navigator.geolocation.getCurrentPosition(function (position) {
 			    	 
 			    	 //console.dir (position);
-/*			    	 
-1428204785331 
- 449897580295
-*/
+
 			    	 my_position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 			    	 my_speed = position.coords.speed + 0;// / 3600 / 1000; // m/s -> km/hr
 			    	 my_heading = position.coords.heading + 0; // Turn string to number.
