@@ -154,8 +154,26 @@
   		
 				<div class="navbar-header">
   					<!--  <a href="javascript:history.back()"><button type="button" class="navbar-toggle ppnavbar-left"><span class="glyphicon glyphicon-chevron-left"></span></button></a>-->
-				  	<a href="<?php echo (isset ($_GET['past']) ? '/m/?past=1' : '/m/')  ?>"><button type="button" class="navbar-toggle ppnavbar-left" style="margin-right: 0px;"><i class="fa fa-chevron-left"></i></button></a>
-			      	<a class="xnavbar-brand"></a><span style="<?php echo $title_style; ?>"><?php echo $this_post_object->post_title; //bloginfo ('description'); ?></span> 
+  					
+<?php
+        if (isset ($_GET['past'])) {
+
+        	$href="/m/?past=1";
+        	
+        } else if (isset ($_GET['newest'])) {
+        	
+			$href="/m/?newest=1";
+			
+		} else {
+
+        	$href="/m/";
+        	
+        }
+?>
+  					
+				  	<!--  <a href="<?php //echo (isset ($_GET['past']) ? '/m/?past=1' : '/m/')  ?>"><button type="button" class="navbar-toggle ppnavbar-left" style="margin-right: 0px;"><i class="fa fa-chevron-left"></i></button></a> -->
+				  	<a href="<?php echo $href;  ?>"><button type="button" class="navbar-toggle ppnavbar-left" style="margin-right: 0px;"><i class="fa fa-chevron-left"></i></button></a>
+					<a class="xnavbar-brand"></a><span style="<?php echo $title_style; ?>"><?php echo $this_post_object->post_title; //bloginfo ('description'); ?></span> 
 			   </div>
 			    
 <?php 
