@@ -1907,10 +1907,6 @@
 			
 			foreach ($posts as $post)
 			{
-//				error_log (print_r ($post, true));
-
-//				error_log ($post->post_date);
-				
 				$event_date = $post->EventStartDate;
 		
 				$event_month = date ($month_str, strtotime($event_date));
@@ -1953,14 +1949,11 @@
 				}
 		
 				$content .= '		<a class="list-group-item bimbler-spinner-source" href="event.php?event=' . $post->ID . '&' . $which . '=1"  title="' . $post->post_title . '">' . PHP_EOL;
-				//$content .= '		<a class="list-group-item bimbler-spinner-source" href="#"  title="' . $post->post_title . '">' . PHP_EOL;
 				$content .= '			<span class="badge pp-valign-centre">' . $num_rsvps . '</span>' . PHP_EOL;
-
-				// For the first upcoming event display a full-width map.
-//				if ($first && ('upcoming' == $when)) {
 
 				$addr = get_venue_address($post->ID);
 				
+				// For the first event display a full-width map.
 				if ($first && (!empty ($addr))) {
 					$content .= ' 				<div class="row">' . PHP_EOL;
 
@@ -1973,10 +1966,9 @@
 				
 					$content .= '				</div>' . PHP_EOL;
 					
-					//$content .= '						<div class="rsvp-checkin-indicator-noajax">' . PHP_EOL;
-
-					$content .= '					<div class="col-xs-2 bimbler-spinner-target" style="top: 25px;">' . PHP_EOL;
-					$content .= '					</div>' . PHP_EOL;
+					// Add the spinner for on-click.
+					$content .= '				<div class="col-xs-2 bimbler-spinner-target" style="top: 25px;">' . PHP_EOL;
+					$content .= '				</div>' . PHP_EOL;
 					
 					$content .= '				</div>' . PHP_EOL;
 						
@@ -1987,7 +1979,6 @@
 						
 				}
 				else {				
-//				if (!$first) {
 					// Note that total width of below is not 12.
 					$content .= '				<div class="row">' . PHP_EOL;
 						
@@ -2012,7 +2003,6 @@
 					
 					$content .= '					<div class="col-xs-8" style="padding-left:10px;">' . PHP_EOL;
 					$content .= '						<h4 style="text-overflow: none!important;">' . $post->post_title . '</h4>' . PHP_EOL;
-					//$content .= '						' . $post->post_title . '' . PHP_EOL;
 					//$content .= '						<p class="xui-li-aside" style="text-align: right"><strong>' . date ($time_str, strtotime($event_date)) . '</strong></p>' . PHP_EOL;
 					$content .= '						<p xclass="pull-right xui-li-aside" xstyle="text-align: right"><strong>' . date ($time_str, strtotime($event_date)) . '</strong></p>' . PHP_EOL;
 					$content .= '					</div>' . PHP_EOL;
