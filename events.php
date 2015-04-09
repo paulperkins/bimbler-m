@@ -72,15 +72,12 @@
 		
 		if (!empty($pics)) {
 			
-			
 			$content .= '	<div class="panel panel-default">' . PHP_EOL;
 			$content .= '		<div class="panel-heading">' . PHP_EOL;
 			$content .= '			<h4 class="panel-title">Photos</h4>' . PHP_EOL;
 			$content .= '		</div>' . PHP_EOL;
 			
 			$content .= '		<div class="panel-body">' . PHP_EOL;
-				
-			
 
 			$content .= '			<div class="bimbler-gallery" style="width: 100%; margin-left: auto; margin-right: auto;">' . PHP_EOL;
 			
@@ -178,30 +175,6 @@
 				' . PHP_EOL; 
 		
 		$content .= '	<!-- /Gallery Page. -->' . PHP_EOL;
-		
-		return $content;
-	}
-	
-	function bimbler_mobile_render_rsvp_dialog ($event_id) {
-		
-		$content = '
-	<!-- Popup for modifying the user\'s own RSVP. -->
-	<div id="bimblers_change_rsvp-' . $event_id . '" class="ui-content" data-role="popup" data-theme="a">
-
-		<p id="question">Are you sure you want to delete:</p>
-
-		<div class="ui-grid-a">
-			<div class="ui-block-a">
-				<a id="yes" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">Yes</a>
-			</div>
-		<div class="ui-block-b">
-			<a id="cancel" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">Cancel</a>
-			</div>
-		</div>
-	</div>
-	<!-- /RSVP popup -->
-					' . PHP_EOL;
-		
 		
 		return $content;
 	}
@@ -351,7 +324,6 @@
 				$content .= '				</div> <!-- /row -->' . PHP_EOL;
 				$content .= '			</div>' . PHP_EOL;
 				
-				
 				if (isset ($rsvps)) {
 					foreach ( $rsvps as $rsvp) {
 					
@@ -403,8 +375,6 @@
 						
 						$content .= '</div> <!-- rsvp-checkin-container -->';
 						
-						
-						//$content .= '						<img src="' . $avatar_img . '" style="width: 80px;">' . PHP_EOL;
 						$content .= '					</div>' . PHP_EOL;
 						
 						$content .= '					<div class="col-xs-8" style="padding-left:10px;">' . PHP_EOL;
@@ -439,8 +409,6 @@
 
 	function bimbler_mobile_render_map ($event_id, $rwgps_id) {
 		$content = '';
-		
-		//$rwgps_id = Bimbler_RSVP::get_instance()->get_rwgps_id ($event_id);
 		
 		if (0 == $rwgps_id) {
 		
@@ -489,8 +457,6 @@
 	
 		$content = '';
 	
-		//return null;
-	
 		// Only show content to logged-in users, and only if we're on an event page.
 		if (is_user_logged_in()) {
 	
@@ -502,15 +468,10 @@
 				return null;
 			}
 	
-			//$content .= '<h3>' . $post_object->post_title . '</h3>';
-	
-			//$content .= apply_filters( 'the_content', $post_object->post_content);
-	
 			$content .= '	<div class="panel panel-default">' . PHP_EOL;
 			$content .= '		<div class="panel-heading">' . PHP_EOL;
 			$content .= '			<h4 class="panel-title">' . $post_object->post_title . '</h4>' . PHP_EOL;
 			$content .= '		</div>' . PHP_EOL;
-
 			
 			$content .= '		<div class="panel-body">' . PHP_EOL;
 			$content .= apply_filters( 'the_content', $post_object->post_content);
@@ -558,10 +519,8 @@
 				$map_div = 'tribe-events-gmap-' . $event_id;
 				
 				$content .= '			<div id="' . $map_div . '" style="'. $map_style . '" class="bimbler_event_map" data-venue-address="' . urlencode($venue_address) . '"></div>' . PHP_EOL;
-				//$content .= '</div>' . PHP_EOL; 
 				
-				//$content .= '<script type="text/javascript">$(document).ready(function() {renderVenueMap("' . $venue_address . '","' . $map_div .'","' . $event_id . '");});</script>' . PHP_EOL;
-				
+				// Fake clicking the first tab.
 				$content .= '<script type="text/javascript">$(\'a[data-toggle="pill"]:first\').trigger("shown.bs.tab");</script>' . PHP_EOL;
 			} 
 				
