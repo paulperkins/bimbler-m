@@ -992,239 +992,6 @@
 		return $content;
 	}
 
-	
-	function NO_LONGER_USED_bimbler_mobile_render_event_pages ($future = true) {
-		global $bimbler_mobile_events_per_page;
-			
-		$content = '';
-		
-		$when = 'upcoming';
-		
-		if (!$future) {
-			$when = 'past';
-				
-			error_log ('Showing past events');
-		}
-		
-		if ( function_exists( 'tribe_get_events' ) ) {
-			$args = array(
-					'eventDisplay'   => $when, //'upcoming',
-					'posts_per_page' => $bimbler_mobile_events_per_page
-			);
-		
-			$posts = tribe_get_events( $args );
-			
-		}
-		
-		$content .= '	<!-- Events content. -->' . PHP_EOL;
-		
-		if ($posts)
-		{
-			foreach ( $posts as $post ) {
-				global $bimbler_mobile_tabs;
-				global $bimbler_mobile_tab_icons;
-				global $bimbler_mobile_tab_text;
-				global $bimbler_mobile_tab_class;
-				
-				global $bimbler_mobile_tab_summary;
-				global $bimbler_mobile_tab_details;
-				global $bimbler_mobile_tab_map;
-				global $bimbler_mobile_tab_rsvps;
-				global $bimbler_mobile_tab_photos;
-				global $bimbler_mobile_tab_comments;
-				
-				$do_summary_tab = true;
-				$do_details_tab = true;
-				$do_map_tab = true;
-				$do_rsvps_tab = true;
-				$do_photos_tab = true;
-				$do_comments_tab = true;
-				
-				$meta_ride_page = get_post_meta ($post->ID, '_BimblerRidePage', true);
-					
-				if (!isset ($meta_ride_page) || empty ($meta_ride_page)) {
-					$do_details_tab = false;
-				}
-
-				$rwgps_id = Bimbler_RSVP::get_instance()->get_rwgps_id ($post->ID);
-					
-				if (0 == $rwgps_id) {
-					$do_map_tab = false;
-				}
-				
-				$meta_gallery_id = get_post_meta ($post->ID, 'bimbler_gallery_id', true);
-				
-				//error_log ('Gallery: ' . $meta_gallery_id);
-				
-				if (!isset ($meta_gallery_id[0]) || empty ($meta_gallery_id)) {
-					$do_photos_tab = false;
-				}
-				
-				$content .= PHP_EOL . '	<!-- Sub-pages for event ID ' . $post->ID . '. -->' . PHP_EOL;
-				
-				foreach ($bimbler_mobile_tabs as $sub_page) {
-					$do_tab = false;
-					
-					error_log ('Selecting tab ' . $sub_page);
-
-					// Work out which tabs we're going to render.
-					switch ($sub_page) {
-						
-						case $bimbler_mobile_tab_summary:
-							$do_tab = true;
-							break;
-							
-						case $bimbler_mobile_tab_details:
-							if ($do_details_tab) {
-								$do_tab = true;
-							}
-							break;
-								
-						case $bimbler_mobile_tab_map:
-							if ($do_map_tab) {
-								$do_tab = true;
-							}
-							break;
-										
-						case $bimbler_mobile_tab_rsvps:
-							$do_tab = true;
-							break;
-
-						case $bimbler_mobile_tab_photos:
-							if ($do_photos_tab) {
-								$do_tab = true;
-							}
-							break;
-							
-						case $bimbler_mobile_tab_comments:
-							$do_tab = true;
-							break;
-									
-					}
-					
-					//$content .= '<!-- Do summary: ' . $do_summary_tab . ', Do details: ' . $do_details_tab . ', Do Map: ' . $do_map_tab . ', Do RSVPs: ' . $do_rsvps_tab . ', Do Photos: ' . $do_photos_tab . '-->' . PHP_EOL; 
-
-					if ($do_tab) {
-						
-						$class = $bimbler_mobile_tab_class[$sub_page];
-						
-						//$content .= '	<div class="bimbler_mobile_event" id="event-'. $post->ID . '-tab' . $sub_page . '" data-role="page" data-theme="a">' . PHP_EOL;
-						$content .= '	<div class="' . $class . '" id="event-'. $post->ID . '-tab' . $sub_page . '" data-role="page" data-theme="a" data-bimbler-event-id="' . $post->ID . '">' . PHP_EOL;
-						$content .= '		<div style="background-color: #dd9933; text-shadow: none;" data-role="header" data-position="fixed" style="overflow: hidden;" data-tap-toggle="false" data-transition="none" >' . PHP_EOL;
-						$content .= '			<a href="#" data-icon="carat-l" data-iconpos="left" data-rel="back"' . PHP_EOL;
-						$content .= '				data-transition="slide" data-direction="reverse">Back</a>' . PHP_EOL;
-						$content .= '			<h1>' . $post->post_title . '</h1>' . PHP_EOL;
-						$content .= '			<div data-role="navbar">' . PHP_EOL;
-						$content .= '				<ul>' . PHP_EOL;
-						
-						foreach ($bimbler_mobile_tabs as $tab) {
-							$do_sub_tab = false;
-							
-							$icon = $bimbler_mobile_tab_icons[$tab];
-							$text = $bimbler_mobile_tab_text[$tab];
-							
-							$class = 'ui-alt-icon ui-nodisc-icon ';
-							
-							$normal_tab_theme = ''; // data-theme="e"';
-							$active_tab_theme = ''; // data-theme="b"';
-								
-//							$content .= '					<!-- Tab ' . $tab . ', ' . $text . ' -->' . PHP_EOL;
-							
-							if ((($tab == $bimbler_mobile_tab_summary) && $do_summary_tab) ||
-								(($tab == $bimbler_mobile_tab_details) && $do_details_tab) ||
-								(($tab == $bimbler_mobile_tab_map) && $do_map_tab) ||
-								(($tab == $bimbler_mobile_tab_rsvps) && $do_rsvps_tab) ||
-								(($tab == $bimbler_mobile_tab_photos) && $do_photos_tab) ||
-								(($tab == $bimbler_mobile_tab_comments) && $do_comments_tab) ) 
-							{ 
-							
-								$content .= '					<li><a href="#event-'. $post->ID . '-tab' . $tab . '" data-role="tab" data-icon="' . $icon .'"';
-								$content .= ' class="' . $class . ($sub_page == $tab ? ' ui-btn-active' : '') . '"';
-								$content .= ($sub_page == $tab ? $active_tab_theme : $normal_tab_theme);
-								
-								$content .= '>';
-								$content .= '</a></li>' . PHP_EOL;
-							}
-						}
-						
-						$content .= '				</ul>' . PHP_EOL;
-						$content .= '			</div>' . PHP_EOL;
-						$content .= '		</div>' . PHP_EOL;
-							
-						// The content.
-						$content .= '		<div data-role="content" class="container-fluid">' . PHP_EOL;
-	
-						if (1 == $sub_page) {
-								
-							$content .= bimbler_mobile_render_summary_page($post->ID);
-								
-						} else if (2 == $sub_page) {
-							
-							$content .= bimbler_mobile_render_ride_page($post->ID, $meta_ride_page);
-						
-						} else if (3 == $sub_page) {
-							
-							$content .= bimbler_mobile_render_map($post->ID, $rwgps_id);
-							
-						} else if (4 == $sub_page) {
-							
-							$content .= bimbler_mobile_render_rsvps($post->ID);
-							
-						} else if (5 == $sub_page) {
-							
-							$content .= bimbler_mobile_render_photos($post->ID);
-								
-						} else if (6 == $sub_page) {
-							
-							$content .= bimbler_mobile_render_comments($post->ID);
-								
-						}	
-						else {
-							
-							$content .= '			<p>Event ' . $post->ID . ', tab ' . $sub_page . '  content</p>' . PHP_EOL;
-						}
-						
-						$content .= '		</div> <!-- /content -->' . PHP_EOL;
-						
-						// The footer.
-						//$content .= '		<div data-role="footer" data-position="fixed">' . PHP_EOL;
-						//$content .= '			<h2>&copy;&nbsp;2015 Brisbane Bimblers</h2>' . PHP_EOL;
-						//$content .= '		</div>' . PHP_EOL;
-						
-						$content .= '	</div>' . PHP_EOL;
-
-						/*$content .= '
-						<div data-role="popup" id="rsvp-menu-' . $post-ID . '" data-theme="a" data-tolerance="0,0">
-							<h4>Choices...</h4>
-							<ul data-role="listview" data-theme="b">
-								<li>
-									<a href="#">Settings</a>
-								</li>
-								<li>
-									<a href="#">Menu</a>
-								</li>
-								<li>
-									<a href="#">Account</a>
-								</li>
-							</ul>
-						</div>' . PHP_EOL; */
-						
-						
-					}
-				} // End foreach tab.
-				
-				$content .= '	<!-- /Sub-pages for event ID ' . $post->ID . '. -->' . PHP_EOL . PHP_EOL;
-			} // End foreach post.
-			
-			// Render the global objects (dialogs, etc.).
-			//$content .= bimbler_mobile_render_global_markup();
-		} // End if posts.
-
-		$content .= '	<!-- /Events content. -->' . PHP_EOL . PHP_EOL;
-		
-		echo $content;
-	}
-	
 	function bimbler_mobile_render_event_tab_bar ($event_id, $future = true) {
 		global $bimbler_mobile_events_per_page;
 			
@@ -1378,37 +1145,25 @@
 				$icon = $bimbler_mobile_tab_icons[$sub_page];
 				$text = $bimbler_mobile_tab_text[$sub_page];
 					
-				// TODO: Not sure if this 'if' is required...
-				/*if (	(($sub_page == $bimbler_mobile_tab_summary) && $do_summary_tab) ||
-						(($sub_page == $bimbler_mobile_tab_details) && $do_details_tab) ||
-						(($sub_page == $bimbler_mobile_tab_map) && $do_map_tab) ||
-						(($sub_page == $bimbler_mobile_tab_rsvps) && $do_rsvps_tab) ||
-						(($sub_page == $bimbler_mobile_tab_photos) && $do_photos_tab) ||
-						(($sub_page == $bimbler_mobile_tab_comments) && $do_comments_tab) ||
-						(($sub_page == $bimbler_mobile_tab_locator) && $do_locator_tab) 
-					)
-				{*/
 
-					$content_tab_list .= '			<li role="presentation"';
-					
-					if ($first) {
-						$content_tab_list .= ' class="active" ';
-					}
-					
-					$content_tab_list .= '>' . PHP_EOL;
-						
-					$controls = 'event-'. $post->ID . '-tab' . $sub_page;
-						
-					$content_tab_list .= '			<a href="#' . $controls . '" aria-controls="' . $controls . '" role="tab" data-toggle="pill" data-icon="' . $icon .'" class="' . $class . ' bimbler-badge" data-bimbler-event-id="' . $post->ID . '" ' . $count_pill . '>';
-					$content_tab_list .= '<i class="' . $icon . '" aria-hidden="true"></i>';
-					//$content_tab_list .= $text;
-					$content_tab_list .= '</a></li>' . PHP_EOL;
+				$content_tab_list .= '			<li role="presentation"';
+				
+				if ($first) {
+					$content_tab_list .= ' class="active" ';
 				}
-			//} // End if do tab.
+				
+				$content_tab_list .= '>' . PHP_EOL;
+					
+				$controls = 'event-'. $post->ID . '-tab' . $sub_page;
+					
+				$content_tab_list .= '			<a href="#' . $controls . '" aria-controls="' . $controls . '" role="tab" data-toggle="pill" data-icon="' . $icon .'" class="' . $class . ' bimbler-badge" data-bimbler-event-id="' . $post->ID . '" ' . $count_pill . '>';
+				$content_tab_list .= '<i class="' . $icon . '" aria-hidden="true"></i>';
+				//$content_tab_list .= $text;
+				$content_tab_list .= '</a></li>' . PHP_EOL;
+			}
 
 				$first = false;
 		} // End foreach tab.
-
 
 		$content .= '	<div role="tabpanel">' . PHP_EOL;
 
@@ -1419,7 +1174,6 @@
 		$content .= '	</div> <!-- /tabpanel -->' . PHP_EOL;
 
 		$content .= '	<!-- /Tabs for event ID ' . $post->ID . '. -->' . PHP_EOL . PHP_EOL;
-
 	
 		echo $content;
 	}
@@ -1444,424 +1198,197 @@
 			return null;
 		}
 	
-	
 		$content .= '	<!-- Events content. -->' . PHP_EOL;
 	
-		if (1)
-		{
-			//foreach ( $posts as $post ) {
-			global $bimbler_mobile_tabs;
-			global $bimbler_mobile_tab_icons;
-			global $bimbler_mobile_tab_text;
-			global $bimbler_mobile_tab_class;
-	
-			global $bimbler_mobile_tab_summary;
-			global $bimbler_mobile_tab_details;
-			global $bimbler_mobile_tab_map;
-			global $bimbler_mobile_tab_rsvps;
-			global $bimbler_mobile_tab_photos;
-			global $bimbler_mobile_tab_comments;
-			global $bimbler_mobile_tab_locator;
-				
-				
-			$do_summary_tab = true;
-			$do_details_tab = true;
-			$do_map_tab = true;
-			$do_rsvps_tab = true;
-			$do_photos_tab = true;
-			$do_comments_tab = true;
-			$do_locator_tab = true;
-				
-			$content_tab_list = '';
-			$content_tab_content = '';
-	
-			$first = true;
-	
-			$meta_ride_page = get_post_meta ($post->ID, '_BimblerRidePage', true);
-				
-			if (!isset ($meta_ride_page) || empty ($meta_ride_page)) {
-				$do_details_tab = false;
-			}
-	
-			$rwgps_id = Bimbler_RSVP::get_instance()->get_rwgps_id ($post->ID);
-				
-			if (0 == $rwgps_id) {
-				$do_map_tab = false;
-			}
-	
-			$meta_gallery_id = get_post_meta ($post->ID, 'bimbler_gallery_id', true);
-	
-			//error_log ('Gallery: ' . $meta_gallery_id);
-	
-			if (!isset ($meta_gallery_id[0]) || empty ($meta_gallery_id)) {
-				$do_photos_tab = false;
-			}
-	
-	
-			$content .= PHP_EOL . '	<!-- Sub-pages for event ID ' . $post->ID . '. -->' . PHP_EOL;
-	
-			foreach ($bimbler_mobile_tabs as $sub_page) {
-				$do_tab = false;
-	
-				// Work out which tabs we're going to render.
-				switch ($sub_page) {
-	
-					case $bimbler_mobile_tab_summary:
-						$do_tab = true;
-						break;
-	
-					case $bimbler_mobile_tab_details:
-						if ($do_details_tab) {
-							$do_tab = true;
-						}
-						break;
-	
-					case $bimbler_mobile_tab_map:
-						if ($do_map_tab) {
-							$do_tab = true;
-						}
-						break;
-	
-					case $bimbler_mobile_tab_rsvps:
-						$do_tab = true;
-						break;
-	
-					case $bimbler_mobile_tab_photos:
-						if ($do_photos_tab) {
-							$do_tab = true;
-						}
-						break;
+		global $bimbler_mobile_tabs;
+		global $bimbler_mobile_tab_icons;
+		global $bimbler_mobile_tab_text;
+		global $bimbler_mobile_tab_class;
 
-					case $bimbler_mobile_tab_comments:
-						$do_tab = true;
-						break;
-						
-					case $bimbler_mobile_tab_locator:
-							
-						$do_tab = false;
-						$do_locator_tab = false;
-					
-						$this_rsvp = Bimbler_RSVP::get_instance()->get_current_rsvp ($post->ID);
-					
-						// Only show to admin users, or to those who have RSVPd 'Yes' to this event.
-						if (current_user_can( 'manage_options' ) ||
-							(isset ($this_rsvp) && ('Y' == $this_rsvp))) {
-				
-								$do_tab = true;
-								$do_locator_tab = true;
-						}
-						break;
-				}
-	
-				if ($do_tab) {
-	
-					$class = $bimbler_mobile_tab_class[$sub_page];
-	
-	
-					$icon = $bimbler_mobile_tab_icons[$sub_page];
-					$text = $bimbler_mobile_tab_text[$sub_page];
-						
-/*					if ((($sub_page == $bimbler_mobile_tab_summary) && $do_summary_tab) ||
-							(($sub_page == $bimbler_mobile_tab_details) && $do_details_tab) ||
-							(($sub_page == $bimbler_mobile_tab_map) && $do_map_tab) ||
-							(($sub_page == $bimbler_mobile_tab_rsvps) && $do_rsvps_tab) ||
-							(($sub_page == $bimbler_mobile_tab_photos) && $do_photos_tab) ||
-							(($sub_page == $bimbler_mobile_tab_comments) && $do_comments_tab))
-					{ */
-	
-						$content_tab_list .= '			<li role="presentation"';
-						$content_tab_list .= ' class="' . ($first ? 'active' : '') . '">' . PHP_EOL;
-							
-						$controls = 'event-'. $post->ID . '-tab' . $sub_page;
-							
-						$content_tab_list .= '			<a href="#' . $controls . '" aria-controls="' . $controls . '" role="tab" data-toggle="pill" data-icon="' . $icon .'" data-bimbler-event-id="' . $post->ID . '">';
-						//$content_tab_list .= '<span class="glyphicon ' . $icon . '" aria-hidden="true"></span>';
-						$content_tab_list .= '<i class="' . $icon . '" aria-hidden="true"></>';
-						//$content_tab_list .= $text;
-						$content_tab_list .= '</a></li>' . PHP_EOL;
-							
-							
-						$content_tab_content .= '		<div role="tabpanel"';
-						$content_tab_content .= ' class="tab-pane fade ' . ($first ? 'in active' : '') . '"';
-						$content_tab_content .= ' id="' . $controls . '">' . PHP_EOL;
-							
-					//}
-	
-					if (1 == $sub_page) {
-	
-						$content_tab_content .= bimbler_mobile_render_summary_page($post->ID);
-	
-					} else if (2 == $sub_page) {
-	
-						$content_tab_content .= bimbler_mobile_render_ride_page($post->ID, $meta_ride_page);
-	
-					} else if (3 == $sub_page) {
-	
-						$content_tab_content .= bimbler_mobile_render_map($post->ID, $rwgps_id);
-	
-					} else if (4 == $sub_page) {
-	
-						$content_tab_content .= bimbler_mobile_render_rsvps($post->ID);
-	
-					} else if (5 == $sub_page) {
-	
-						$content_tab_content .= bimbler_mobile_render_photos($post->ID);
-	
-					} else if (6 == $sub_page) {
-	
-						$content_tab_content .= bimbler_mobile_render_comments($post->ID);
-	
-					} else if (7 == $sub_page) {
-	
-						$content_tab_content .= bimbler_mobile_render_locator($post->ID);
-	
-					}
-					else {
-	
-						$content_tab_content .= '			<p>Event ' . $post->ID . ', tab ' . $sub_page . '  content</p>' . PHP_EOL;
-					}
-	
-					$content_tab_content .= '		</div> <!-- /tabpanel -->' . PHP_EOL;
-	
-	
-					// The footer.
-					//$content .= '		<div data-role="footer" data-position="fixed">' . PHP_EOL;
-					//$content .= '			<h2>&copy;&nbsp;2015 Brisbane Bimblers</h2>' . PHP_EOL;
-					//$content .= '		</div>' . PHP_EOL;
-	
-	
-				} // End if do tab.
-	
-					$first = false;
-			} // End foreach tab.
-	
-	
-			$content .= '	<div role="tabpanel">' . PHP_EOL;
-	
-				//$content .= '		<ul class="nav nav-pills nav-justified" role="tablist">' . PHP_EOL;
-				//$content .= $content_tab_list;
-				//	$content .= '		</ul>' . PHP_EOL;
-						
-					// The content.
-					$content .= '		<div class="tab-content">' . PHP_EOL;
-				$content .= $content_tab_content;
-					$content .= '		</div> <!-- /tab-content -->' . PHP_EOL;
-	
-				$content .= '	</div> <!-- /tabpanel -->' . PHP_EOL;
-	
-				$content .= '	<!-- /Sub-pages for event ID ' . $post->ID . '. -->' . PHP_EOL . PHP_EOL;
-					//} // End foreach post.
-	
-	} // End if posts.
-	
-					$content .= '	<!-- /Events content. -->' . PHP_EOL . PHP_EOL;
-	
-		echo $content;
-	}
-	
-/*	
-
-	function bimbler_mobile_render_event_page ($event_id, $future = true) {
-		global $bimbler_mobile_events_per_page;
+		global $bimbler_mobile_tab_summary;
+		global $bimbler_mobile_tab_details;
+		global $bimbler_mobile_tab_map;
+		global $bimbler_mobile_tab_rsvps;
+		global $bimbler_mobile_tab_photos;
+		global $bimbler_mobile_tab_comments;
+		global $bimbler_mobile_tab_locator;
 			
-		$content = '';
-	
-		$when = 'upcoming';
-	
-		if (!$future) {
-			$when = 'past';
-	
-			error_log ('Showing past events');
+			
+		$do_summary_tab = true;
+		$do_details_tab = true;
+		$do_map_tab = true;
+		$do_rsvps_tab = true;
+		$do_photos_tab = true;
+		$do_comments_tab = true;
+		$do_locator_tab = true;
+			
+		$content_tab_list = '';
+		$content_tab_content = '';
+
+		$first = true;
+
+		$meta_ride_page = get_post_meta ($post->ID, '_BimblerRidePage', true);
+			
+		if (!isset ($meta_ride_page) || empty ($meta_ride_page)) {
+			$do_details_tab = false;
 		}
-	
-		$post = get_post ($event_id);
-		
-		if (!isset($post)) {
-			error_log ('Cannot get post object for event ID '. $meta_ride_page);
-			return null;
+
+		$rwgps_id = Bimbler_RSVP::get_instance()->get_rwgps_id ($post->ID);
+			
+		if (0 == $rwgps_id) {
+			$do_map_tab = false;
 		}
-		
-		
-		$content .= '	<!-- Events content. -->' . PHP_EOL;
-	
-		if (1)
-		{
-			//foreach ( $posts as $post ) {
-				global $bimbler_mobile_tabs;
-				global $bimbler_mobile_tab_icons;
-				global $bimbler_mobile_tab_text;
-				global $bimbler_mobile_tab_class;
-	
-				global $bimbler_mobile_tab_summary;
-				global $bimbler_mobile_tab_details;
-				global $bimbler_mobile_tab_map;
-				global $bimbler_mobile_tab_rsvps;
-				global $bimbler_mobile_tab_photos;
-	
-				$do_summary_tab = true;
-				$do_details_tab = true;
-				$do_map_tab = true;
-				$do_rsvps_tab = true;
-				$do_photos_tab = true;
-				
-				$content_tab_list = '';
-				$content_tab_content = '';
-				
-				$first = true;
-	
-				$meta_ride_page = get_post_meta ($post->ID, '_BimblerRidePage', true);
+
+		$meta_gallery_id = get_post_meta ($post->ID, 'bimbler_gallery_id', true);
+
+		//error_log ('Gallery: ' . $meta_gallery_id);
+
+		if (!isset ($meta_gallery_id[0]) || empty ($meta_gallery_id)) {
+			$do_photos_tab = false;
+		}
+
+
+		$content .= PHP_EOL . '	<!-- Sub-pages for event ID ' . $post->ID . '. -->' . PHP_EOL;
+
+		foreach ($bimbler_mobile_tabs as $sub_page) {
+			$do_tab = false;
+
+			// Work out which tabs we're going to render.
+			switch ($sub_page) {
+
+				case $bimbler_mobile_tab_summary:
+					$do_tab = true;
+					break;
+
+				case $bimbler_mobile_tab_details:
+					if ($do_details_tab) {
+						$do_tab = true;
+					}
+					break;
+
+				case $bimbler_mobile_tab_map:
+					if ($do_map_tab) {
+						$do_tab = true;
+					}
+					break;
+
+				case $bimbler_mobile_tab_rsvps:
+					$do_tab = true;
+					break;
+
+				case $bimbler_mobile_tab_photos:
+					if ($do_photos_tab) {
+						$do_tab = true;
+					}
+					break;
+
+				case $bimbler_mobile_tab_comments:
+					$do_tab = true;
+					break;
 					
-				if (!isset ($meta_ride_page) || empty ($meta_ride_page)) {
-					$do_details_tab = false;
-				}
-	
-				$rwgps_id = Bimbler_RSVP::get_instance()->get_rwgps_id ($post->ID);
-					
-				if (0 == $rwgps_id) {
-					$do_map_tab = false;
-				}
-	
-				$meta_gallery_id = get_post_meta ($post->ID, 'bimbler_gallery_id', true);
-	
-				error_log ('Gallery: ' . $meta_gallery_id);
-	
-				if (!isset ($meta_gallery_id[0]) || empty ($meta_gallery_id)) {
-					$do_photos_tab = false;
-				}
-	
-	
-				$content .= PHP_EOL . '	<!-- Sub-pages for event ID ' . $post->ID . '. -->' . PHP_EOL;
-				
-				foreach ($bimbler_mobile_tabs as $sub_page) {
+				case $bimbler_mobile_tab_locator:
+						
 					$do_tab = false;
-	
-					// Work out which tabs we're going to render.
-					switch ($sub_page) {
-	
-						case $bimbler_mobile_tab_summary:
+					$do_locator_tab = false;
+				
+					$this_rsvp = Bimbler_RSVP::get_instance()->get_current_rsvp ($post->ID);
+				
+					// Only show to admin users, or to those who have RSVPd 'Yes' to this event.
+					if (current_user_can( 'manage_options' ) ||
+						(isset ($this_rsvp) && ('Y' == $this_rsvp))) {
+			
 							$do_tab = true;
-							break;
-								
-						case $bimbler_mobile_tab_details:
-							if ($do_details_tab) {
-								$do_tab = true;
-							}
-							break;
-	
-						case $bimbler_mobile_tab_map:
-							if ($do_map_tab) {
-								$do_tab = true;
-							}
-							break;
-	
-						case $bimbler_mobile_tab_rsvps:
-							$do_tab = true;
-							break;
-	
-						case $bimbler_mobile_tab_photos:
-							if ($do_photos_tab) {
-								$do_tab = true;
-							}
-							break;
+							$do_locator_tab = true;
 					}
-	
-					if ($do_tab) {
-	
-						$class = $bimbler_mobile_tab_class[$sub_page];
-						
-								
-						$icon = $bimbler_mobile_tab_icons[$sub_page];
-						$text = $bimbler_mobile_tab_text[$sub_page];
-							
-						if ((($sub_page == $bimbler_mobile_tab_summary) && $do_summary_tab) ||
-								(($sub_page == $bimbler_mobile_tab_details) && $do_details_tab) ||
-								(($sub_page == $bimbler_mobile_tab_map) && $do_map_tab) ||
-								(($sub_page == $bimbler_mobile_tab_rsvps) && $do_rsvps_tab) ||
-								(($sub_page == $bimbler_mobile_tab_photos) && $do_photos_tab))
-						{
-								
-							$content_tab_list .= '			<li role="presentation"';
-							$content_tab_list .= ' class="' . ($first ? 'active' : '') . '">' . PHP_EOL;
-							
-							$controls = 'event-'. $post->ID . '-tab' . $sub_page;
-							
-							$content_tab_list .= '			<a href="#' . $controls . '" aria-controls="' . $controls . '" role="tab" data-toggle="pill" data-icon="' . $icon .'">';
-							$content_tab_list .= '<span class="glyphicon ' . $icon . '" aria-hidden="true"></span>';
-							//$content_tab_list .= $text;	
-							$content_tab_list .= '</a></li>' . PHP_EOL;
-							
-							
-							$content_tab_content .= '		<div role="tabpanel"'; 
-							$content_tab_content .= ' class="tab-pane fade ' . ($first ? 'in active' : '') . '"';
-							$content_tab_content .= ' id="' . $controls . '">' . PHP_EOL;
-							
-						}
-						
-						if (1 == $sub_page) {
-	
-							$content_tab_content .= bimbler_mobile_render_summary_page($post->ID);
-	
-						} else if (2 == $sub_page) {
-								
-							$content_tab_content .= bimbler_mobile_render_ride_page($post->ID, $meta_ride_page);
-	
-						} else if (3 == $sub_page) {
-								
-							$content_tab_content .= bimbler_mobile_render_map($post->ID, $rwgps_id);
-								
-						} else if (4 == $sub_page) {
-								
-							$content_tab_content .= bimbler_mobile_render_rsvps($post->ID);
-								
-						} else if (5 == $sub_page) {
-								
-							$content_tab_content .= bimbler_mobile_render_photos($post->ID);
-	
-						}
-						else { 
-								
-							$content_tab_content .= '			<p>Event ' . $post->ID . ', tab ' . $sub_page . '  content</p>' . PHP_EOL;
-						}
+					break;
+			}
 
-						$content_tab_content .= '		</div> <!-- /tabpanel -->' . PHP_EOL;
-						
-	
-						// The footer.
-						//$content .= '		<div data-role="footer" data-position="fixed">' . PHP_EOL;
-						//$content .= '			<h2>&copy;&nbsp;2015 Brisbane Bimblers</h2>' . PHP_EOL;
-						//$content .= '		</div>' . PHP_EOL;
-	
-	
-						} // End if do tab.
-						
-						$first = false;
-						} // End foreach tab.
+			if ($do_tab) {
 
-						
-				$content .= '	<div role="tabpanel">' . PHP_EOL;
-				
-				$content .= '		<ul class="nav nav-pills nav-justified" role="tablist">' . PHP_EOL;
-				$content .= $content_tab_list;
-				$content .= '		</ul>' . PHP_EOL;
+				$class = $bimbler_mobile_tab_class[$sub_page];
+
+
+				$icon = $bimbler_mobile_tab_icons[$sub_page];
+				$text = $bimbler_mobile_tab_text[$sub_page];
 					
-				// The content.
-				$content .= '		<div class="tab-content">' . PHP_EOL;
-				$content .= $content_tab_content;
-				$content .= '		</div> <!-- /tab-content -->' . PHP_EOL;
-				
-				$content .= '	</div> <!-- /tabpanel -->' . PHP_EOL;
-						
-				$content .= '	<!-- /Sub-pages for event ID ' . $post->ID . '. -->' . PHP_EOL . PHP_EOL;
-			//} // End foreach post.
 
-		} // End if posts.
+				$content_tab_list .= '			<li role="presentation"';
+				$content_tab_list .= ' class="' . ($first ? 'active' : '') . '">' . PHP_EOL;
+					
+				$controls = 'event-'. $post->ID . '-tab' . $sub_page;
+					
+				$content_tab_list .= '			<a href="#' . $controls . '" aria-controls="' . $controls . '" role="tab" data-toggle="pill" data-icon="' . $icon .'" data-bimbler-event-id="' . $post->ID . '">';
+				$content_tab_list .= '<i class="' . $icon . '" aria-hidden="true"></>';
+				$content_tab_list .= '</a></li>' . PHP_EOL;
+					
+					
+				$content_tab_content .= '		<div role="tabpanel"';
+				$content_tab_content .= ' class="tab-pane fade ' . ($first ? 'in active' : '') . '"';
+				$content_tab_content .= ' id="' . $controls . '">' . PHP_EOL;
+
+				if (1 == $sub_page) {
+
+					$content_tab_content .= bimbler_mobile_render_summary_page($post->ID);
+
+				} else if (2 == $sub_page) {
+
+					$content_tab_content .= bimbler_mobile_render_ride_page($post->ID, $meta_ride_page);
+
+				} else if (3 == $sub_page) {
+
+					$content_tab_content .= bimbler_mobile_render_map($post->ID, $rwgps_id);
+
+				} else if (4 == $sub_page) {
+
+					$content_tab_content .= bimbler_mobile_render_rsvps($post->ID);
+
+				} else if (5 == $sub_page) {
+
+					$content_tab_content .= bimbler_mobile_render_photos($post->ID);
+
+				} else if (6 == $sub_page) {
+
+					$content_tab_content .= bimbler_mobile_render_comments($post->ID);
+
+				} else if (7 == $sub_page) {
+
+					$content_tab_content .= bimbler_mobile_render_locator($post->ID);
+
+				}
+				else {
+
+					$content_tab_content .= '			<p>Event ' . $post->ID . ', tab ' . $sub_page . '  content</p>' . PHP_EOL;
+				}
+
+				$content_tab_content .= '		</div> <!-- /tabpanel -->' . PHP_EOL;
+
+
+				// The footer.
+				//$content .= '		<div data-role="footer" data-position="fixed">' . PHP_EOL;
+				//$content .= '			<h2>&copy;&nbsp;2015 Brisbane Bimblers</h2>' . PHP_EOL;
+				//$content .= '		</div>' . PHP_EOL;
+
+
+			} // End if do tab.
+
+				$first = false;
+		} // End foreach tab.
+
+		$content .= '	<div role="tabpanel">' . PHP_EOL;
+					
+		// The content.
+		$content .= '		<div class="tab-content">' . PHP_EOL;
+		$content .= $content_tab_content;
+		$content .= '		</div> <!-- /tab-content -->' . PHP_EOL;
+
+		$content .= '	</div> <!-- /tabpanel -->' . PHP_EOL;
+
+		$content .= '	<!-- /Sub-pages for event ID ' . $post->ID . '. -->' . PHP_EOL . PHP_EOL;
 	
 		$content .= '	<!-- /Events content. -->' . PHP_EOL . PHP_EOL;
 	
 		echo $content;
 	}
-	
-*/
 	
 	function bimbler_mobile_render_events_listview ($which = 'upcoming') {//$future = true) {
 		
