@@ -119,9 +119,25 @@
 			// New stuff
 			$content .= '		</div>' . PHP_EOL;
 			$content .= '	</div>' . PHP_EOL;
-				
+			
 		}
+
+		$meta = get_post_meta ($event_id, 'bimbler_gallery_id');
 		
+		if (isset ($meta[0])) {
+			
+			$content .= '	<div class="panel panel-default">' . PHP_EOL;
+			$content .= '		<div class="panel-heading">' . PHP_EOL;
+			$content .= '			<h4 class="panel-title">Upload</h4>' . PHP_EOL;
+			$content .= '		</div>' . PHP_EOL;
+				
+			$content .= '		<div class="panel-body">' . PHP_EOL;
+		
+			$content .= do_shortcode ('[ngg_uploader id='. $meta[0] .']');
+			
+			$content .= '		</div>' . PHP_EOL;
+			$content .= '	</div>' . PHP_EOL;
+		}
 		
 		$content .= '
 			<div id="gallery" class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
@@ -619,7 +635,13 @@
 
 		$content = '';
 		
-		$content .= '		<li class="dd-item">'. PHP_EOL;
+		if ($comment->comment_parent == 0) {
+			$content .= '		<li class="dd-item" style="border-top: 1px solid #ebebeb;">'. PHP_EOL;
+		} else {
+			$content .= '		<li class="dd-item">'. PHP_EOL;				
+		}
+		
+		
 		$content .= '			<div class="dd-handle">'. PHP_EOL;
 
 		$avatar .= get_avatar ($comment->comment_author_email, null, null);
@@ -717,7 +739,7 @@
 			$content .= '		<div class="panel-body" style="padding: 0px;">' . PHP_EOL;
 			
 			$content .= '	<div class="panel-body" style="padding:0px;">' . PHP_EOL;
-			$content .= '		<div id="list-1" class="nested-list dd with-margins"><!-- adding class "with-margins" will separate list items -->' . PHP_EOL;			
+			$content .= '		<div id="list-1" class="nested-list dd xwith-margins"><!-- adding class "with-margins" will separate list items -->' . PHP_EOL;			
 
 			$content .= bimbler_mobile_show_hidden_comment(null);
 			
