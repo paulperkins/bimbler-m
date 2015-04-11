@@ -498,7 +498,7 @@ jQuery(document).ready(function ($) {
 		
 		window.centreMap = function (m) {
 			
-	    	locator_map.setCenter(m.getPosition());
+	    	locator_map.panTo(m.getPosition());
 
 		}
 
