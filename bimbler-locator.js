@@ -1,6 +1,7 @@
 
 jQuery(document).ready(function ($) {
-	
+
+	var max_age = 30;
 	var user_id = 0;
 	var event_id = 0;
 	var rwgps_id = 0;
@@ -196,7 +197,7 @@ jQuery(document).ready(function ($) {
 						&& (row.pos_lat && row.pos_lng)
 						&& ((row.pos_lat != 0) && (row.pos_lng != 0))
 						&& (row.user_id != user_id)
-						&& ((my_timestamp > 0) && (pointer_age < 60))) {
+						&& ((my_timestamp > 0) && (pointer_age < max_age))) {
 
 					var new_pos = new google.maps.LatLng(row.pos_lat, row.pos_lng);	
 
@@ -297,7 +298,7 @@ jQuery(document).ready(function ($) {
 						// Compare timestamp with my_timestamp - if too old, remove marker.
 						// This gives the limitation that the current user has be be tracked in order to 
 						// see other users' positions.
-						if ((my_timestamp > 0) && (pointer_age > 60) && person_markers[row.user_id] && (row.pos_lat != 0) && (row.pos_lng != 0)) { 	// 60 minutes old or more gets deleted.
+						if ((my_timestamp > 0) && (pointer_age > max_age) && person_markers[row.user_id] && (row.pos_lat != 0) && (row.pos_lng != 0)) { 	// 60 minutes old or more gets deleted.
 							
 							console.log ('User ' + row.user_id + ' has stale position data - deleting marker.');
 							
