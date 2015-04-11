@@ -889,8 +889,6 @@
 			
 			$content .= '		</div>' . PHP_EOL;
 			$content .= '	</div>' . PHP_EOL;
-			
-			$content .= '<span id="bimbler-debug-output"></span>' . PHP_EOL;
 
 			// The who's who box.
 			$content .= '	<div class="panel panel-default">' . PHP_EOL;
@@ -905,7 +903,9 @@
 				
 			$content .= '		</div>' . PHP_EOL;
 			$content .= '	</div>' . PHP_EOL;
-						
+
+			$content .= '<span id="bimbler-debug-output"></span>' . PHP_EOL;
+				
 	
 		} else {
 			$content .= '<h2>Please log in.</h2>' . PHP_EOL;
