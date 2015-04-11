@@ -332,16 +332,16 @@ jQuery(document).ready(function ($) {
 							
 							// All good - update the marker.
 								
-							console.log ('  Updating marker for user ID ' + row.user_id + ' -> ' + new_pos);
+							console.log ('  Updating marker for user ID ' + row.user_id + ' -> ' + new_pos + ', hdg ' + parseInt(row.pos_hdg));
 		
 							person_markers[row.user_id].setPosition (new_pos);
 							
 							// Update rotation.
-				    		//var this_icon = person_markers[row.user_id].getIcon();
+				    		var this_icon = person_markers[row.user_id].getIcon();
 				    		 
-				    		//this_icon.rotation = row.pos_hdg + 0;
+				    		this_icon.rotation = parseInt(row.pos_hdg);
 				    		 
-				    		//person_markers[row.user_id].setIcon (this_icon);
+				    		person_markers[row.user_id].setIcon (this_icon);
 							
 						} // else... not sure!
 					}
@@ -362,13 +362,15 @@ jQuery(document).ready(function ($) {
 			     navigator.geolocation.getCurrentPosition(function (position) {
 			    	 
 			    	 //console.dir (position);
-
+			    	 
 			    	 my_position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 			    	 my_speed = position.coords.speed + 0;// / 3600 / 1000; // m/s -> km/hr
-			    	 my_heading = position.coords.heading + 0; // Turn string to number.
-			    	 //my_timestamp = position.timestamp;
 
-			    	 //console.log (my_position.toString());
+			    	 my_heading = parseInt(position.coords.heading); // Turn string to number.
+
+			    	 if (!position.coords.heading) {
+			    		 my_heading = 0;
+			    	 }
 
 			    	 // No marker exists - create a new one.
 			    	 if (!me_marker) {
@@ -555,7 +557,8 @@ jQuery(document).ready(function ($) {
 				    	 if (response.status == 'success') {
 				    		 console.log ('Success: ' + response);
 				    	 } else {
-				    		 console.log ('Success, with errors: ' + response);
+				    		 console.log ('Success, with errors: ');
+				    		 console.dir (response);
 
 				    		var wait = '<i class="fa fa-signal text-danger"></i>';
 								
