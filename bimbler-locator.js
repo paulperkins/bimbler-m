@@ -35,6 +35,7 @@ jQuery(document).ready(function ($) {
 	var person_objects = [];
 	var me_marker;
 	var me_icon;
+	var me_user_id = 0;
 	
 	var brisbane = new google.maps.LatLng(-27.471010, 153.023453);
 	var initialLocation = brisbane;
@@ -59,7 +60,7 @@ jQuery(document).ready(function ($) {
 		$.each (person_objects,function (index, row) {
 		
 			if (row) {
-				content += '<div style="width:50px; display:inline-block;">';
+				content += '<div style="width:50px; display:inline-block;" data-user-id="' + row.user_id + '" class="bimbler-whoswho-marker">';
 				content += '	<div style="' + style + '"><img src="http://maps.google.com/mapfiles/ms/icons/' + row.colour + '.png"></img></div>';  
 				content += '	<div style="' + style + '">' + row.user_name + '</div>';  
 				content += '</div>';
@@ -233,7 +234,8 @@ jQuery(document).ready(function ($) {
 			         var person = {
 				         user_id: 	row.user_id,
 				         colour: 	marker_colour,
-				         user_name: row.user_name
+				         user_name: row.user_name,
+				         marker: new_marker
 			         };
 			         
 			         person_objects[row.user_id] = person;
@@ -398,12 +400,13 @@ jQuery(document).ready(function ($) {
 				         map.setCenter(my_position);
 				         
 				         var person = {
-						         user_id: 	0,
+						         user_id: 	user_id,
 						         colour: 	'red',
-						         user_name: 'You'
+						         user_name: 'You',
+						         marker: me_marker
 					         };
 					         
-					     person_objects[0] = person;
+					     person_objects[user_id] = person;
 
 				         
 				         var contentString = '<div id="content">'+
@@ -493,6 +496,12 @@ jQuery(document).ready(function ($) {
  			     }
 			});
 		};
+		
+		window.centreMap = function (m) {
+			
+	    	locator_map.setCenter(m.getPosition());
+
+		}
 
 		window.update = function () {
 
@@ -683,6 +692,13 @@ jQuery(document).ready(function ($) {
 			
 		} 
 	})
+
+	$('body').on('click', '.bimbler-whoswho-marker', function () {
+
+	    centreMap (person_objects[this_user_id].marker);
+	    
+	});
+
 	
 	/*
 	 * Handler for 'Track Me' toggle change.
