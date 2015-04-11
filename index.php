@@ -30,6 +30,9 @@
 	<![endif]-->
 
 	<link rel="stylesheet" href="fa/css/font-awesome.min.css">
+	
+	<script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false"></script>
+	
 		
 	<script src="spin.js"></script>
 <!--  	<script src="bimbler.js"></script> -->
