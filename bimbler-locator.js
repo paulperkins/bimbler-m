@@ -35,7 +35,6 @@ jQuery(document).ready(function ($) {
 	var person_objects = [];
 	var me_marker;
 	var me_icon;
-	var me_user_id = 0;
 	
 	var brisbane = new google.maps.LatLng(-27.471010, 153.023453);
 	var initialLocation = brisbane;
@@ -695,9 +694,12 @@ jQuery(document).ready(function ($) {
 
 	$('body').on('click', '.bimbler-whoswho-marker', function () {
 
+		var this_user_id = $(this).attr('data-user-id');
+
 	    centreMap (person_objects[this_user_id].marker);
 	    
 	});
+
 
 	
 	/*
