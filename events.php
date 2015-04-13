@@ -1380,20 +1380,74 @@
 		
 		$content = '';
 		
-		if (('upcoming' == $which) || ('past' == $which)) {
-
-			$when = $which;
+/*
+			$posts = tribe_get_events( array(
+					'eventDisplay' 	=> 'custom',
+					'posts_per_page'=>	$instance["events_num"],
+					'meta_query' 	=> array(
+							array(
+									'key' 		=> '_EventStartDate',
+									'value' 	=> date('Y-m-d H:i:s'), // Now onwards.
+									'compare' 	=> '>',
+									'type' 		=> 'date'
+							)
+					)));
+ 
+ */
 		
-			if ( function_exists( 'tribe_get_events' ) ) {
+		if ('upcoming' == $which) {
+			
+			$when = $which;
+				
+			$posts = tribe_get_events( array(
+					'eventDisplay' 	=> 'custom',
+					'posts_per_page'=>	$bimbler_mobile_events_per_page,
+					'meta_query' 	=> array(
+							array(
+									'key' 		=> '_EventStartDate',
+									'value' 	=> date('Y-m-d H:i:s'), // Now onwards.
+									'compare' 	=> '>',
+									'type' 		=> 'date'
+							)
+					)));
+		
+/*			if ( function_exists( 'tribe_get_events' ) ) {
 				$args = array(
 						'eventDisplay'   => $when, //'upcoming',
 						'posts_per_page' => $bimbler_mobile_events_per_page
 				);
 			
 				$posts = tribe_get_events( $args );
-			}
+			} */
 		}
 
+		if ('past' == $which) {
+		
+			$when = $which;
+
+			$posts = tribe_get_events( array(
+					'eventDisplay' 	=> 'custom',
+					'posts_per_page'=>	$bimbler_mobile_events_per_page,
+					'order'			=> 'DESC', 
+					'meta_query' 	=> array(
+							array(
+									'key' 		=> '_EventStartDate',
+									'value' 	=> date('Y-m-d H:i:s'), // Now onwards.
+									'compare' 	=> '<=',
+									'type' 		=> 'date'
+							)
+					)));
+			
+/*			if ( function_exists( 'tribe_get_events' ) ) {
+				$args = array(
+						'eventDisplay'   => $when, //'upcoming',
+						'posts_per_page' => $bimbler_mobile_events_per_page
+				);
+					
+				$posts = tribe_get_events( $args );
+			} */
+		}
+		
 		if ('newest' == $which) {
 			
 			if ( function_exists( 'tribe_get_events' ) ) {
