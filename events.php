@@ -241,6 +241,8 @@
 			$count_rsvps_y = Bimbler_RSVP::get_instance()->count_rsvps ($event_id);
 			$count_rsvps_n = Bimbler_RSVP::get_instance()->count_no_rsvps ($event_id);
 			
+			$host_users = Bimbler_RSVP::get_instance()->get_event_host_users ($event_id);
+			
 			if (!isset ($count_rsvps_y)) {
 				$count_rsvps_y = 0;
 			}
@@ -399,7 +401,15 @@
 						if ($rsvp->guests > 0) {
 							$content .= ' + ' . $rsvp->guests;
 						}
-						$content .= '</strong></p>' . PHP_EOL;
+						$content .= '</strong>' . PHP_EOL;
+
+						if (isset ($host_users) && in_array ($user_info->ID,$host_users)) {
+						
+							$content .= ' (Host)' . PHP_EOL;
+								
+						}
+						
+						$content .= '</p>' . PHP_EOL;
 						
 						if (current_user_can( 'manage_options')) {
 							$content .= ' 						<p>RSVPd on ' . date ($bimbler_mobile_time_str, strtotime($rsvp->time)) . '</p>' . PHP_EOL;
@@ -1410,15 +1420,6 @@
 									'type' 		=> 'date'
 							)
 					)));
-		
-/*			if ( function_exists( 'tribe_get_events' ) ) {
-				$args = array(
-						'eventDisplay'   => $when, //'upcoming',
-						'posts_per_page' => $bimbler_mobile_events_per_page
-				);
-			
-				$posts = tribe_get_events( $args );
-			} */
 		}
 
 		if ('past' == $which) {
@@ -1437,15 +1438,6 @@
 									'type' 		=> 'date'
 							)
 					)));
-			
-/*			if ( function_exists( 'tribe_get_events' ) ) {
-				$args = array(
-						'eventDisplay'   => $when, //'upcoming',
-						'posts_per_page' => $bimbler_mobile_events_per_page
-				);
-					
-				$posts = tribe_get_events( $args );
-			} */
 		}
 		
 		if ('newest' == $which) {
