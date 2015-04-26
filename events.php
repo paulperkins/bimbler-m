@@ -1390,20 +1390,8 @@
 		
 		$content = '';
 		
-/*
-			$posts = tribe_get_events( array(
-					'eventDisplay' 	=> 'custom',
-					'posts_per_page'=>	$instance["events_num"],
-					'meta_query' 	=> array(
-							array(
-									'key' 		=> '_EventStartDate',
-									'value' 	=> date('Y-m-d H:i:s'), // Now onwards.
-									'compare' 	=> '>',
-									'type' 		=> 'date'
-							)
-					)));
- 
- */
+		// Fix-up timezone bug.
+		date_default_timezone_set('Australia/Brisbane');
 		
 		if ('upcoming' == $which) {
 			
