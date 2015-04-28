@@ -513,3 +513,6 @@ dd-content,
 } 
 /* End notification boxes. */
 
+nav #bs-example-navbar-collapse-1 a {
+	font-size: 18px;
+}
