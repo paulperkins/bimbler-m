@@ -1402,7 +1402,8 @@
 					'posts_per_page'=>	$bimbler_mobile_events_per_page,
 					'meta_query' 	=> array(
 							array(
-									'key' 		=> '_EventStartDate',
+									//'key' 		=> '_EventStartDate',
+									'key' 		=> '_EventEndDate',		// Events which will be ending after now - show in-flight events.
 									'value' 	=> date('Y-m-d H:i:s'), // Now onwards.
 									'compare' 	=> '>',
 									'type' 		=> 'date'
