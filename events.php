@@ -1,6 +1,6 @@
 <?php
 
-	$bimbler_mobile_events_per_page = 15;
+	$bimbler_mobile_events_per_page = 20;
 
 	include_once ('single_event.php');
 	
@@ -1449,7 +1449,11 @@
 									'compare' 	=> '>',
 									'type' 		=> 'date'
 							)
-					)));
+						),
+					'orderby' 	=> 'meta_value',
+					'meta_key' 	=> '_EventEndDate',
+					'order'	 	=> 'ASC',
+			));
 		}
 
 		if ('past' == $which) {
