@@ -433,6 +433,24 @@
 		return $content;
 	}
 
+	function bimbler_mobile_render_map_iframe ($event_id, $rwgps_id) {
+		$content = '';
+	
+		if (0 == $rwgps_id) {
+	
+			//$content .= '<span>This event does not yet have a map.</span>';
+	
+		} else {
+	
+			//$content .= '				<p><div style="padding-left: 5px; padding-right: 5px;" id="rwgps-map-container-' . $event_id . '" data-rwgps-id="' . $rwgps_id . '">';
+			$content .= '<iframe id="rwgps-map-' . $event_id . '" src="//ridewithgps.com/routes/' . $rwgps_id . '/embed" height="800px" width="100%" frameborder="0" scrolling="no" class="iframe-class"></iframe>';
+			//$content .= '</div></p>' . PHP_EOL;
+		}
+	
+		return $content;
+	}
+	
+	
 	function bimbler_mobile_render_map ($event_id, $rwgps_id) {
 		$content = '';
 		
@@ -1379,6 +1397,29 @@
 		$content .= '	<!-- /Events content. -->' . PHP_EOL . PHP_EOL;
 	
 		echo $content;
+	}
+	
+	function bimbler_mobile_get_upcoming_events () {
+		
+		global $bimbler_mobile_events_per_page;
+		
+		// Fix-up timezone bug.
+		date_default_timezone_set('Australia/Brisbane');
+		
+		$posts = tribe_get_events( array(
+				'eventDisplay' 	=> 'custom',
+				'posts_per_page'=>	$bimbler_mobile_events_per_page,
+				'meta_query' 	=> array(
+						array(
+								//'key' 		=> '_EventStartDate',
+								'key' 		=> '_EventEndDate',		// Events which will be ending after now - show in-flight events.
+								'value' 	=> date('Y-m-d H:i:s'), // Now onwards.
+								'compare' 	=> '>',
+								'type' 		=> 'date'
+						)
+				)));
+
+		return $posts;
 	}
 	
 	function bimbler_mobile_render_events_listview ($which = 'upcoming') {//$future = true) {
