@@ -1422,6 +1422,46 @@
 		return $posts;
 	}
 	
+	function bimbler_mobile_get_past_events () {
+	
+		global $bimbler_mobile_events_per_page;
+	
+		// Fix-up timezone bug.
+		date_default_timezone_set('Australia/Brisbane');
+	
+		$posts = tribe_get_events( array(
+				'eventDisplay' 	=> 'custom',
+				'posts_per_page'=>	$bimbler_mobile_events_per_page,
+				'order'			=> 'DESC', 
+				'meta_query' 	=> array(
+						array(
+								'key' 		=> '_EventStartDate',
+								'value' 	=> date('Y-m-d H:i:s'), // Now onwards.
+								'compare' 	=> '<=',
+								'type' 		=> 'date'
+						)
+				)));
+		
+		return $posts;
+	}
+	
+	function bimbler_mobile_get_added_events () {
+	
+		global $bimbler_mobile_events_per_page;
+	
+		// Fix-up timezone bug.
+		date_default_timezone_set('Australia/Brisbane');
+			
+		$posts = tribe_get_events( array(
+				'eventDisplay'   => 'all', //'upcoming',
+				'posts_per_page' => $bimbler_mobile_events_per_page,
+				'orderby'		=> 'post_date',
+				'order'			=> 'DESC'
+				));
+		
+		return $posts;
+	}
+	
 	function bimbler_mobile_render_events_listview ($which = 'upcoming') {//$future = true) {
 		
 		global $bimbler_mobile_events_per_page;
