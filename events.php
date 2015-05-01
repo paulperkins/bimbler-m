@@ -1589,7 +1589,7 @@
 						
 					
 					$content .= '				<h4 style="text-overflow: none!important;">' . $post->post_title . '</h4>' . PHP_EOL;
-					$content .= '				<p><strong>' . date ($time_str, strtotime($post->EventStartDate)) . '</strong></p>' . PHP_EOL;
+					$content .= '				<p><strong>' . date ($time_str, strtotime($event_date)) . '</strong></p>' . PHP_EOL;
 					$content .= '				<p style="white-space: normal!important; text-overflow: initial!important; overflow: auto!important;">' . $excerpt . '</p>' . PHP_EOL;
 				
 					$content .= '				</div>' . PHP_EOL;
