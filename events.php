@@ -1416,7 +1416,9 @@
 								'value' 	=> date('Y-m-d H:i:s'), // Now onwards.
 								'compare' 	=> '>',
 								'type' 		=> 'date'
-						)
+						),
+						'orderby' 	=> '_EventEndDate',
+						'order'	 	=> 'ASC'
 				)));
 
 		return $posts;
@@ -1490,10 +1492,8 @@
 									'type' 		=> 'date'
 							)
 						),
-					//'orderby' 	=> 'meta_value',  // So, this seems to set the start date to the same as the end date...
 					'orderby' 	=> '_EventEndDate',
-					//'meta_key' 	=> '_EventEndDate',
-					'order'	 	=> 'ASC',
+					'order'	 	=> 'ASC'
 			));
 		}
 
