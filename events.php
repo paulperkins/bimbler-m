@@ -1491,8 +1491,9 @@
 							)
 						),
 					//'orderby' 	=> 'meta_value',  // So, this seems to set the start date to the same as the end date...
+					'orderby' 	=> '_EventEndDate',
 					//'meta_key' 	=> '_EventEndDate',
-					//'order'	 	=> 'ASC',
+					'order'	 	=> 'ASC',
 			));
 		}
 
