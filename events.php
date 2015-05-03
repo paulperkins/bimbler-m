@@ -1488,7 +1488,7 @@
 									//'key' 		=> '_EventStartDate',
 									'key' 		=> '_EventEndDate',		// Events which will be ending after now - show in-flight events.
 									'value' 	=> date('Y-m-d H:i:s'), // Now onwards.
-									'compare' 	=> '>',
+									'compare' 	=> '>=',
 									'type' 		=> 'date'
 							)
 						),
