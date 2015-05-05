@@ -206,19 +206,10 @@
 	/*
 	 * Determines if the user can execute Ajax, and checks if the Ajax Bimbler plugin is loaded.
 	*/
-	function bimbler_mobile_can_modify_attendance () {
+	function bimbler_mobile_can_modify_attendance ($event_id) {
 	
-/*		if (!class_exists (BIMBLER_AJAX_CLASS)) {
-			//error_log ('User can\'t run Ajax - BIMBLER_AJAX_CLASS not loaded.');
-			return false;
-		} */
-	
-		if (!current_user_can ('manage_options')) {
-			//error_log ('User can\'t run Ajax - not an admin.');
-			return false;
-		}
-	
-		return true;
+		return Bimbler_RSVP::get_instance()->can_modify_attendance($event_id);
+		
 	}
 	
 	
@@ -364,7 +355,7 @@
 						$content .= '					<div class="col-xs2 pull-left" style="height: 80px;">' . PHP_EOL;
 
 						// Output an innocuous DIV if the user cannot amend attendance, or if the Ajax module is not loaded.
-						if (!bimbler_mobile_can_modify_attendance ()) {
+						if (!bimbler_mobile_can_modify_attendance ($event_id)) {
 							$content .= '<div class="rsvp-checkin-container-noajax">';
 						}
 						else {
@@ -375,7 +366,7 @@
 						$content .= '						<div class="avatar-clipped" style="background-image: url(\'' . $avatar_img . '\');"></div>' . PHP_EOL;
 
 						// Only show indicators if the event has ended or we're admin, and if we're showing the 'Yes' RSVPs.
-						if (('Y' == $this_rsvp) && (current_user_can( 'manage_options') || $has_event_passed))
+						if (('Y' == $this_rsvp) && (bimbler_mobile_can_modify_attendance ($event_id) || $has_event_passed))
 						{
 							$content .= '<div class="rsvp-checkin-indicator" id="rsvp-checkin-indicator-'. $rsvp->id .'">'; // Content will be replaced by Ajax.
 							
