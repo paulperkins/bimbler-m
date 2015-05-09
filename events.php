@@ -1393,24 +1393,8 @@
 	function bimbler_mobile_get_upcoming_events () {
 		
 		global $bimbler_mobile_events_per_page;
-		
-		// Fix-up timezone bug.
-		date_default_timezone_set('Australia/Brisbane');
-		
-		$posts = tribe_get_events( array(
-				'eventDisplay' 	=> 'custom',
-				'posts_per_page'=>	$bimbler_mobile_events_per_page,
-				'meta_query' 	=> array(
-						array(
-								//'key' 		=> '_EventStartDate',
-								'key' 		=> '_EventEndDate',		// Events which will be ending after now - show in-flight events.
-								'value' 	=> date('Y-m-d H:i:s'), // Now onwards.
-								'compare' 	=> '>',
-								'type' 		=> 'date'
-						),
-						'orderby' 	=> '_EventEndDate',
-						'order'	 	=> 'ASC'
-				)));
+
+		$posts = Bimbler_RSVP::get_instance()->get_upcoming_events($bimbler_mobile_events_per_page);
 
 		return $posts;
 	}
@@ -1418,22 +1402,8 @@
 	function bimbler_mobile_get_past_events () {
 	
 		global $bimbler_mobile_events_per_page;
-	
-		// Fix-up timezone bug.
-		date_default_timezone_set('Australia/Brisbane');
-	
-		$posts = tribe_get_events( array(
-				'eventDisplay' 	=> 'custom',
-				'posts_per_page'=>	$bimbler_mobile_events_per_page,
-				'order'			=> 'DESC', 
-				'meta_query' 	=> array(
-						array(
-								'key' 		=> '_EventStartDate',
-								'value' 	=> date('Y-m-d H:i:s'), // Now onwards.
-								'compare' 	=> '<=',
-								'type' 		=> 'date'
-						)
-				)));
+
+		$posts = Bimbler_RSVP::get_instance()->get_past_events($bimbler_mobile_events_per_page);
 		
 		return $posts;
 	}
@@ -1441,16 +1411,8 @@
 	function bimbler_mobile_get_added_events () {
 	
 		global $bimbler_mobile_events_per_page;
-	
-		// Fix-up timezone bug.
-		date_default_timezone_set('Australia/Brisbane');
-			
-		$posts = tribe_get_events( array(
-				'eventDisplay'   => 'all', //'upcoming',
-				'posts_per_page' => $bimbler_mobile_events_per_page,
-				'orderby'		=> 'post_date',
-				'order'			=> 'DESC'
-				));
+
+		$posts = Bimbler_RSVP::get_instance()->get_past_events($bimbler_mobile_events_per_page);
 		
 		return $posts;
 	}
