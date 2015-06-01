@@ -366,7 +366,7 @@ jQuery(document).ready(function ($) {
 			    	 //console.dir (position);
 			    	 
 			    	 my_position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-			    	 my_speed = position.coords.speed / 3600 / 1000; // m/s -> km/hr
+			    	 my_speed = position.coords.speed * (3600 / 1000); // m/s -> km/hr
 
 			    	 my_heading = parseInt(position.coords.heading); // Turn string to number.
 
