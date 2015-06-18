@@ -1,6 +1,6 @@
 <?php
 
-	$bimbler_mobile_events_per_page = 15;
+	$bimbler_mobile_events_per_page = 20;
 
 	include_once ('single_event.php');
 	
@@ -206,19 +206,10 @@
 	/*
 	 * Determines if the user can execute Ajax, and checks if the Ajax Bimbler plugin is loaded.
 	*/
-	function bimbler_mobile_can_modify_attendance () {
+	function bimbler_mobile_can_modify_attendance ($event_id) {
 	
-/*		if (!class_exists (BIMBLER_AJAX_CLASS)) {
-			//error_log ('User can\'t run Ajax - BIMBLER_AJAX_CLASS not loaded.');
-			return false;
-		} */
-	
-		if (!current_user_can ('manage_options')) {
-			//error_log ('User can\'t run Ajax - not an admin.');
-			return false;
-		}
-	
-		return true;
+		return Bimbler_RSVP::get_instance()->can_modify_attendance($event_id);
+		
 	}
 	
 	
@@ -240,6 +231,8 @@
 			$rsvps_n = Bimbler_RSVP::get_instance()->get_event_rsvp_object ($event_id, 'N');
 			$count_rsvps_y = Bimbler_RSVP::get_instance()->count_rsvps ($event_id);
 			$count_rsvps_n = Bimbler_RSVP::get_instance()->count_no_rsvps ($event_id);
+			
+			$host_users = Bimbler_RSVP::get_instance()->get_event_host_users ($event_id);
 			
 			if (!isset ($count_rsvps_y)) {
 				$count_rsvps_y = 0;
@@ -362,7 +355,7 @@
 						$content .= '					<div class="col-xs2 pull-left" style="height: 80px;">' . PHP_EOL;
 
 						// Output an innocuous DIV if the user cannot amend attendance, or if the Ajax module is not loaded.
-						if (!bimbler_mobile_can_modify_attendance ()) {
+						if (!bimbler_mobile_can_modify_attendance ($event_id)) {
 							$content .= '<div class="rsvp-checkin-container-noajax">';
 						}
 						else {
@@ -373,7 +366,7 @@
 						$content .= '						<div class="avatar-clipped" style="background-image: url(\'' . $avatar_img . '\');"></div>' . PHP_EOL;
 
 						// Only show indicators if the event has ended or we're admin, and if we're showing the 'Yes' RSVPs.
-						if (('Y' == $this_rsvp) && (current_user_can( 'manage_options') || $has_event_passed))
+						if (('Y' == $this_rsvp) && (bimbler_mobile_can_modify_attendance ($event_id) || $has_event_passed))
 						{
 							$content .= '<div class="rsvp-checkin-indicator" id="rsvp-checkin-indicator-'. $rsvp->id .'">'; // Content will be replaced by Ajax.
 							
@@ -399,7 +392,15 @@
 						if ($rsvp->guests > 0) {
 							$content .= ' + ' . $rsvp->guests;
 						}
-						$content .= '</strong></p>' . PHP_EOL;
+						$content .= '</strong>' . PHP_EOL;
+
+						if (isset ($host_users) && in_array ($user_info->ID,$host_users)) {
+						
+							$content .= ' (Host)' . PHP_EOL;
+								
+						}
+						
+						$content .= '</p>' . PHP_EOL;
 						
 						if (current_user_can( 'manage_options')) {
 							$content .= ' 						<p>RSVPd on ' . date ($bimbler_mobile_time_str, strtotime($rsvp->time)) . '</p>' . PHP_EOL;
@@ -423,6 +424,24 @@
 		return $content;
 	}
 
+	function bimbler_mobile_render_map_iframe ($event_id, $rwgps_id) {
+		$content = '';
+	
+		if (0 == $rwgps_id) {
+	
+			//$content .= '<span>This event does not yet have a map.</span>';
+	
+		} else {
+	
+			//$content .= '				<p><div style="padding-left: 5px; padding-right: 5px;" id="rwgps-map-container-' . $event_id . '" data-rwgps-id="' . $rwgps_id . '">';
+			$content .= '<iframe id="rwgps-map-' . $event_id . '" src="//ridewithgps.com/routes/' . $rwgps_id . '/embed" height="800px" width="100%" frameborder="0" scrolling="no" class="iframe-class"></iframe>';
+			//$content .= '</div></p>' . PHP_EOL;
+		}
+	
+		return $content;
+	}
+	
+	
 	function bimbler_mobile_render_map ($event_id, $rwgps_id) {
 		$content = '';
 		
@@ -1371,6 +1390,33 @@
 		echo $content;
 	}
 	
+	function bimbler_mobile_get_upcoming_events () {
+		
+		global $bimbler_mobile_events_per_page;
+
+		$posts = Bimbler_RSVP::get_instance()->get_upcoming_events($bimbler_mobile_events_per_page);
+
+		return $posts;
+	}
+	
+	function bimbler_mobile_get_past_events () {
+	
+		global $bimbler_mobile_events_per_page;
+
+		$posts = Bimbler_RSVP::get_instance()->get_past_events($bimbler_mobile_events_per_page);
+		
+		return $posts;
+	}
+	
+	function bimbler_mobile_get_added_events () {
+	
+		global $bimbler_mobile_events_per_page;
+
+		$posts = Bimbler_RSVP::get_instance()->get_past_events($bimbler_mobile_events_per_page);
+		
+		return $posts;
+	}
+	
 	function bimbler_mobile_render_events_listview ($which = 'upcoming') {//$future = true) {
 		
 		global $bimbler_mobile_events_per_page;
@@ -1380,20 +1426,48 @@
 		
 		$content = '';
 		
-		if (('upcoming' == $which) || ('past' == $which)) {
-
-			$when = $which;
+		// Fix-up timezone bug.
+		date_default_timezone_set('Australia/Brisbane');
 		
-			if ( function_exists( 'tribe_get_events' ) ) {
-				$args = array(
-						'eventDisplay'   => $when, //'upcoming',
-						'posts_per_page' => $bimbler_mobile_events_per_page
-				);
+		if ('upcoming' == $which) {
 			
-				$posts = tribe_get_events( $args );
-			}
+			$when = $which;
+				
+			$posts = tribe_get_events( array(
+					'eventDisplay' 	=> 'custom',
+					'posts_per_page'=>	$bimbler_mobile_events_per_page,
+					'meta_query' 	=> array(
+							array(
+									//'key' 		=> '_EventStartDate',
+									'key' 		=> '_EventEndDate',		// Events which will be ending after now - show in-flight events.
+									'value' 	=> date('Y-m-d H:i:s'), // Now onwards.
+									'compare' 	=> '>=',
+									'type' 		=> 'date'
+							)
+						),
+					'orderby' 	=> '_EventEndDate',
+					'order'	 	=> 'ASC'
+			));
 		}
 
+		if ('past' == $which) {
+		
+			$when = $which;
+
+			$posts = tribe_get_events( array(
+					'eventDisplay' 	=> 'custom',
+					'posts_per_page'=>	$bimbler_mobile_events_per_page,
+					'order'			=> 'DESC', 
+					'meta_query' 	=> array(
+							array(
+									'key' 		=> '_EventStartDate',
+									'value' 	=> date('Y-m-d H:i:s'), // Now onwards.
+									'compare' 	=> '<=',
+									'type' 		=> 'date'
+							)
+					)));
+		}
+		
 		if ('newest' == $which) {
 			
 			if ( function_exists( 'tribe_get_events' ) ) {
