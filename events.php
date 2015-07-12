@@ -1432,8 +1432,15 @@
 		if ('upcoming' == $which) {
 			
 			$when = $which;
+			
+			
+			$posts = tribe_get_events(array(
+					'eventDisplay'          => 'all',
+					'start_date'            => date('Y-m-d H:i:s'), // From now, not midnight - we should already be at today's ride.
+					'posts_per_page'        => $bimbler_mobile_events_per_page) ); 
+
 				
-			$posts = tribe_get_events( array(
+/*			$posts = tribe_get_events( array(
 					'eventDisplay' 	=> 'custom',
 					'posts_per_page'=>	$bimbler_mobile_events_per_page,
 					'meta_query' 	=> array(
@@ -1447,7 +1454,7 @@
 						),
 					'orderby' 	=> '_EventEndDate',
 					'order'	 	=> 'ASC'
-			));
+			));*/
 		}
 
 		if ('past' == $which) {
