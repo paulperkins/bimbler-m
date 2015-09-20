@@ -52,6 +52,7 @@ jQuery(document).ready(function ($) {
 	window.drawWhosWho = function (e) {
 		
 		var content = '';
+		var avatar;
 		
 		content = '<div stlye="display: block;">';
 		
@@ -60,10 +61,16 @@ jQuery(document).ready(function ($) {
 		$.each (person_objects,function (index, row) {
 		
 			if (row) {
-				content += '<div style="width:50px; display:inline-block;" data-user-id="' + row.user_id + '" class="bimbler-whoswho-marker">';
+				if (avatar = document.getElementById ('user-avatar-' + row.user_id)) {
+					
+					avatar.style.backgroundColor = row.colour;
+					
+				}
+				
+/*				content += '<div style="width:50px; display:inline-block;" data-user-id="' + row.user_id + '" class="bimbler-whoswho-marker">';
 				content += '	<div style="' + style + '"><img src="http://maps.google.com/mapfiles/ms/icons/' + row.colour + '.png"></img></div>';  
 				content += '	<div style="' + style + '">' + row.user_name + '</div>';  
-				content += '</div>';
+				content += '</div>'; */
 			}
 		});
 		
@@ -684,7 +691,7 @@ jQuery(document).ready(function ($) {
 
 	$('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
 		
-		console.log ('bimbler-locator.js: ' + e.target.className.split(" ")[0] + ' clicked.');
+		//console.log ('bimbler-locator.js: ' + e.target.className.split(" ")[0] + ' clicked.');
 		
 		if ('bimbler_mobile_locator_tab' == e.target.className.split(" ")[0]) {
 			
