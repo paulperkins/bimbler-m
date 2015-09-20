@@ -918,7 +918,59 @@
 			$content .= '		<div class="panel-body">' . PHP_EOL;
 
 			// Content here.
-			$content .= '		<span id="bimbler-whos-who"><i class=\'fa fa-spinner fa-spin\'></i></span>';
+			//$content .= '		<span id="bimbler-whos-who"><i class=\'fa fa-spinner fa-spin\'></i></span>';
+			
+			$rsvps = Bimbler_RSVP::get_instance()->get_event_rsvp_object ($event_id, 'Y');
+			$host_users = Bimbler_RSVP::get_instance()->get_event_host_users ($event_id);
+				
+			$html = '<div id="AvatarListSide" class="AvatarListSide-wrap">';
+	
+			if (0 == count ($rsvps))
+			{
+				$html .= '<p>No RSVPs yet.</p>';
+			} else	{
+		
+				$html .= '		    <ul>';
+	
+				foreach ( $rsvps as $rsvp) {
+	
+					$user_info   = get_userdata ($rsvp->user_id);
+	
+					$avatar = '';
+						
+					if (isset ($user_info->user_login)) {
+						$avatar .= get_avatar ($rsvp->user_id, null, null, $user_info->user_login);
+					}
+	
+					$html .= '<li class="AvatarListSide bimbler-avatar-narrow">';
+						
+					// Output an innocuous DIV if the user cannot amend attendance, or if the Ajax module is not loaded.
+					// Store the RSVP ID.
+					$html .= '<div class="rsvp-checkin-container" id="'. $rsvp->id .'">';
+						
+					$html .= '							<img src="' . bimbler_get_avatar_img($avatar) . '" style="width:64 !important;  height:64 !important;" class="avatar avatar-96 wp-user-avatar wp-user-avatar-96 alignnone photo bimbler-whoswho-marker" ';
+					$html .= 'id="user-avatar-' . $rsvp->user_id . '" data-user-id="' . $rsvp->user_id . '">' . PHP_EOL;
+	
+					$html .= '</div> <!-- rsvp-checkin-container -->';
+	
+					if (isset ($user_info->user_nicename)) {
+						$html .= '<p>' . $user_info->nickname;
+
+						if (in_array ($user_info->id, $host_users)) {
+							$html .= '<br>(Host)'; 
+						}
+
+						$html .= '</p>';
+					}
+						
+					$html .= '</li>';
+				}
+	
+				$html .= '		    </ul>';
+			}			
+			
+			$content .= $html;
+			
 				
 			$content .= '		</div>' . PHP_EOL;
 			$content .= '	</div>' . PHP_EOL;
