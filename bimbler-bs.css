@@ -518,67 +518,66 @@ nav #bs-example-navbar-collapse-1 a {
 }
 
 
-
-
 /* Avatar */
 
 #AvatarList {	
-	display: block;
-	width: 980px;
-	margin: 50px auto;
+  display: block;
+  width: 980px;
+  margin: 50px auto;
 }
 
 #AvatarList h2 {
-	color: #000;
+  color: #000;
 }
 
 #AvatarList ul {
-	vertical-align: text-top;
+  vertical-align: text-top;
 }
 
 #AvatarList ul li{
-	display:inline-block;
-	width:80px;
-	height: 80px;
-	margin: 0px 30px 40px 0;
-	position:relative;
-	vertical-align: text-top;
-	text-align: top;
+  display:inline-block;
+  width:80px;
+  height: 80px;
+  margin: 0px 30px 40px 0;
+  position:relative;
+  vertical-align: text-top;
+  text-align: top;
 }
+
 #AvatarList ul li .permalink {
-	display: none;
-	background: transparent;
+  display: none;
+  background: transparent;
 }
 
 #AvatarList ul li:hover .permalink{
-	display:block;
-    position:absolute;
-    z-index:5;
-    left:0px;
-    top:0px;
-    width: 80px;
-	height: 80px;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	border-radius: 50%;
-	cursor:pointer;
+  display:block;
+  position:absolute;
+  z-index:5;
+  left:0px;
+  top:0px;
+  width: 80px;
+  height: 80px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  cursor:pointer;
 }
   
 #AvatarList ul li img {
-	width:80px;
-	height: 80px;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	border-radius: 50%;
-	}
+  width:80px;
+  height: 80px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
 	
 #AvatarList ul li p{
-	line-height: 18px;
-	max-height: 34px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	padding-top: 5px;
-	text-align: center;
+  line-height: 18px;
+  max-height: 34px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 5px;
+  text-align: center;
 }
 
 /*.AvatarListSide-wrap {
@@ -586,67 +585,65 @@ nav #bs-example-navbar-collapse-1 a {
 }*/
 
 #AvatarListSide {	
-	display: block;
-	margin: 0px auto;
+  display: block;
+  margin: 0px auto;
 }
 
 #AvatarListSide h2 {
-	color: #000;
+  color: #000;
 }
 
 #AvatarListSide ul {
-	vertical-align: text-top;
-
-	margin-left: 0px !important;
-  
+  vertical-align: text-top;
+  margin-left: 0px !important;
   padding-left: 0px;
 }
 
 #AvatarListSide ul li{
-	display:inline-block;
-	width:90px;
-	margin: 0px 0px 10px 0; /* Old. Top, right, bottom, left */
-	position:relative;
-	vertical-align: text-top;
-	text-align: top;
-	
-	border-bottom: none;
-
-	padding-left: 10px !important;
-	padding-right: 10px !important;
+  display:inline-block;
+  width:90px;
+  margin: 0px 0px 10px 0; /* Old. Top, right, bottom, left */
+  position:relative;
+  vertical-align: text-top;
+  text-align: top;
+  
+  border-bottom: none;
+  
+  padding-left: 10px !important;
+  padding-right: 10px !important;
 }
 
 #AvatarListSide ul li .permalink {
-	display: none;
-	background: transparent;
+  display: none;
+  background: transparent;
 }
 
 #AvatarListSide ul li:hover .permalink{
-	display:block;
-    position:absolute;
-    z-index:5;
-    left:0px;
-    top:0px;
-    width: 80px;
-	height: 80px;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	border-radius: 50%;
-	cursor:pointer;
-	}
+  display:block;
+  position:absolute;
+  z-index:5;
+  left:0px;
+  top:0px;
+  width: 80px;
+  height: 80px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  cursor:pointer;
+}
 #AvatarListSide ul li img {
-	width:80px;
-	height: 80px;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	border-radius: 50%;
-	}
+  width:80px;
+  height: 80px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
 	
 #AvatarListSide ul li p{
-	line-height: 18px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	text-align: center;
+  line-height: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 
 
@@ -661,5 +658,8 @@ nav #bs-example-navbar-collapse-1 a {
   background-color: #ffffff;
 }
 
+.bimbler-avatar-narrow {
+        padding-left: 25px !important;
+}
 
 /* End Avatar */
