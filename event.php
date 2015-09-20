@@ -77,7 +77,7 @@
 	<meta name="msapplication-TileImage" content="favicon-144.png">
 	<meta name="msapplication-config" content="browserconfig.xml">
 	
-	<link rel="stylesheet" href="bimbler-bs.css">
+	<link rel="stylesheet" media="all" href="bimbler-bs.css?v=2">
 
 <?php 
 	include_once ('dynamic_styling.php');
