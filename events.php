@@ -946,12 +946,12 @@
 						
 					// Output an innocuous DIV if the user cannot amend attendance, or if the Ajax module is not loaded.
 					// Store the RSVP ID.
-					$html .= '<div class="rsvp-checkin-container" id="'. $rsvp->id .'">';
+					//$html .= '<div class="rsvp-checkin-container" id="'. $rsvp->id .'">';
 						
 					$html .= '							<img src="' . bimbler_get_avatar_img($avatar) . '" style="width:64 !important;  height:64 !important;" class="avatar avatar-96 wp-user-avatar wp-user-avatar-96 alignnone photo bimbler-whoswho-marker" ';
 					$html .= 'id="user-avatar-' . $rsvp->user_id . '" data-user-id="' . $rsvp->user_id . '">' . PHP_EOL;
 	
-					$html .= '</div> <!-- rsvp-checkin-container -->';
+					//$html .= '</div>';
 	
 					if (isset ($user_info->user_nicename)) {
 						$html .= '<p>' . $user_info->nickname;
