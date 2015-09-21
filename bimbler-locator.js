@@ -311,6 +311,12 @@ jQuery(document).ready(function ($) {
 							
 							person_markers[row.user_id].setMap(null);
 
+							// Set the colour for the marker to white and re-draw who's who to 
+							// unset the border.
+							 person_objects[row.user_id].colour = 'white';
+
+						     drawWhosWho ();
+							
 							delete person_markers[row.user_id];
 							delete person_objects[row.user_id];
 							
@@ -325,6 +331,13 @@ jQuery(document).ready(function ($) {
 							// see other users' positions.
 								
 							console.log ('User ' + row.user_id + ' is no longer tracking - deleting marker.');
+
+							// Set the colour for the marker to white and re-draw who's who to 
+							// unset the border.
+							 person_objects[row.user_id].colour = 'white';
+
+						     drawWhosWho ();
+
 							
 							person_markers[row.user_id].setMap(null);
 
