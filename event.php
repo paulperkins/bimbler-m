@@ -220,7 +220,7 @@
     
 	<script src="bimbler-bs.js?v=2"></script> 
 	    
-	<script src="bimbler-locator.js?v=2"></script> 
+	<script src="bimbler-locator.js?v=3"></script> 
 	
 	    
     <script>
