@@ -467,7 +467,7 @@ jQuery(document).ready(function ($) {
 
 			// Prevent parallel Ajax calls.
 			if (!run_fetch_ajax) {
-				console.log ('Request Ajax already in progress.');
+				console.log ('Request Ajax already in progress, or polling halted.');
 				
 				var wait = '<i class="fa fa-signal text-danger"></i>';
 				
@@ -491,11 +491,20 @@ jQuery(document).ready(function ($) {
 			     	}
 			    ),
 			     success: function(response) {
- 	       			console.log ('  Success: ' + response);
- 	       			
- 	       			update_markers (response);
- 	       			
- 	       			run_fetch_ajax = true;
+					 
+					 // Stop Ajax from firing if an error occurs.
+					 if (-1 != response.indexOf ('Error')) {
+						console.log ('  ' + response);
+						
+						run_fetch_ajax = false;
+						 
+					 } else {
+						//console.log ('  Success: ' + response);
+						
+						update_markers (response);
+						
+						run_fetch_ajax = true;
+					 }
 			     },
 			     error: function(response) {
   	       			console.log ('  Error: ' + response);
@@ -537,7 +546,7 @@ jQuery(document).ready(function ($) {
 
 			// Prevent parallel Ajax calls.
 			if (!run_update_ajax) {
-				console.log ('Update Ajax already in progress.');
+				console.log ('Update Ajax already in progress, or polling stopped.');
 				
 				var wait = '<i class="fa fa-signal text-danger"></i>';
 				
@@ -571,7 +580,10 @@ jQuery(document).ready(function ($) {
 				    ),
 				     success: function(response) {
 				    	 if (response.status == 'success') {
-				    		 console.log ('Success: ' + response);
+							console.log ('Success: ' + response);
+								
+							run_update_ajax = true;
+								
 				    	 } else {
 				    		 console.log ('Success, with errors: ');
 				    		 console.dir (response);
@@ -579,9 +591,13 @@ jQuery(document).ready(function ($) {
 				    		var wait = '<i class="fa fa-signal text-danger"></i>';
 								
 							$("#bimbler-locator-indicator").html (wait);
+
+							// If we've had an error returned, then it's likely that the nonce is 
+							// invalid, or we have some other unrecoverable error, so stop
+							// the Ajax loop.
+		 	       			run_update_ajax = false;
 				    	 }
 	 	       			
-	 	       			run_update_ajax = true;
 				     },
 				     error: function(response) {
 	  	       			console.log ('Error: ' + response);
