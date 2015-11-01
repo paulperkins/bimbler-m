@@ -131,6 +131,31 @@ jQuery(document).ready(function ($) {
 			showVenueMap (e.target);
 			
 		} 
+		
+		if ('bimbler_mobile_photos_tab' == e.target.className.split(" ")[0]) {
+		
+			// Set up the Swiper system.
+			var swiperTop = new Swiper('.ks-swiper-gallery-top', {
+				nextButton: '.swiper-button-next',
+				prevButton: '.swiper-button-prev',
+				spaceBetween: 10,
+				slidesPerView: 1/*,
+				loop: true*/
+			});
+			
+			var swiperThumbs = new Swiper('.ks-swiper-gallery-thumbs', {
+				slidesPerView: 'auto',
+				spaceBetween: 10,
+				centeredSlides: true,
+				touchRatio: 0.2,
+				slideToClickedSlide: true
+
+			});
+			
+			swiperTop.params.control = swiperThumbs;
+			swiperThumbs.params.control = swiperTop; 
+		}
+
 	})
 	
 	/*

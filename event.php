@@ -28,6 +28,9 @@
 	<![endif]-->
 	
 	<link rel="stylesheet" href="fa/css/font-awesome.min.css">
+	
+	<!-- Swiper -->
+	<link rel="stylesheet" href="swiper/dist/css/swiper.css"> 
 
 	<script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false"></script>
 	
@@ -77,7 +80,7 @@
 	<meta name="msapplication-TileImage" content="favicon-144.png">
 	<meta name="msapplication-config" content="browserconfig.xml">
 	
-	<link rel="stylesheet" media="all" href="bimbler-bs.css?v=2">
+	<link rel="stylesheet" media="all" href="bimbler-bs.css?v=4">
 
 <?php 
 	include_once ('dynamic_styling.php');
@@ -85,7 +88,7 @@
 
   <script type="text/javascript">
 		(function(document,navigator,standalone) {
-			// prevents links from apps from oppening in mobile safari
+			// prevents links from apps from opening in mobile safari
 			// this javascript must be the first script in your <head>
 			if ((standalone in navigator) && navigator[standalone]) {
 				var curnode, location=document.location, stop=/^(a|html)$/i;
@@ -94,7 +97,7 @@
 					while (!(stop).test(curnode.nodeName)) {
 						curnode=curnode.parentNode;
 					}
-					// Condidions to do this only on links to your own app
+					// Conditions to do this only on links to your own app
 					// if you want all links, use if('href' in curnode) instead.
 					if(
 						'href' in curnode && // is a link
@@ -108,11 +111,9 @@
 				},false);
 			}
 		})(document,window.navigator,'standalone');
-</script> 
-	
+</script>  
 	
 <?php 
-	
 	include_once ('events.php');
 	
 	$this_post_object = get_post($_GET['event']);
@@ -131,8 +132,6 @@
 				text-overflow: ellipsis;
 			';
 ?>
-       
-       
 </head> 
 <body> 
  
@@ -140,89 +139,64 @@
 	<div id="bimbler-spinner-target" data-role="page" data-theme="a" class="jqm-demos jqm-home"> 
 	
 <script type="text/javascript">
-
 		var target = document.getElementById("bimbler-spinner-target");
 		
 		window.spinner = new Spinner().spin(target);
-	    
 </script>
 	
 		<div> 
-  		<nav class="navbar navbar-default navbar-fixed-top">
-  			
-  			<div class="xcontainer-fluid"> <!-- Added -->
-  		
-				<div class="navbar-header">
-  					<!--  <a href="javascript:history.back()"><button type="button" class="navbar-toggle ppnavbar-left"><span class="glyphicon glyphicon-chevron-left"></span></button></a>-->
+			<nav class="navbar navbar-default navbar-fixed-top">
+				<div class="xcontainer-fluid"> <!-- Added -->
+					<div class="navbar-header">
+						<!--  <a href="javascript:history.back()"><button type="button" class="navbar-toggle ppnavbar-left"><span class="glyphicon glyphicon-chevron-left"></span></button></a>-->
   					
 <?php
         if (isset ($_GET['past'])) {
-
         	$href="/m/?past=1";
-        	
         } else if (isset ($_GET['newest'])) {
-        	
 			$href="/m/?newest=1";
-			
 		} else {
-
         	$href="/m/";
-        	
         }
 ?>
   					
-				  	<!--  <a href="<?php //echo (isset ($_GET['past']) ? '/m/?past=1' : '/m/')  ?>"><button type="button" class="navbar-toggle ppnavbar-left" style="margin-right: 0px;"><i class="fa fa-chevron-left"></i></button></a> -->
-				  	<a href="<?php echo $href;  ?>"><button type="button" class="navbar-toggle ppnavbar-left" style="margin-right: 0px;"><i class="fa fa-chevron-left"></i></button></a>
-					<a class="xnavbar-brand"></a><span style="<?php echo $title_style; ?>"><?php echo $this_post_object->post_title; //bloginfo ('description'); ?></span> 
-			   </div>
+						<a href="<?php echo $href;  ?>"><button type="button" class="navbar-toggle ppnavbar-left" style="margin-right: 0px;"><i class="fa fa-chevron-left"></i></button></a>
+						<a class="xnavbar-brand"></a><span style="<?php echo $title_style; ?>"><?php echo $this_post_object->post_title; //bloginfo ('description'); ?></span> 
+				</div>
 			    
 <?php 
 	bimbler_mobile_render_event_tab_bar ($_GET['event'], isset ($_GET['past']) ? false : true);
 ?>
-			    
-			  </div> <!-- /Container fluid -->
-			
-			</xdiv> <!--  Added.  -->
-			
-			
-		</nav> 
+					
+				</div> <!-- /Container fluid -->
+			</nav> 
 		</div>
 
 		<!-- Content.  -->
 		<div data-role="content" id="spinner-target">      
-<?php bimbler_mobile_render_event_page ($_GET['event'], isset ($_GET['past']) ? false : true); ?>
+			<?php bimbler_mobile_render_event_page ($_GET['event'], isset ($_GET['past']) ? false : true); ?>
 		</div>
 		<!-- /Content -->
-
-<!--  		<nav class="navbar navbar-default navbar-fixed-bottom">
-			<div class="navbar-header">
-				<a class="navbar-brand">&copy; 2015 Brisbane Bimblers</a>
-			</div>
-		</nav> -->
 		
 	</div> 
 
 	<!-- /Index page. -->
-    
-	<!-- Event page contents. -->
-
-    <?php //bimbler_mobile_render_event_pages (isset ($_GET['past']) ? false : true); ?>
-
-    
-	<!-- /Event page contents. -->
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
     
+	<!-- Swiper -->
+	<script src="swiper/dist/js/swiper.js"></script>    
+	
 	<script src="ps.js"></script> 
     
-	<script src="bimbler-bs.js?v=2"></script> 
+	<script src="bimbler-bs.js?v=3"></script> 
 	    
 	<script src="bimbler-locator.js?v=4"></script> 
 	
-	    
+	
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

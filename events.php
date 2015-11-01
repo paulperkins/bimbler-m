@@ -77,9 +77,10 @@
 			$content .= '			<h4 class="panel-title">Photos</h4>' . PHP_EOL;
 			$content .= '		</div>' . PHP_EOL;
 			
-			$content .= '		<div class="panel-body">' . PHP_EOL;
+			$content .= '		<div class="panel-body" style="height:500px;">' . PHP_EOL;
 
-			$content .= '			<div class="bimbler-gallery" style="width: 100%; margin-left: auto; margin-right: auto;">' . PHP_EOL;
+			$content .= '		<div class="swiper-container ks-swiper-gallery-top swiper-container-horizontal">' . PHP_EOL;
+			$content .= '			<div class="swiper-wrapper">' . PHP_EOL;
 			
 			foreach ($pics as $pic) {
 				
@@ -95,6 +96,8 @@
 				$img_thm_prefix = $pic->thumbPrefix;
 				
 				$img_thm_url = $img_dir . $img_thm_folder . $img_thm_prefix . $img_filename;
+
+				$content .= '          <div style="margin-right: 10px; background-image: url(' . $pic->imageURL . ');" class="swiper-slide swiper-slide-active"></div>' . PHP_EOL;
 				
 /*				$content .= '<pre>' . $img_width . ' x ' . $img_height . '</pre>' . PHP_EOL;
 				$content .= '<pre>Thumb:' . $img_thm_folder . ' : ' . $img_thm_width . ' x ' . $img_thm_height . '</pre>' . PHP_EOL;
@@ -106,21 +109,47 @@
 				//$content .= '<pre>' . print_r($pic, true) . '</pre>'. PHP_EOL;
 
 				//$content .= '	<a href="' . $pic->imageURL . '" data-size="' . $img_width . 'x' . $img_height . '" data-med="' . $img_thm_url . '" data-med-size="' . $img_thm_width . 'x' . $img_thm_height . '">' . PHP_EOL;
-				$content .= '				<a href="' . $pic->imageURL . '" ' . PHP_EOL;
-				$content .= '						data-size="' . $img_width . 'x' . $img_height . '" ' . PHP_EOL;
-				$content .= '						data-med="' . $pic->imageURL . '" ' . PHP_EOL;
-				$content .= '						data-med-size="' . $img_width . 'x' . $img_height . '">' . PHP_EOL;
-				$content .= '					<img src="' . $img_thm_url . '" width="' . $img_thm_width . '" height="' . $img_thm_height . '">' . PHP_EOL;
-				$content .= '				</a>' . PHP_EOL;
 			}
 
-			$content .= '			</div>' . PHP_EOL;
-
-			// New stuff
-			$content .= '		</div>' . PHP_EOL;
-			$content .= '	</div>' . PHP_EOL;
+			$content .= '			</div> <!-- /wrapper -->' . PHP_EOL;
 			
+			$content .= '			<div class="swiper-button-next color-white swiper-button-disabled"></div>' . PHP_EOL;
+			$content .= '			<div class="swiper-button-prev color-white swiper-button-disabled"></div>' . PHP_EOL;
+
+			$content .= '		</div> <!-- /container -->' . PHP_EOL;
+
+
+			$content .= '<div class="swiper-container ks-swiper-gallery-thumbs swiper-container-horizontal">' . PHP_EOL;
+			$content .= '		<div class="swiper-wrapper" style="transition-duration: 0ms;">' . PHP_EOL;
+
+			foreach ($pics as $pic) {
+				
+				$img_dir = dirname(parse_url(print_r($pic->imageURL, true),PHP_URL_PATH));
+				//$img_dir = $pic->path;
+				$img_url = $pic->imageURL;
+				$img_filename = $pic->filename;
+				$img_width = $pic->meta_data['width'];
+				$img_height = $pic->meta_data['height'];
+				$img_thm_width = $pic->meta_data['thumbnail']['width'];
+				$img_thm_height = $pic->meta_data['thumbnail']['height'];
+				$img_thm_folder = $pic->thumbFolder;
+				$img_thm_prefix = $pic->thumbPrefix;
+				
+				$img_thm_url = $img_dir . $img_thm_folder . $img_thm_prefix . $img_filename;
+
+				$content .= '			<div class="swiper-slide swiper-slide-active" style="margin-right: 10px;">' . PHP_EOL;
+				$content .= '				<div style="background-image:url('. $img_thm_url . '" class="swiper-slide-pic"></div>' . PHP_EOL;
+				$content .= '			</div>' . PHP_EOL;
+			}
+
+			$content .= '			</div> <!-- /wrapper -->' . PHP_EOL;
+			$content .= '		</div> <!-- /container -->' . PHP_EOL;
+
+			$content .= '		</div> <!-- /panel body-->' . PHP_EOL;
 		}
+		
+		$content .= '	</div>' . PHP_EOL;
+			
 
 		$meta = get_post_meta ($event_id, 'bimbler_gallery_id');
 		
@@ -139,7 +168,7 @@
 			$content .= '	</div>' . PHP_EOL;
 		}
 		
-		$content .= '
+		$xcontent .= '
 			<div id="gallery" class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 				<div class="pswp__bg"></div>
 				<div class="pswp__scroll-wrap">
@@ -189,7 +218,7 @@
 				</div>
 			</div>
 				' . PHP_EOL; 
-		
+	
 		$content .= '	<!-- /Gallery Page. -->' . PHP_EOL;
 		
 		return $content;
