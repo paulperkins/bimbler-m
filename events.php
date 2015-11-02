@@ -55,7 +55,8 @@
 		
 		global $nggdb;
 		
-		$pics = $nggdb->get_gallery($meta_gallery_id, 'sortorder', 'ASC', true, 0, 0);
+		//$pics = $nggdb->get_gallery($meta_gallery_id, 'sortorder', 'DESC', true, 0, 0);
+		$pics = $nggdb->get_gallery($meta_gallery_id, 'pid', 'DESC', true, 0, 0);
 		
 		//error_log ('Gallery ' . $meta_gallery_id . ' has ' . $pics->num_pics . ' pics.');
 			
@@ -528,7 +529,7 @@
 			$post_object = get_post ($post_id);
 	
 			if (!isset($post_object)) {
-				error_log ('Cannot get post object for event ID '. $meta_ride_page);
+				error_log ('bimbler_mobile_render_summary_page: Cannot get post object for event ID '. $post_id);
 				return null;
 			}
 	
@@ -1043,7 +1044,7 @@
 			$post_object = get_post ($ride_page);
 	
 			if (!isset($post_object)) {
-				error_log ('Cannot get post object for event ID '. $ride_page);
+				error_log ('bimbler_mobile_render_ride_page: Cannot get post object for event ID '. $ride_page);
 				return null;
 			}
 	
@@ -1087,7 +1088,7 @@
 		$post = get_post ($event_id);
 	
 		if (!isset($post)) {
-			error_log ('Cannot get post object for event ID '. $meta_ride_page);
+			error_log ('bimbler_mobile_render_event_tab_bar: Cannot get post object for event ID '. $event_id);
 			return null;
 		}
 	
@@ -1275,7 +1276,7 @@
 		$post = get_post ($event_id);
 	
 		if (!isset($post)) {
-			error_log ('Cannot get post object for event ID '. $meta_ride_page);
+			error_log ('bimbler_mobile_render_event_page: Cannot get post object for event ID '. $event_id);
 			return null;
 		}
 	
