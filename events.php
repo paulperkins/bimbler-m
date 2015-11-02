@@ -77,7 +77,7 @@
 			$content .= '			<h4 class="panel-title">Photos</h4>' . PHP_EOL;
 			$content .= '		</div>' . PHP_EOL;
 			
-			$content .= '		<div class="panel-body" style="height:500px;">' . PHP_EOL;
+			$content .= '		<div class="panel-body" style="height:600px;">' . PHP_EOL;
 
 			$content .= '		<div class="swiper-container ks-swiper-gallery-top swiper-container-horizontal">' . PHP_EOL;
 			$content .= '			<div class="swiper-wrapper">' . PHP_EOL;
@@ -138,7 +138,7 @@
 				$img_thm_url = $img_dir . $img_thm_folder . $img_thm_prefix . $img_filename;
 
 				$content .= '			<div class="swiper-slide swiper-slide-active" style="margin-right: 10px;">' . PHP_EOL;
-				$content .= '				<div style="background-image:url('. $img_thm_url . '" class="swiper-slide-pic"></div>' . PHP_EOL;
+				$content .= '				<div style="background-image: url('. $img_thm_url . ')" class="swiper-slide-pic"></div>' . PHP_EOL;
 				$content .= '			</div>' . PHP_EOL;
 			}
 
