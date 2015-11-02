@@ -139,8 +139,11 @@ jQuery(document).ready(function ($) {
 				nextButton: '.swiper-button-next',
 				prevButton: '.swiper-button-prev',
 				spaceBetween: 10,
-				slidesPerView: 1/*,
-				loop: true*/
+				keyboardControl: true,
+				loop: true,
+				slidesPerView: 1,
+				pagination: '.swiper-pagination',
+        		paginationClickable: true
 			});
 			
 			var swiperThumbs = new Swiper('.ks-swiper-gallery-thumbs', {
