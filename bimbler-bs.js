@@ -140,7 +140,7 @@ jQuery(document).ready(function ($) {
 				prevButton: '.swiper-button-prev',
 				spaceBetween: 10,
 				keyboardControl: true,
-				loop: true,
+				/*loop: true,*/
 				slidesPerView: 1,
 				pagination: '.swiper-pagination',
         		paginationClickable: true

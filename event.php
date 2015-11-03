@@ -2,12 +2,11 @@
 <html> 
   <head> 
 <?php
- 
-	require('../wp-load.php');
+	require('../wp-blog-header.php');
 	
 	if (!is_user_logged_in()) {
 		echo '<script type="text/javascript">window.location.replace(\'/m/login.php\');</script>';
-	}
+	} 
 ?>
   
   <meta charset="utf-8"> 
@@ -34,11 +33,10 @@
 
 	<script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false"></script>
 	
-<!--  	<link href="ps/site-assets/site.css?v=4.0.5-1.0.4" rel="stylesheet" /> -->
     <link href="ps/dist/photoswipe.css?v=4.0.5-1.0.4" rel="stylesheet" />
-    <link href="ps/dist/default-skin/default-skin.css?v=4.0.5-1.0.4" rel="stylesheet" /> 
-<!--   	<script src="ps/dist/photoswipe.min.js?v=4.0.5-1.0.4"></script>-->
-     <script src="ps/dist/photoswipe.js?v=4.0.5-1.0.4"></script> 
+    <link href="ps/dist/default-skin/default-skin.css?v=4.0.5-1.0.4" rel="stylesheet" />
+	 
+	<script src="ps/dist/photoswipe.js?v=4.0.5-1.0.4"></script> 
     <script src="ps/dist/photoswipe-ui-default.min.js?v=4.0.5-1.0.4"></script>  
 	
 	<link rel="stylesheet" href="toastr.css">
@@ -192,7 +190,7 @@
 	
 	<script src="ps.js"></script> 
     
-	<script src="bimbler-bs.js?v=3"></script> 
+	<script src="bimbler-bs.js?v=4"></script> 
 	    
 	<script src="bimbler-locator.js?v=4"></script> 
 	
