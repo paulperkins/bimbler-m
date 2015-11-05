@@ -1,6 +1,6 @@
 <?php
 
-	$bimbler_mobile_events_per_page = 20;
+	$bimbler_mobile_events_per_page = 30;
 
 	include_once ('single_event.php');
 	
@@ -231,7 +231,9 @@
 				
 			$current_rsvp = Bimbler_RSVP::get_instance()->get_current_rsvp_object ($event_id, $user_id);
 
-			if (null == $current_rsvp) {
+			$content .= bimbler_mobile_render_rsvp_box ($event_id);
+
+/*			if (null == $current_rsvp) {
 				$this_rsvp .= 'You have not RSVPd.';
 				$no_btn_state = '  ';
 				$yes_btn_state = ' ';
@@ -270,7 +272,8 @@
 			$content .= '					</div>' . PHP_EOL;
 			$content .= '			</div>' . PHP_EOL;
 			$content .= '		</div>' . PHP_EOL;
-			$content .= '	</div>' . PHP_EOL;
+			$content .= '	</div>' . PHP_EOL; 
+*/
 
 			foreach (array('Y', 'N') as $this_rsvp) {
 				
@@ -458,6 +461,68 @@
 	}
 	
 	
+	function bimbler_mobile_render_rsvp_box ($event_id) {
+		
+		global $current_user;
+		
+		$content = '';
+		
+		$nonce = wp_create_nonce('bimbler_rsvp');
+			
+		get_currentuserinfo();
+			
+		$user_id = $current_user->ID;
+			
+		$has_event_passed = Bimbler_RSVP::get_instance()->has_event_passed ($event_id);
+			
+		$current_rsvp = Bimbler_RSVP::get_instance()->get_current_rsvp_object ($event_id, $user_id);
+
+		if (null == $current_rsvp) {
+			$this_rsvp .= 'You have not RSVPd.';
+			$no_btn_state = '  ';
+			$yes_btn_state = ' ';
+		}
+		else {
+			if ('Y' == $current_rsvp->rsvp) {
+				$this_rsvp .= 'You have RSVPd \'Yes\'.';
+				$yes_btn_state = ' disabled="disabled" ';
+				$no_btn_state = ' ';
+			} else {
+				$this_rsvp .= 'You have RSVPd \'No\'.';
+				$no_btn_state = ' disabled="disabled" ';
+				$yes_btn_state = ' ';
+			}
+		}
+
+		// This user's RSVP.
+		$content .= '	<div class="panel panel-default">' . PHP_EOL;
+		$content .= '		<div class="panel-heading">' . PHP_EOL;
+		$content .= '			<h4 class="panel-title">Your RSVP</h4>' . PHP_EOL;
+		$content .= '		</div>' . PHP_EOL;
+		$content .= '		<div class="panel-body">' . PHP_EOL;
+		$content .= '			<div class="row">' . PHP_EOL;
+		$content .= '					<div class="col-xs5 pull-left" style="padding-left:15px;" id="bimbler-your-rsvp" name="bimbler-your-rsvp">' . PHP_EOL;
+		$content .= '						<p>' . $this_rsvp . '</p>' . PHP_EOL;
+		$content .= '					</div>' . PHP_EOL;
+		$content .= '					<div class="col-xs-7 pull-right" style="padding-left:15px; text-align: right; xheight:100px;">' . PHP_EOL;
+		$content .= '						<div id="bimbler-rsvp-control" class="btn-group" data-event-id="' . $event_id . '" data-user-id="' . $user_id . '" data-nonce="' . $nonce . '">' . PHP_EOL;
+		$content .= '							<button type="button" class="btn btn-success rsvp-button" ' . $yes_btn_state . ' data-rsvp="Y" id="bimbler-rsvp-yes" name="bimbler-rsvp-yes" data-loading-text="<i class=\'fa fa-spinner fa-spin\'></i> RSVP Yes">' . PHP_EOL;
+		$content .= '								RSVP Yes' . PHP_EOL;
+		$content .= '							</button>' . PHP_EOL;
+		$content .= '							<button type="button" class="btn btn-danger rsvp-button" ' . $no_btn_state . ' data-rsvp="N" id="bimbler-rsvp-no" name="bimbler-rsvp-no" data-loading-text="<i class=\'fa fa-spinner fa-spin\'></i> RSVP No">' . PHP_EOL;
+		$content .= '								RSVP No' . PHP_EOL;
+		$content .= '							</button>' . PHP_EOL;
+		$content .= '						</div>' . PHP_EOL;
+		$content .= '					</div>' . PHP_EOL;
+		$content .= '			</div>' . PHP_EOL;
+		$content .= '		</div>' . PHP_EOL;
+		$content .= '	</div>' . PHP_EOL;
+
+
+
+		return $content;
+	}
+	
 	/**
 	 * Adds the ride page to the event.
 	 *
@@ -494,6 +559,10 @@
 			$content .= '		</div>' . PHP_EOL;
 	
 			$content .= '	</div>' . PHP_EOL;
+
+			// Show the RSVP buttons.
+			// Leave commented for now - JavaScript not working to disable / enable buttons.			
+			$content .= bimbler_mobile_render_rsvp_box ($event_id);
 			
 			// Get the date and time details.
 			$start_date = tribe_get_start_date($event_id, false, $bimbler_mobile_day_time_str);

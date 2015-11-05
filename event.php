@@ -190,7 +190,7 @@
 	
 	<script src="ps.js"></script> 
     
-	<script src="bimbler-bs.js?v=4"></script> 
+	<script src="bimbler-bs.js?v=5"></script> 
 	    
 	<script src="bimbler-locator.js?v=4"></script> 
 	

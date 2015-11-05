@@ -207,15 +207,26 @@ jQuery(document).ready(function ($) {
 				//toastrMsg ('success', 'Yes RSVP processed', 'This is just a test - RSVP not updated!');
 				//toastrMsg ('success', 'RSVP processed', response.text);
 				
-				var rsvp_message = document.getElementById('bimbler-your-rsvp');
+				//var rsvp_message = document.getElementById('bimbler-your-rsvp');
+				var els = document.getElementsByName ('bimbler-your-rsvp');
+					
+				for(var x=0; x < els.length; x++)  
+				{
+					if ('Y' == rsvp) {
+						els[x].innerHTML = '<p>You have RSVPd \'Yes\'.</p>';
+					} else {
+						els[x].innerHTML = '<p>You have RSVPd \'No\'.</p>';
+					}
+				}
+
 				
-				if (rsvp_message) {
+/*				if (rsvp_message) {
 					if ('Y' == rsvp) {
 						rsvp_message.innerHTML = '<p>You have RSVPd \'Yes\'.</p>';
 					} else {
 						rsvp_message.innerHTML = '<p>You have RSVPd \'No\'.</p>';
 					}
-				}
+				} */
 
 				if (el = document.getElementById('bimbler-rsvp-yes-count')) {
 					el.innerHTML = response.yes_rsvp_count;
@@ -242,19 +253,54 @@ jQuery(document).ready(function ($) {
 					if (el = document.getElementById ('hidden_no_rsvp')) {
 						el.style.display = 'none';
 					}
-					
+
 					// Disable and enable the buttons.
-					if (el = document.getElementById ('bimbler-rsvp-yes')) {
+/*					$("button[name='bimbler-rsvp-yes']").each (function () {
+						//console.dir (this);	
+						this.prop = ('disabled', true);
+						this.addClass ('btn-disabled');
+						this.attr ('disabled', true);
+					});
+
+					// Loop over No buttons.					
+					$("button[name='bimbler-rsvp-no']").each (function () {
+						//console.dir (this);	
+						this.prop = ('disabled', false);
+						this.removeClass ('btn-disabled');
+						this.removeAttr ('disabled');
+					});
+*/					
+					var els = document.getElementsByName ('bimbler-rsvp-yes');
+					
+					for(var x=0; x < els.length; x++)  
+					{
+						els[x].prop = ('disabled', true);
+						els[x].classList.add ('btn-disabled');
+						els[x].setAttribute ('disabled', true);
+					}
+
+					var els = document.getElementsByName ('bimbler-rsvp-no');
+					
+					for(var x=0; x < els.length; x++)  
+					{
+						els[x].prop = ('disabled', false);
+						els[x].classList.remove ('btn-disabled');
+						els[x].removeAttribute ('disabled');
+					}
+
+					// Disable and enable the buttons.
+/*					if (el = document.getElementById ('bimbler-rsvp-yes')) {
 						el.prop = ('disabled', true);
 						el.classList.add ('btn-disabled');
 						el.setAttribute ('disabled', true);
-					}
-					
+					} 
+
+					// Loop over No buttons.					
 					if (el = document.getElementById ('bimbler-rsvp-no')) {
 						el.prop = ('disabled', false);
 						el.classList.remove ('btn-disabled');
 						el.removeAttribute ('disabled');
-					}
+					} */  
 					
 				} else { 
 					// Un-hide the empty No RSVP.
@@ -266,19 +312,56 @@ jQuery(document).ready(function ($) {
 					if (el = document.getElementById ('hidden_yes_rsvp')) {
 						el.style.display = 'none';
 					}
+
+/*
+					// Disable and enable the buttons.
+					$("button[name='bimbler-rsvp-yes']").each (function () {
+						//console.dir (this);	
+						this.prop = ('disabled', false);
+						this.removeClass ('btn-disabled');
+						this.removeAttr ('disabled');
+
+					});
+
+					// Loop over No buttons.					
+					$("button[name='bimbler-rsvp-no']").each (function () {
+						//console.dir (this);	
+						this.prop = ('disabled', true);
+						this.addClass ('btn-disabled');
+						this.attr ('disabled', true);
+					});
+*/
+
+					var els = document.getElementsByName ('bimbler-rsvp-yes');
+					
+					for(var x=0; x < els.length; x++)  
+					{
+						els[x].prop = ('disabled', false);
+						els[x].classList.remove ('btn-disabled');
+						els[x].removeAttribute ('disabled');
+					}
+
+					var els = document.getElementsByName ('bimbler-rsvp-no');
+					
+					for(var x=0; x < els.length; x++)  
+					{
+						els[x].prop = ('disabled', true);
+						els[x].classList.add ('btn-disabled');
+						els[x].setAttribute ('disabled', true);
+					}
 					
 					// Disable and enable the buttons.
-					if (el = document.getElementById ('bimbler-rsvp-yes')) {
+/*					if (el = document.getElementById ('bimbler-rsvp-yes')) {
 						el.prop = ('disabled', false);
 						el.classList.remove ('btn-disabled');
 						el.removeAttribute ('disabled');
-					}
-					
+					} 
+
 					if (el = document.getElementById ('bimbler-rsvp-no')) {
 						el.prop = ('disabled', true);
 						el.classList.add ('btn-disabled');
 						el.setAttribute ('disabled', true);
-					}
+					} */  
 				}
         	}
         	
