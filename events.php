@@ -114,10 +114,10 @@
 
 			$content .= '			</div> <!-- /wrapper -->' . PHP_EOL;
 			
-			$content .= '			<div class="swiper-button-next color-white swiper-button-disabled"></div>' . PHP_EOL;
-			$content .= '			<div class="swiper-button-prev color-white swiper-button-disabled"></div>' . PHP_EOL;
+			$content .= '			<div class="swiper-button-next color-white swiper-button-white swiper-button-disabled"></div>' . PHP_EOL;
+			$content .= '			<div class="swiper-button-prev color-white swiper-button-white swiper-button-disabled"></div>' . PHP_EOL;
 			
-			$content .= '			<div class="swiper-pagination"></div>' . PHP_EOL;
+			$content .= '			<div class="swiper-pagination swiper-pagination-white"></div>' . PHP_EOL;
 
 			$content .= '		</div> <!-- /container -->' . PHP_EOL;
 
