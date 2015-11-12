@@ -70,14 +70,6 @@
 		
 		if (!empty($pics)) {
 			
-			//$content .= '	<div class="panel panel-default">' . PHP_EOL;
-			//$content .= '		<div class="panel-heading">' . PHP_EOL;
-			//$content .= '			<h4 class="panel-title">Photos</h4>' . PHP_EOL;
-			//$content .= '		</div>' . PHP_EOL;
-			
-			// Delete
-			//$content .= '	</div>' . PHP_EOL;
-			
 			$content .= '		<div class="pp-panel-body" style="height:600px;">' . PHP_EOL;
 
 			$content .= '		<div class="swiper-container ks-swiper-gallery-top swiper-container-horizontal">' . PHP_EOL;
@@ -99,17 +91,6 @@
 				$img_thm_url = $img_dir . $img_thm_folder . $img_thm_prefix . $img_filename;
 
 				$content .= '          <div style="margin-right: 10px; background-image: url(' . $pic->imageURL . ');" class="swiper-slide swiper-slide-active"></div>' . PHP_EOL;
-				
-/*				$content .= '<pre>' . $img_width . ' x ' . $img_height . '</pre>' . PHP_EOL;
-				$content .= '<pre>Thumb:' . $img_thm_folder . ' : ' . $img_thm_width . ' x ' . $img_thm_height . '</pre>' . PHP_EOL;
-				//$content .= '<pre>' . dirname(parse_url(print_r($pic->imageURL, true),PHP_URL_PATH)) . '</pre>' . PHP_EOL;
-				$content .= '<pre>' . $img_dir . '</pre>' . PHP_EOL;
-				$content .= '<pre>' . print_r($pic->imageURL, true) . '</pre>' . PHP_EOL;
-				$content .= '<pre>' . print_r($pic->meta_data, true) . '</pre>' . PHP_EOL;
-				$content .= '<pre>' . print_r($pic->imageURL, true) . '</pre>' . PHP_EOL; */
-				//$content .= '<pre>' . print_r($pic, true) . '</pre>'. PHP_EOL;
-
-				//$content .= '	<a href="' . $pic->imageURL . '" data-size="' . $img_width . 'x' . $img_height . '" data-med="' . $img_thm_url . '" data-med-size="' . $img_thm_width . 'x' . $img_thm_height . '">' . PHP_EOL;
 			}
 
 			$content .= '			</div> <!-- /wrapper -->' . PHP_EOL;
@@ -148,11 +129,8 @@
 			$content .= '			</div> <!-- /wrapper -->' . PHP_EOL;
 			$content .= '		</div> <!-- /container -->' . PHP_EOL;
 
-			//$content .= '		</div> <!-- /panel body-->' . PHP_EOL;
+			$content .= '		</div> <!-- /panel body-->' . PHP_EOL;
 		}
-		
-		$content .= '	</div>' . PHP_EOL;
-			
 
 		$meta = get_post_meta ($event_id, 'bimbler_gallery_id');
 		
