@@ -677,6 +677,19 @@
 		return $content;
 	}	
 	
+	
+	function bimbler_mobile_show_hidden_comment_fancy ($comment) {
+
+		$content = '';		
+		$content .= '	<div class="messages-date message-hidden"><span>Just now</span></div>' . PHP_EOL;
+		$content .= '	<div class="message message-sent message-last message-with-tail message-hidden">' . PHP_EOL;
+		$content .= '		<div class="message-name message-hidden">You</div>' . PHP_EOL;
+		$content .= '		<div class="message-text message-hidden" id="bimbler-new-comment"></div>' . PHP_EOL;
+		$content .= '	</div>' . PHP_EOL;
+		
+		return $content;
+	}	
+	
 	function bimbler_mobile_show_comments ($comment) {
 		global $bimbler_mobile_time_str;
 
@@ -739,6 +752,69 @@
 		return $content;
 	}
 	
+	
+	function bimbler_mobile_show_comments_fancy ($comment) {
+		global $bimbler_mobile_day_time_str;
+
+		$content = '';
+
+		$avatar = get_avatar ($comment->comment_author_email, null, null);
+		$avatar_img = bimbler_get_avatar_img($avatar);
+		
+		// Assume all messages are sent at different times.
+		$content .= '	<div class="messages-date"><apan>' . date ($bimbler_mobile_day_time_str, strtotime($comment->comment_date)) . '</span></div>' . PHP_EOL;
+		
+		global $current_user;
+		get_currentuserinfo();
+
+		if ($comment->comment_author_email == $current_user->user_email) {
+			$message_type = 'message-sent';
+		} else {
+			$message_type = 'message-received';
+		}
+		
+		$content .= '	<div class="message ' . $message_type;
+		
+		if ('message-received' == $message_type) {
+			$content .= ' message-with-avatar';
+		}
+		
+		$content .= ' message-last message-with-tail message-first">' . PHP_EOL;
+
+		if ('message-received' == $message_type) {
+			$content .= '			<div class="message-name">' . $comment->comment_author . '</div>' . PHP_EOL;
+		} else {
+			$content .= '			<div class="message-name">You</div>' . PHP_EOL;
+		}
+		
+		$content .= '			<div class="message-text">' . $comment->comment_content . '</div>' . PHP_EOL;
+		
+		if ('message-received' == $message_type) {
+			$content .= '			<div style="background-image:url(' . $avatar_img . ')" class="message-avatar"></div>' . PHP_EOL;
+		}
+		
+		$content .= '	</div>' . PHP_EOL;
+			
+		$children = bimbler_mobile_get_comment_children ($comment->comment_ID);
+		
+		if (!empty ($children)) {
+			
+
+			foreach ($children as $child) {
+				
+				// Only show direct descendents.
+				if ($comment->comment_ID == $child->comment_parent) {
+				
+					$content .= bimbler_mobile_show_comments_fancy($child);
+						
+				}
+			}
+			
+		}
+		
+		return $content;
+	}
+	
 	/**
 	 * Adds the comments tab.
 	 *
@@ -749,12 +825,9 @@
 		global $bimbler_mobile_day_time_str;
 		global $bimbler_mobile_date_str;
 	
-	
 		$post_id = $event_id;
 	
 		$content = '';
-	
-		//return null;
 	
 		// Only show content to logged-in users, and only if we're on an event page.
 		if (is_user_logged_in()) {
@@ -763,7 +836,7 @@
 	
 			$content .= '';
 			
-			
+			// 'Post Comment' button panel.
 			$content .= '	<div class="row">' . PHP_EOL;
   			$content .= '		<div class="col-lg-12">' . PHP_EOL;
 			$content .= '    		<div class="input-group">' . PHP_EOL;
@@ -778,18 +851,18 @@
 			$content .= '  		</div><!-- /.col-lg-12 -->' . PHP_EOL;
 			$content .= '	</div><!-- /.row -->' . PHP_EOL;
 
+			// Main comments panel.
 			$content .= '	<div class="panel panel-default">' . PHP_EOL;
 			$content .= '		<div class="panel-heading">' . PHP_EOL;
 			$content .= '			<h4 class="panel-title">Comments</h4>' . PHP_EOL;
 			$content .= '		</div>' . PHP_EOL;
 			
-			$content .= '		<div class="panel-body" style="padding: 0px;">' . PHP_EOL;
-			
 			$content .= '	<div class="panel-body" style="padding:0px;">' . PHP_EOL;
+
 			$content .= '		<div id="list-1" class="nested-list dd xwith-margins"><!-- adding class "with-margins" will separate list items -->' . PHP_EOL;			
 
 			$content .= bimbler_mobile_show_hidden_comment(null);
-			
+
 			$content .= '			<ul class="dd-list">' .PHP_EOL;
 
 			$comments = bimbler_mobile_get_comment_children(null, $post_id);
@@ -803,13 +876,11 @@
 					
 				}
 			}
-			
+
 			$content .= '			</ul>' . PHP_EOL;
 			
 			$content .= '		</div>' . PHP_EOL;
 			$content .= '	</div>' . PHP_EOL;
-			
-			$content .= '		</div>' . PHP_EOL;
 			
 			$content .= '	</div>' . PHP_EOL;
 
@@ -820,6 +891,80 @@
 		return $content;
 	}
 
+
+	/**
+	 * Adds the comments tab.
+	 *
+	 * @param
+	 */
+	function bimbler_mobile_render_comments_fancy ($event_id) {
+		global $bimbler_mobile_time_str;
+		global $bimbler_mobile_day_time_str;
+		global $bimbler_mobile_date_str;
+	
+		$post_id = $event_id;
+	
+		$content = '';
+	
+		// Only show content to logged-in users, and only if we're on an event page.
+		if (is_user_logged_in()) {
+			
+			$nonce = wp_create_nonce('bimbler_comment');
+	
+			$content .= '';
+			
+			// 'Post Comment' button panel.
+			$content .= '	<div class="row">' . PHP_EOL;
+  			$content .= '		<div class="col-lg-12">' . PHP_EOL;
+			$content .= '    		<div class="input-group">' . PHP_EOL;
+			$content .= '     		 	<input type="text" id="bimbler-comment" class="form-control" placeholder="Post a comment...">' . PHP_EOL;
+			$content .= '     		 	<span class="input-group-btn">' . PHP_EOL;
+			$content .= '        			<button class="btn btn-warning comment-post-button" type="button"';
+			$content .= ' data-event-id="' . $post_id . '" ';
+			$content .= ' data-nonce="' . $nonce . '" ';
+			$content .= ' data-loading-text="<i class=\'fa fa-spinner fa-spin\'></i> Post">Post</button>' . PHP_EOL;
+			$content .= '      			</span>' . PHP_EOL;
+			$content .= '    		</div><!-- /input-group -->' . PHP_EOL;
+			$content .= '  		</div><!-- /.col-lg-12 -->' . PHP_EOL;
+			$content .= '	</div><!-- /.row -->' . PHP_EOL;
+
+			// Main comments panel.
+			$content .= '	<div class="panel panel-default">' . PHP_EOL;
+			$content .= '		<div class="panel-heading">' . PHP_EOL;
+			$content .= '			<h4 class="panel-title">Comments</h4>' . PHP_EOL;
+			$content .= '		</div>' . PHP_EOL;
+			
+			$content .= '	<div class="panel-body" style="padding:0px;">' . PHP_EOL;
+
+			$content .= '<div class="messages messages-auto-layout">' .  PHP_EOL;
+
+			$content .= bimbler_mobile_show_hidden_comment_fancy(null);
+
+			$comments = bimbler_mobile_get_comment_children(null, $post_id);
+				
+			foreach ($comments as $comment) {
+				
+				// Only show root-level comments.
+				if (0 == $comment->comment_parent) {
+				
+					//$content .= bimbler_mobile_show_comments($comment);
+					$content .= bimbler_mobile_show_comments_fancy($comment);
+					
+				}
+			}
+
+			$content .= '		</div>' . PHP_EOL;
+			$content .= '	</div>' . PHP_EOL;
+			
+			$content .= '	</div>' . PHP_EOL;
+
+		} else {
+			$content .= '<h2>Please log in.</h2>' . PHP_EOL;
+		}
+	
+		return $content;
+	}
+	
 	/**
 	 * Adds the locator tab.
 	 *
@@ -1428,7 +1573,8 @@
 
 				} else if (6 == $sub_page) {
 
-					$content_tab_content .= bimbler_mobile_render_comments($post->ID);
+//					$content_tab_content .= bimbler_mobile_render_comments($post->ID);
+					$content_tab_content .= bimbler_mobile_render_comments_fancy($post->ID);
 
 				} else if (7 == $sub_page) {
 
