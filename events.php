@@ -786,9 +786,17 @@
 		} else {
 			$content .= '			<div class="message-name">You</div>' . PHP_EOL;
 		}
+
+		// Nicely format the comment.
+		$comment_html = 	apply_filters('the_content', $comment->comment_content);
 		
-		$content .= '			<div class="message-text">' . $comment->comment_content . '</div>' . PHP_EOL;
-		
+		// Remove any HTML we don't want.
+		$comment_html = str_replace ('<p>', '', $comment_html);
+		$comment_html = str_replace ('</p>', '', $comment_html);
+
+//		$content .= '			<div class="message-text">' . $comment->comment_content . '</div>' . PHP_EOL;
+		$content .= '			<div class="message-text">' . $comment_html . '</div>' . PHP_EOL;
+
 		if ('message-received' == $message_type) {
 			$content .= '			<div style="background-image:url(' . $avatar_img . ')" class="message-avatar"></div>' . PHP_EOL;
 		}
