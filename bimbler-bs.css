@@ -1073,6 +1073,13 @@ html.ios-gt-8 .messages-date {
 .messages-auto-layout .message-last .message-label {
   display: block;
 }
+
+
+.message-hidden {
+  display: none;
+}
+
+
 html.retina.ios-6 .message,
 html.retina.ios-6 .message.message-pic img {
   -webkit-mask-box-image: none;
