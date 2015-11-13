@@ -477,6 +477,12 @@ jQuery(document).ready(function ($) {
 					el.style.display = 'block';
 				}
 				
+				var x = document.getElementsByClassName("message-hidden");
+				var i;
+				for (i = 0; i < x.length; i++) {
+					x[i].style.display = 'block';
+				}
+				
 				// Set the comment's text to that of the new comment.
 				if (el = document.getElementById ('bimbler-new-comment')) {
 					el.innerHTML = comment;
