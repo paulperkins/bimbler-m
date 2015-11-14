@@ -45,8 +45,8 @@
 	<script type="text/javascript" src="toastr.js"></script>
 
 	<!-- Framework7 components. -->
-	<script type="text/javascript" src="js/template7.js"></script>
-	<script type="text/javascript" src="js/messages.js"></script>
+	<script type="text/javascript" src="js/template7.js?v=1"></script>
+	<script type="text/javascript" src="js/messages.js?v=1"></script>
 
 	
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
