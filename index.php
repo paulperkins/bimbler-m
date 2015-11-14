@@ -51,6 +51,7 @@
 	
 	<!-- Framework7 components. -->
 	<script type="text/javascript" src="js/template7.js?v=1"></script>
+	<script type="text/javascript" src="js/messagebar.js?v=1"></script>
 	<script type="text/javascript" src="js/messages.js?v=1"></script>
 
 	
