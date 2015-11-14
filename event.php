@@ -31,7 +31,9 @@
 	<!-- Swiper -->
 	<link rel="stylesheet" href="swiper/dist/css/swiper.css"> 
 
-	<script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false"></script>
+<!--	<script type="text/javascript" src="//maps.google.com/maps/api/js"></script> -->
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> 
+	
 	
     <link href="ps/dist/photoswipe.css?v=4.0.5-1.0.4" rel="stylesheet" />
     <link href="ps/dist/default-skin/default-skin.css?v=4.0.5-1.0.4" rel="stylesheet" />
@@ -41,6 +43,10 @@
 	
 	<link rel="stylesheet" href="toastr.css">
 	<script type="text/javascript" src="toastr.js"></script>
+
+	<!-- Framework7 components. -->
+	<script type="text/javascript" src="js/template7.js"></script>
+	<script type="text/javascript" src="js/messages.js"></script>
 
 	
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
@@ -134,7 +140,7 @@
 <body> 
  
 	<!-- Index page. -->
-	<div id="bimbler-spinner-target" data-role="page" data-theme="a" class="jqm-demos jqm-home"> 
+	<div id="bimbler-spinner-target" data-role="page" data-theme="a" class="jqm-demos jqm-home page"> 
 	
 <script type="text/javascript">
 		var target = document.getElementById("bimbler-spinner-target");
@@ -171,7 +177,7 @@
 		</div>
 
 		<!-- Content.  -->
-		<div data-role="content" id="spinner-target">      
+		<div data-role="content" id="spinner-target" class="page-content">      
 			<?php bimbler_mobile_render_event_page ($_GET['event'], isset ($_GET['past']) ? false : true); ?>
 		</div>
 		<!-- /Content -->
