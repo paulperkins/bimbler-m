@@ -946,7 +946,7 @@
 
 			$content .= '<div class="messages messages-auto-layout">' .  PHP_EOL;
 
-			$content .= bimbler_mobile_show_hidden_comment_fancy(null);
+//			$content .= bimbler_mobile_show_hidden_comment_fancy(null);
 
 			$comments = bimbler_mobile_get_comment_children(null, $post_id);
 				
