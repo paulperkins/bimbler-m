@@ -46,6 +46,7 @@
 
 	<!-- Framework7 components. -->
 	<script type="text/javascript" src="js/template7.js?v=1"></script>
+	<script type="text/javascript" src="js/messagebar.js?v=1"></script>
 	<script type="text/javascript" src="js/messages.js?v=1"></script>
 
 	
@@ -140,7 +141,7 @@
 <body> 
  
 	<!-- Index page. -->
-	<div id="bimbler-spinner-target" data-role="page" data-theme="a" class="jqm-demos jqm-home page"> 
+	<div id="bimbler-spinner-target" data-role="page" data-theme="a" class="jqm-demos jqm-home page view"> 
 	
 <script type="text/javascript">
 		var target = document.getElementById("bimbler-spinner-target");
