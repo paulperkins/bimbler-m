@@ -31,7 +31,7 @@
 
 	<link rel="stylesheet" href="fa/css/font-awesome.min.css">
 	
-	<script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript" src="//maps.google.com/maps/api/js"></script>
 	
 		
 	<script src="spin.js"></script>
@@ -48,6 +48,11 @@
 <!--  	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> --> 
 	<meta name="apple-mobile-web-app-status-bar-style" content="white" /> 
 	<link rel="apple-touch-startup-image" href="bimbler_ilogo.png">
+	
+	<!-- Framework7 components. -->
+	<script type="text/javascript" src="js/template7.js?v=1"></script>
+	<script type="text/javascript" src="js/messages.js?v=1"></script>
+
 	
 	<link rel="shortcut icon" href="favicon.ico">
 	<link rel="icon" sizes="16x16 32x32 64x64" href="favicon.ico">
