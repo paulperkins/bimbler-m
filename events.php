@@ -803,7 +803,7 @@
 		
 		$content .= '	</div>' . PHP_EOL;
 			
-		$children = bimbler_mobile_get_comment_children ($comment->comment_ID);
+/*		$children = bimbler_mobile_get_comment_children ($comment->comment_ID);
 		
 		if (!empty ($children)) {
 			
@@ -818,7 +818,7 @@
 				}
 			}
 			
-		}
+		} */
 		
 		return $content;
 	}
@@ -953,12 +953,11 @@
 			foreach ($comments as $comment) {
 				
 				// Only show root-level comments.
-				if (0 == $comment->comment_parent) {
+				//if (0 == $comment->comment_parent) {
 				
-					//$content .= bimbler_mobile_show_comments($comment);
 					$content .= bimbler_mobile_show_comments_fancy($comment);
 					
-				}
+				//}
 			}
 
 			$content .= '		</div>' . PHP_EOL;
