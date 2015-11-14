@@ -922,19 +922,15 @@
 			$content .= '';
 			
 			// 'Post Comment' button panel.
-			$content .= '	<div class="row">' . PHP_EOL;
-  			$content .= '		<div class="col-lg-12">' . PHP_EOL;
-			$content .= '    		<div class="input-group">' . PHP_EOL;
-			$content .= '     		 	<input type="text" id="bimbler-comment" class="form-control" placeholder="Post a comment...">' . PHP_EOL;
-			$content .= '     		 	<span class="input-group-btn">' . PHP_EOL;
+			$content .= '    <div class="toolbar messagebar">' . PHP_EOL;
+			$content .= '      <div class="toolbar-inner">' . PHP_EOL;
+			$content .= '        <textarea placeholder="Comment" id="bimbler-comment"></textarea>' . PHP_EOL;
 			$content .= '        			<button class="btn btn-warning comment-post-button" type="button"';
 			$content .= ' data-event-id="' . $post_id . '" ';
 			$content .= ' data-nonce="' . $nonce . '" ';
 			$content .= ' data-loading-text="<i class=\'fa fa-spinner fa-spin\'></i> Post">Post</button>' . PHP_EOL;
-			$content .= '      			</span>' . PHP_EOL;
-			$content .= '    		</div><!-- /input-group -->' . PHP_EOL;
-			$content .= '  		</div><!-- /.col-lg-12 -->' . PHP_EOL;
-			$content .= '	</div><!-- /.row -->' . PHP_EOL;
+			$content .= '      </div>' . PHP_EOL;
+			$content .= '    </div>' . PHP_EOL;
 
 			// Main comments panel.
 			$content .= '	<div class="panel panel-default">' . PHP_EOL;

@@ -487,6 +487,9 @@ jQuery(document).ready(function ($) {
 				if (el = document.getElementById ('bimbler-new-comment')) {
 					el.innerHTML = comment;
 				} */
+
+				// Clear the messagebar, resizing back to normal.				
+				myMessagebar.clear();
 				
 				myMessages.addMessage({
 					text: comment,
@@ -496,8 +499,6 @@ jQuery(document).ready(function ($) {
 					name: 'You'
 					},
 					'prepend');
-
-				
 
         	}
         	
@@ -589,7 +590,9 @@ jQuery(document).ready(function ($) {
 	// Initialise the messages.
 	var myMessages = new Messages('.messages');
 	
-	console.dir (myMessages); 
+	var myMessagebar = new Messagebar('.messagebar');
+	
+	//console.dir (myMessages); 
 
 
 	// Turn off the spinner.
