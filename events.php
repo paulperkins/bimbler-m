@@ -794,8 +794,8 @@
 		$comment_html = str_replace ('<p>', '', $comment_html);
 		$comment_html = str_replace ('</p>', '', $comment_html);
 
-//		$content .= '			<div class="message-text">' . $comment->comment_content . '</div>' . PHP_EOL;
-		$content .= '			<div class="message-text">' . $comment_html . '</div>' . PHP_EOL;
+		$content .= '			<div class="message-text">' . $comment->comment_content . '</div>' . PHP_EOL;
+//		$content .= '			<div class="message-text">' . $comment_html . '</div>' . PHP_EOL;
 
 		if ('message-received' == $message_type) {
 			$content .= '			<div style="background-image:url(' . $avatar_img . ')" class="message-avatar"></div>' . PHP_EOL;
