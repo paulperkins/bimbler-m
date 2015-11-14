@@ -473,7 +473,7 @@ jQuery(document).ready(function ($) {
 				document.getElementById('bimbler-comment').value = '';
 				
 				// Un-hide the empty comment.
-				if (el = document.getElementById ('bimbler-empty-comment')) {
+				/*if (el = document.getElementById ('bimbler-empty-comment')) {
 					el.style.display = 'block';
 				}
 				
@@ -486,7 +486,18 @@ jQuery(document).ready(function ($) {
 				// Set the comment's text to that of the new comment.
 				if (el = document.getElementById ('bimbler-new-comment')) {
 					el.innerHTML = comment;
-				}
+				} */
+				
+				myMessages.addMessage({
+					text: comment,
+					type: 'sent',
+					day: 'Just now',
+					//time: !conversationStarted ? (new Date()).getHours() + ':' + (new Date()).getMinutes() : false
+					name: 'You'
+					},
+					'prepend');
+
+				
 
         	}
         	
@@ -573,6 +584,12 @@ jQuery(document).ready(function ($) {
 	if (el = document.getElementById ('bimbler-empty-comment')) {
 		el.style.display = 'none';
 	}
+
+
+	// Initialise the messages.
+	var myMessages = new Messages('.messages');
+	
+	console.dir (myMessages); 
 
 
 	// Turn off the spinner.
