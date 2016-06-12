@@ -149,7 +149,7 @@ jQuery(document).ready(function ($) {
 				//console.log ('Adding route map from RWGPS.');
 				
 		 		var ctaLayer = new google.maps.KmlLayer({
-		    		  	url: 'http://ridewithgps.com/routes/' + rwgps_id + '.kml'
+		    		  	url: '//ridewithgps.com/routes/' + rwgps_id + '.kml'
 		    		    //url: 'http://ridewithgps.com/routes/6463068.kml'
 		    		  });
 		    		  ctaLayer.setMap(map);

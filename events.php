@@ -1821,7 +1821,7 @@
 					
 					$content .= '						<div class="rsvp-checkin-indicator-noajax">' . PHP_EOL;
 					
-					$content .= '						<div class="avatar-clipped bimbler-spinner-target" style="background-image: url(\'http://assets2.ridewithgps.com/routes/' . $rwgps_id . '/thumb.png\');"></div>' . PHP_EOL;
+					$content .= '						<div class="avatar-clipped bimbler-spinner-target" style="background-image: url(\'//assets2.ridewithgps.com/routes/' . $rwgps_id . '/thumb.png\');"></div>' . PHP_EOL;
 					
 					if (!isset ($rsvpd)) {
 						$content .= '						<div class="rsvp-checkin-indicator-none"><i class="fa-question-circle"></i></div>' . PHP_EOL;
