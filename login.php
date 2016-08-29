@@ -121,7 +121,7 @@ body {
 
 				<?php do_action('login_form'); ?>
 				<input type="submit" name="user-submit" value="<?php _e('Login'); ?>" tabindex="14" class="user-submit" />
-				<input type="hidden" name="redirect_to" value="/m/<?php //echo $_SERVER['REQUEST_URI']; ?>" />
+				<input type="hidden" name="redirect_to" value="<?php bloginfo('url') ?>/m/<?php //echo $_SERVER['REQUEST_URI']; ?>" />
 				<input type="hidden" name="user-cookie" value="1" />
 				
 			</form>		
