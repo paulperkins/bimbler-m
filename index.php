@@ -6,7 +6,7 @@
 	require('../wp-blog-header.php');
 	
 	if (!is_user_logged_in()) {
-		echo '<script type="text/javascript">window.location.replace(\'' . bloginfo('url') . '/m/login.php\');</script>';
+		echo '<script type="text/javascript">window.location.replace(\'https://bimblers.com/m/login.php\');</script>'; // bloginfo ('url') not set here.
 	}
 
 ?>
