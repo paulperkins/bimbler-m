@@ -9,7 +9,7 @@
 
 		$redir_to = esc_url (home_url ('/m/'));
 
-		echo '<script type="text/javascript">alert(\'Redirect to: ' . $redir_to . '\');</script>'; // bloginfo ('url') not set here.
+//		echo '<script type="text/javascript">alert(\'Redirect to: ' . $redir_to . '\');</script>'; // bloginfo ('url') not set here.
 
 //		echo '<script type="text/javascript">window.location.replace(\'https://bimblers.com/m/login.php\');</script>'; // bloginfo ('url') not set here.
 		echo '<script type="text/javascript">window.location.replace(\'' . $redir_to . '\');</script>'; // bloginfo ('url') not set here.
