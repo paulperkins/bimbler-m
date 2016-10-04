@@ -32,7 +32,10 @@
 	<link rel="stylesheet" href="swiper/dist/css/swiper.css"> 
 
 <!--	<script type="text/javascript" src="//maps.google.com/maps/api/js"></script> -->
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> 
+
+
+<!--	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> --> 
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCThuvA1vTl5oX147ttncjgOFVKtPRPeLQ"></script> 
 	
 	
     <link href="ps/dist/photoswipe.css?v=4.0.5-1.0.4" rel="stylesheet" />
@@ -189,6 +192,8 @@
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
     
