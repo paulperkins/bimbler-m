@@ -741,8 +741,9 @@ jQuery(document).ready(function ($) {
 
 		var this_user_id = $(this).attr('data-user-id');
 
-	    centreMap (person_objects[this_user_id].marker);
-	    
+		if (person_objects[this_user_id]) {
+	    	centreMap (person_objects[this_user_id].marker);
+		}
 	});
 
 
