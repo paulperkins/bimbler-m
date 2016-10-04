@@ -146,13 +146,21 @@ jQuery(document).ready(function ($) {
 			  
 			// And load the route map if it exists.
 			if (rwgps_id) {
-				//console.log ('Adding route map from RWGPS.');
 				
+				console.log ('Adding route map from RWGPS: https://ridewithgps.com/routes/' + rwgps_id + '.kml');
+
 		 		var ctaLayer = new google.maps.KmlLayer({
-		    		  	url: '//ridewithgps.com/routes/' + rwgps_id + '.kml'
+		    			url: 'https://ridewithgps.com/routes/' + rwgps_id + '.kml',
+						map: locator_map
 		    		    //url: 'http://ridewithgps.com/routes/6463068.kml'
 		    		  });
-		    		  ctaLayer.setMap(map);
+		    		  //ctaLayer.setMap(map);
+
+				google.maps.event.addListener(ctaLayer, 'status_changed', function () {
+						console.log('KML status is ', ctaLayer.getStatus());
+					});
+
+				//console.dir (ctaLayer);
 			}
 			
 			// Allow Ajax to run, now that we're set up properly.
