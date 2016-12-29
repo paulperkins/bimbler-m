@@ -7,12 +7,12 @@
 	
 	if (!is_user_logged_in()) {
 
-		$redir_to = esc_url (home_url ('/m/'));
+		$redir_to = esc_url (home_url ('/m/login.php'));
 
 //		echo '<script type="text/javascript">alert(\'Redirect to: ' . $redir_to . '\');</script>'; // bloginfo ('url') not set here.
 
-		echo '<script type="text/javascript">window.location.replace(\'https://bimblers.com/m/login.php\');</script>'; // bloginfo ('url') not set here.
-//		echo '<script type="text/javascript">window.location.replace(\'' . $redir_to . '\');</script>'; // bloginfo ('url') not set here.
+//		echo '<script type="text/javascript">window.location.replace(\'https://bimblers.com/m/login.php\');</script>'; // bloginfo ('url') not set here.
+		echo '<script type="text/javascript">window.location.replace(\'' . $redir_to . '\');</script>'; // bloginfo ('url') not set here.
 	}
 
 ?>
@@ -207,7 +207,9 @@ body {
     <script src="bootstrap/js/bootstrap.min.js"></script>
     
    	<script src="bimbler-bs.js"></script> 
-    
+
+	<script src="js/bimbler-maps.js?v=4"></script> 
+
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
