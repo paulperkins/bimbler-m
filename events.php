@@ -1645,6 +1645,46 @@
 		
 		return $posts;
 	}
+
+
+	function show_embedded_map ($post_id, $width, $height) {
+
+		$content = '';
+
+		$map_id = 'bimbler-next-ride-map';
+		$map_style = "width: " . $width . "; height: " . $height . ";";
+
+//		global $wp_query;
+//		$post_id = $wp_query->post->ID;
+
+		$content = '';
+
+		//$rwgps_id = $this->get_rwgps_id ($post_id);
+
+//		$content .= '<div class="tribe-events-meta-group tribe-events-meta-group-organizer vcard" style="width:100%;">' . PHP_EOL;
+//		$content .= '	<h3 class="tribe-events-single-section-title">Venue Map</h3>' . PHP_EOL;
+
+
+		$venue_name = tribe_get_venue($post_id); // Note: this is already URL-encoded.
+
+		$venue_address = Bimbler_RSVP::get_instance()->get_venue_address($post_id);
+
+		if (empty ($venue_address)) {
+
+			$content .= "<p>This event does not yet have a venue.</p>";
+
+		} else {
+
+	//				$content .= '<div class="next-ride" id="' .  $map_id . '" data-rwgps-id="' . $rwgps_id . '" style="' . $map_style . '" data-venue-address="' . urlencode($venue_address) . '" data-venue-name="' . $venue_name . '">' . PHP_EOL;
+			$content .= '<div class="next-ride" id="' .  $map_id . '"                                   style="' . $map_style . '" data-venue-address="' . urlencode($venue_address) . '" data-venue-name="' . $venue_name . '">' . PHP_EOL;
+			$content .= '</div><!--/.next-ride -->' . PHP_EOL;
+		}
+
+//		$content .= '</div>' . PHP_EOL;
+
+		return $content;
+	}
+
 	
 	function bimbler_mobile_render_events_listview ($which = 'upcoming') {//$future = true) {
 		
@@ -1808,7 +1848,8 @@
 					$content .= '				</div>' . PHP_EOL;
 						
 					$content .= '				<div class="tribe-events-venue-map">' . PHP_EOL;
-					$content .= tribe_get_embedded_map ($post->ID, '100%', '150px', true) . PHP_EOL;
+//					$content .= tribe_get_embedded_map ($post->ID, '100%', '150px', true) . PHP_EOL;
+					$content .= show_embedded_map ($post->ID, '100%', '150px') . PHP_EOL;
 					$content .= '				</div>' . PHP_EOL;
 
 						
